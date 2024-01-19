@@ -1,55 +1,42 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import TableHeader from "../../../components/TableHeader";
 import TableComponent from "../../../components/Table";
 import { Table } from "@mantine/core";
-import apiClient from "../../../network/apiClient";
 import DownloadExcel from "./Download-excel";
 import DownloadPdf from "./Download-pdf";
+import moment from "moment";
+import { resultStore } from "../../../app/resultStore";
 
 const HeaderComponents = [<DownloadExcel />, <DownloadPdf />];
-interface userDetailType {
-  from: number;
-  to: number;
-  total: number;
-  totalPages: number;
-  data: userType[];
-}
-interface userType {
-  createdAt: string;
-  email: string;
-  firstName: string;
-  id: string;
-  lastName: string;
-}
+// interface userDetailType {
+//   from: number;
+//   to: number;
+//   total: number;
+//   totalPages: number;
+//   data: userType[];
+// }
+// interface userType {
+//   createdAt: string;
+//   email: string;
+//   firstName: string;
+//   id: string;
+//   lastName: string;
+// }
 
 function Results() {
-  const [userData, setUserData] = useState<userDetailType>();
+  const { data, page, search, fetchData, setPage, setSearch, isLoading } =
+    resultStore();
 
-  const [page, setPage] = useState(1);
-  const isLoading = false;
   const searchRef = useRef<HTMLInputElement>(null);
-  const handleSearch = () => {};
-  const fetchAllUser = async () => {
-    try {
-      const params = {
-        page: 1,
-        search: "",
-      };
-      const response = await apiClient.get("/result", { params: params });
-      if (response.data != null) {
-        setUserData(response.data.data);
-        console.log(userData);
-      }
-      console.log(userData);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleSearch = () => {
+    setSearch(searchRef.current!.value);
   };
+
   useEffect(() => {
-    fetchAllUser();
-  }, [page]);
+    fetchData();
+  }, [page, fetchData, search]);
   return (
     <div className="mt-5 mb-2 ml-2 ">
       <div>
@@ -76,14 +63,14 @@ function Results() {
           "TEST ASSIGNED",
           "UPDATED DATE AND TIME",
         ]}
-        from={userData?.from ?? 0}
-        to={userData?.to ?? 0}
-        total={userData?.total ?? 0}
-        totalPages={userData?.totalPages ?? 0}
+        from={data?.from ?? 0}
+        to={data?.to ?? 0}
+        total={data?.total ?? 0}
+        totalPages={data?.totalPages ?? 0}
         currentPage={page}
         onPageChanged={setPage}
       >
-        {userData?.data?.map((value: any, index: any) => (
+        {data?.data?.map((value: any, index: any) => (
           <Table.Tr key={index}>
             <Table.Td>{index + 1}</Table.Td>
             <Table.Td>{value.user.firstName}</Table.Td>
@@ -100,7 +87,9 @@ function Results() {
             <Table.Td>{value.score}</Table.Td>
             <Table.Td>{value.percentage}</Table.Td>
             <Table.Td>{value.test.subject}</Table.Td>
-            <Table.Td>{value.updatedAt}</Table.Td>
+            <Table.Td>
+              {moment(value.updatedAt).format("MMMM Do YYYY, h:mm a")}
+            </Table.Td>
           </Table.Tr>
         ))}
       </TableComponent>

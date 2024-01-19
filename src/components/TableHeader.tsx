@@ -4,7 +4,7 @@ interface TableHeaderType {
   reference: React.RefObject<HTMLInputElement>;
   title: string;
   onSubmit: () => void;
-  HeaderComponents: React.JSX.Element[];
+  HeaderComponents?: React.JSX.Element[];
 }
 
 function TableHeader({
@@ -14,10 +14,10 @@ function TableHeader({
   HeaderComponents,
 }: TableHeaderType) {
   return (
-    <div className="flex p-2 mb-2 compact">
-      <div className="pl-2 pr-8 text-xl font-bold">{title}</div>
+    <div className="flex p-2 mb-2 whitespace-nowrap">
+      <div className="text-xl font-bold ">{title}</div>
       <section className="flex flex-row justify-end w-full">
-        {HeaderComponents.map((element, index) => (
+        {HeaderComponents?.map((element, index) => (
           <div className="mr-5" key={index}>
             {element}
           </div>
@@ -30,7 +30,13 @@ function TableHeader({
             ref={reference}
           />
           <div className="w-20 px-2 ml-1">
-            <Button type="button" size="sm" onClick={onSubmit}>
+            <Button
+              type="button"
+              variant="filled"
+              color="gray"
+              size="sm"
+              onClick={onSubmit}
+            >
               Search
             </Button>
           </div>

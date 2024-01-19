@@ -4,57 +4,42 @@ import { useEffect, useRef, useState } from "react";
 import TableHeader from "../../../components/TableHeader";
 import TableComponent from "../../../components/Table";
 import { Button, Table } from "@mantine/core";
-import apiClient from "../../../network/apiClient";
-import CreateUser from "../user/CreateUser";
 import CreateQuestion from "./questions/CreateQuestion";
 import CreateCourse from "./CreateCourse";
-import Questions from "./questions/Questions";
 import { Link } from "react-router-dom";
+import { testStore } from "../../../app/TestStore";
+import { IconEye } from "@tabler/icons-react";
 
-interface userDetailType {
-  from: number;
-  to: number;
-  total: number;
-  totalPages: number;
-  data: userType[];
-}
-interface userType {
-  createdAt: string;
-  email: string;
-  firstName: string;
-  id: string;
-  lastName: string;
-}
+// interface userDetailType {
+//   from: number;
+//   to: number;
+//   total: number;
+//   totalPages: number;
+//   data: userType[];
+// }
+// interface userType {
+//   createdAt: string;
+//   email: string;
+//   firstName: string;
+//   id: string;
+//   lastName: string;
+// }
 
 function Courses() {
   const HeaderComponents = [<CreateCourse />];
-  const [userData, setUserData] = useState<userDetailType>();
 
-  const [page, setPage] = useState(1);
-  const isLoading = false;
+  const { data, page, search, setPage, fetchData, setSearch, isLoading } =
+    testStore();
+
   const searchRef = useRef<HTMLInputElement>(null);
   const handleSearch = () => {
     console.log("search" ?? "empty");
+    setSearch(searchRef.current!.value);
   };
-  const fetchAllUser = async () => {
-    try {
-      const params = {
-        page: 1,
-        search: "",
-      };
-      const response = await apiClient.get("/test", { params: params });
-      if (response.data != null) {
-        setUserData(response.data.data);
-        console.log(userData);
-      }
-      console.log(userData);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   useEffect(() => {
-    fetchAllUser();
-  }, [page]);
+    fetchData();
+  }, [page, fetchData, search]);
   return (
     <div className="mt-5 mb-2 ml-2 ">
       <div>
@@ -68,14 +53,14 @@ function Courses() {
       <TableComponent
         isLoading={isLoading}
         columns={["S.NO", "COURSE NAME", "ACTION"]}
-        from={userData?.from ?? 0}
-        to={userData?.to ?? 0}
-        total={userData?.total ?? 0}
-        totalPages={userData?.totalPages ?? 0}
+        from={data?.from ?? 0}
+        to={data?.to ?? 0}
+        total={data?.total ?? 0}
+        totalPages={data?.totalPages ?? 0}
         currentPage={page}
         onPageChanged={setPage}
       >
-        {userData?.data?.map((value: any, index: any) => (
+        {data?.data?.map((value: any, index: any) => (
           <Table.Tr key={index}>
             <Table.Td>{index + 1}</Table.Td>
             <Table.Td>{value.subject}</Table.Td>
@@ -85,7 +70,9 @@ function Courses() {
               </div>
               <div>
                 <Link to={`/admin/courses/${value.id}`}>
-                  <Button>View QUestion</Button>
+                  <Button color="teal" variant="outline">
+                    <IconEye />
+                  </Button>
                 </Link>
               </div>
             </Table.Td>

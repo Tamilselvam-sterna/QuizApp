@@ -15,7 +15,6 @@ function DownloadExcel() {
           blur: 3,
         }}
       >
-        {/* Modal content */}
       </Modal>
 
       <Button onClick={open} color="gray">

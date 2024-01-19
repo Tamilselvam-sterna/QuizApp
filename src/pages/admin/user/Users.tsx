@@ -12,34 +12,34 @@ import UserFilter from "./UserFilter";
 
 const HeaderComponents = [<UserFilter />, <CreateUser />];
 
-interface userDetailType {
-  from: number;
-  to: number;
-  total: number;
-  totalPages: number;
-  data: userType[];
-}
-interface userType {
-  createdAt: string;
-  email: string;
-  firstName: string;
-  id: string;
-  lastName: string;
-}
+// interface userDetailType {
+//   from: number;
+//   to: number;
+//   total: number;
+//   totalPages: number;
+//   data: userType[];
+// }
+// interface userType {
+//   createdAt: string;
+//   email: string;
+//   firstName: string;
+//   id: string;
+//   lastName: string;
+// }
 
 function Users() {
-  const [userData, setUserData] = useState<any>();
-  const Alluserdata = userStore();
-  const [page, setPage] = useState(1);
-  const isLoading = false;
+  const { data, page, search, setPage, setSearch, isLoading, fetchData } =
+    userStore();
   const searchRef = useRef<HTMLInputElement>(null);
+
   const handleSearch = () => {
-    Alluserdata.setSearch(searchRef.current?.value);
+    console.log(data.data);
+    setSearch(searchRef.current!.value);
   };
 
   useEffect(() => {
-    Alluserdata.fetchAlluser();
-  }, [Alluserdata.page, Alluserdata.search]);
+    fetchData();
+  }, [fetchData, page, search]);
 
   return (
     <div className="mt-5 mb-2 ml-2">
@@ -63,45 +63,41 @@ function Users() {
           "DEGREE",
           "SPECIALIZATION",
           "EXPERIENCE LEVEL",
+          "EXPERIENCE",
           "TEST ASSIGNED",
           "CREATED DATE AND TIME",
           "EDIT",
         ]}
-        from={Alluserdata?.AlluserData?.from ?? 0}
-        to={Alluserdata?.AlluserData?.to ?? 0}
-        total={Alluserdata?.AlluserData?.total ?? 0}
-        totalPages={Alluserdata?.AlluserData?.totalPages ?? 0}
-        currentPage={page}
-        onPageChanged={Alluserdata.setPage}
+        from={data?.from ?? 0}
+        to={data?.to ?? 0}
+        total={data?.total ?? 0}
+        totalPages={data?.totalPages ?? 0}
+        currentPage={page ?? 0}
+        onPageChanged={setPage}
       >
-        {Alluserdata?.AlluserData?.data?.map((value: any, index: any) =>
-          value?.role?.id == 1 ? (
-            <></>
-          ) : (
-            <>
-              <Table.Tr key={index}>
-                <Table.Td>{index + 1}</Table.Td>
-                <Table.Td>{value.firstName + " " + value.lastName}</Table.Td>
-                <Table.Td>{value.email}</Table.Td>
-                <Table.Td>{value.role.role}</Table.Td>
-                <Table.Td>
-                  {value?.userInfo[0]?.position?.position ?? "NA"}
-                </Table.Td>
-                <Table.Td>{value?.userInfo[0]?.college ?? "NA"}</Table.Td>
-                <Table.Td>{value?.userInfo[0]?.degree ?? "NA"}</Table.Td>
-                <Table.Td>
-                  {value?.userInfo[0]?.specialization ?? "NA"}
-                </Table.Td>
-                <Table.Td>{value?.userInfo[0]?.experience ?? "NA"}</Table.Td>
-                <Table.Td>{value.userTestDetails[0]?.subject ?? "NA"}</Table.Td>
-                <Table.Td>
-                  {moment(value.createdAt).format("MMMM Do YYYY, h:mm a")}
-                </Table.Td>
-                <Table.Td>{<UpdateUser item={value} />}</Table.Td>
-              </Table.Tr>
-            </>
-          )
-        )}
+        {data?.data?.map((value: any, index: any) => (
+          <Table.Tr key={index}>
+            <Table.Td>{data?.from + index}</Table.Td>
+            <Table.Td>{value.firstName + " " + value.lastName}</Table.Td>
+            <Table.Td>{value.email}</Table.Td>
+            <Table.Td>{value.role.role}</Table.Td>
+            <Table.Td>
+              {value?.userInfo[0]?.position?.position ?? "NA"}
+            </Table.Td>
+            <Table.Td>{value?.userInfo[0]?.college ?? "NA"}</Table.Td>
+            <Table.Td>{value?.userInfo[0]?.degree ?? "NA"}</Table.Td>
+            <Table.Td>{value?.userInfo[0]?.specialization ?? "NA"}</Table.Td>
+            <Table.Td>
+              {value?.userInfo[0]?.isFresher ? "Fresher" : "Experienced"}
+            </Table.Td>
+            <Table.Td>{value?.userInfo[0]?.isFresher ? "NA" : "1"}</Table.Td>
+            <Table.Td>{value.userTestDetails[0]?.subject ?? "NA"}</Table.Td>
+            <Table.Td className="min-w-max ">
+              {moment(value.createdAt).format("MMMM Do YYYY, h:mm a")}
+            </Table.Td>
+            <Table.Td>{<UpdateUser item={value} />}</Table.Td>
+          </Table.Tr>
+        ))}
       </TableComponent>
     </div>
   );

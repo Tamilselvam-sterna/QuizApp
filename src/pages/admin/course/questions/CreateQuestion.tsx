@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { apiProvider } from "../../../../network/apiProvider";
+import { IconPlus } from "@tabler/icons-react";
 
 function CreateQuestion({ value }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -142,7 +143,9 @@ function CreateQuestion({ value }) {
           </Button>
         </form>
       </Drawer>
-      <Button onClick={open}>Add Questions</Button>
+      <Button onClick={open} color="gray" variant="filled">
+        <IconPlus color="white" />
+      </Button>
     </>
   );
 }

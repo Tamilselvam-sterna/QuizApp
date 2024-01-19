@@ -3,3 +3,11 @@ export enum Role {
   Admin = "2",
   User = "3",
 }
+
+export enum DateFilter {
+  All = "All",
+  Today = "Today",
+  Yesterday = "Yesterday",
+  MonthTillDate = "MonthTillDate",
+  DateRange = "DateRange",
+}
