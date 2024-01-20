@@ -1,10 +1,10 @@
 export type DashBoardStats = {
-  id: number;
-  userCount: number;
-  positionCount: number;
-  subjectCount: number;
-  testAssignedCount: number;
-  testCompletedCount: number;
+  totalUsers: number;
+  totalTestAssignedUsers: number;
+  totalTestCompletedUsers: number;
+  totalTestInCompleteUsers: number;
+  totalSubjects: number;
+  subjectData: SubjectStatsRes[];
   lastestResults: LastestResultsRes[];
 };
 
@@ -22,4 +22,11 @@ export type LastestResultsRes = {
   };
   score: string;
   percentage: number;
+};
+
+export type SubjectStatsRes = {
+  subject: string;
+  totalUser: number;
+  testCompletedUser: number;
+  testInCompleteUser: number;
 };

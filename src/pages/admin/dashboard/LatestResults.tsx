@@ -1,15 +1,15 @@
 import clsx from "clsx";
 import { LastestResultsRes } from "../../../models/dashboard";
 
-function LatestResults({ data }: { data: LastestResultsRes[] }) {
+function LatestResults({ data }: { data: LastestResultsRes[] | undefined }) {
   const now = new Date();
 
   return (
-    <div className="flex w-full flex-col md:col-span-4">
+    <div className="flex w-full flex-col md:col-span-2 lg:col-span-2">
       <h1 className="mb-4 text-xl md:text-2xl">Latest Results</h1>
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
         <div className="bg-white px-6">
-          {data.map((result, i) => {
+          {data?.map((result, i) => {
             return (
               <div
                 key={result.id}
@@ -17,7 +17,7 @@ function LatestResults({ data }: { data: LastestResultsRes[] }) {
                   "flex flex-row items-center justify-between py-4",
                   {
                     "border-t": i !== 0,
-                  }
+                  },
                 )}
               >
                 <div className="flex items-center">
@@ -38,7 +38,7 @@ function LatestResults({ data }: { data: LastestResultsRes[] }) {
           })}
         </div>
         <div className="flex items-center pb-2 pt-6">
-          <h3 className="ml-2 text-sm text-gray-500 ">{`Update at- ${now.getDate()}/${now.getMonth() + 1}/${now.getDate()}`}</h3>
+          <h3 className="ml-2 text-sm text-gray-500 ">{`Update at- ${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`}</h3>
         </div>
       </div>
     </div>

@@ -1,42 +1,37 @@
-import { BarChart, Card, Title } from "@tremor/react";
+import { BarChart as MantineBarChart } from "@mantine/charts";
+import { DashBoardStats, SubjectStatsRes } from "../../../models/dashboard";
 
-const chartdata2 = [
-  {
-    name: "Javascript",
-    "Total users": 890,
-    "Completed users": 338,
-    "In-complete users": 538,
-  },
-  {
-    name: "Flutter",
-    "Total users": 890,
-    "Completed users": 338,
-    "In-complete users": 538,
-  },
-  {
-    name: "Embedded",
-    "Total users": 890,
-    "Completed users": 338,
-    "In-complete users": 538,
-  },
+export const data = [
+  { month: "January", Smartphones: 120, Laptops: 80, Tablets: 10 },
+  { month: "February", Smartphones: 90, Laptops: 120, Tablets: 40 },
+  { month: "March", Smartphones: 40, Laptops: 100, Tablets: 20 },
+  { month: "April", Smartphones: 100, Laptops: 20, Tablets: 80 },
+  { month: "May", Smartphones: 80, Laptops: 140, Tablets: 120 },
+  { month: "June", Smartphones: 75, Laptops: 60, Tablets: 100 },
 ];
 
-const valueFormatter = (number: any) =>
-  `$ ${new Intl.NumberFormat("us").format(number).toString()}`;
+function BarChart({
+  barChartData,
+}: {
+  barChartData: SubjectStatsRes[] | undefined;
+}) {
+  return (
+    barChartData && (
+      <div className="md:col-span-2 lg:col-span-2">
+        <MantineBarChart
+          h={300}
+          data={barChartData}
+          dataKey="subject"
+          type="stacked"
+          series={[
+            { name: "totalUser", color: "violet.6" },
+            { name: "testCompletedUser", color: "blue.6" },
+            { name: "testInCompleteUser", color: "teal.6" },
+          ]}
+        />
+      </div>
+    )
+  );
+}
 
-export default () => (
-  <Card>
-    <Title>Overall statistics</Title>
-    <BarChart
-      className="mt-6"
-      data={chartdata2}
-      index="name"
-      categories={["Total users", "Completed users", "In-complete users"]}
-      colors={["blue", "teal", "amber", "rose", "indigo", "emerald"]}
-      valueFormatter={valueFormatter}
-      yAxisWidth={70}
-      layout="vertical"
-      showAnimation
-    />
-  </Card>
-);
+export default BarChart;

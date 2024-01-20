@@ -1,6 +1,6 @@
-import { createContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Role } from '../utils/enum';
+import { createContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Role } from "../utils/enum";
 
 type AuthContextType = {
   isUserAuthenticated: () => boolean;
@@ -28,25 +28,30 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
 
   const login = (userData: AuthUser) => {
-    localStorage.setItem('id', userData?.id ?? 0);
-    localStorage.setItem('firstName', userData?.firstName ?? '');
-    localStorage.setItem('lastName', userData?.lastName ?? '');
-    localStorage.setItem('email', userData?.email ?? '');
-    localStorage.setItem('token', userData?.token ?? '');
-    localStorage.setItem('role', userData?.role?.role ?? '');
+    localStorage.setItem("id", userData?.id ?? 0);
+    localStorage.setItem("firstName", userData?.firstName ?? "");
+    localStorage.setItem("lastName", userData?.lastName ?? "");
+    localStorage.setItem("email", userData?.email ?? "");
+    localStorage.setItem("token", userData?.token ?? "");
+    localStorage.setItem("role", userData?.role?.role ?? "");
+    localStorage.setItem("roleId", userData?.role?.id.toString() ?? "");
     localStorage.setItem(
-      'isSuperAdmin',
-      userData.id.toString() === Role.Admin ? 'true' : 'false',
+      "isSuperAdmin",
+      userData.id.toString() === Role.SuperAdmin ? "true" : "false",
+    );
+    localStorage.setItem(
+      "isAdmin",
+      userData.id.toString() === Role.Admin ? "true" : "false",
     );
     setUser(userData);
   };
 
   const getUser = () => user;
 
-  const isUserAuthenticated = () => !!localStorage.getItem('token');
+  const isUserAuthenticated = () => !!localStorage.getItem("token");
 
   const logout = () => {
-    localStorage.clear(), setUser(null), navigate('/');
+    localStorage.clear(), setUser(null), navigate("/");
   };
 
   return (

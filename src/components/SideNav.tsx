@@ -4,6 +4,9 @@ import { navLinks } from "../utils/constant";
 import clsx from "clsx";
 import { MdOutlineLockReset } from "react-icons/md";
 import { Variants, motion } from "framer-motion";
+import { Role } from "../utils/enum";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const layoutVariant: Variants = {
   initial: {
@@ -62,30 +65,33 @@ export default function SideNav() {
 }
 
 function NavLinks() {
+  const userRole = localStorage.getItem("roleId");
+
   return (
     <ul className="my-2 inline-flex space-x-1 md:mx-2 md:block md:space-x-0 md:space-y-2">
-      {navLinks.map((link) => {
-        return (
-          <NavLink
-            key={link.to}
-            to={link.to}
-            className={({ isActive }) =>
-              clsx(
-                "flex h-[48px] grow items-center justify-center gap-2 rounded-md  p-3 text-sm font-medium  hover:bg-gray-500 hover:text-gray-100 md:flex-none md:justify-start md:p-2 md:px-3",
-                {
-                  "border border-solid bg-gray-500 text-gray-100 shadow":
-                    isActive,
-                  "border border-solid border-gray-300 bg-gray-50 text-gray-500 ":
-                    !isActive,
-                }
-              )
-            }
-          >
-            {link.icon}
-            <p className="hidden md:block">{link.title}</p>
-          </NavLink>
-        );
-      })}
+      {navLinks.map(
+        (link) =>
+          link.allowedUsers.includes(userRole?.toString() as Role) && (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              className={({ isActive }) =>
+                clsx(
+                  "flex h-[48px] grow items-center justify-center gap-2 rounded-md  p-3 text-sm font-medium  hover:bg-gray-500 hover:text-gray-100 md:flex-none md:justify-start md:p-2 md:px-3",
+                  {
+                    "border border-solid bg-gray-500 text-gray-100 shadow":
+                      isActive,
+                    "border border-solid border-gray-300 bg-gray-50 text-gray-500 ":
+                      !isActive,
+                  },
+                )
+              }
+            >
+              {link.icon}
+              <p className="hidden md:block">{link.title}</p>
+            </NavLink>
+          ),
+      )}
     </ul>
   );
 }
