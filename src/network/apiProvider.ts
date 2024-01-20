@@ -1,21 +1,22 @@
-import { showNotification } from '@mantine/notifications';
-import { AxiosError, HttpStatusCode, AxiosResponse } from 'axios';
-import apiClient from './apiClient';
-import { LoginInput } from '../models/auth';
+import { showNotification } from "@mantine/notifications";
+import { AxiosError, HttpStatusCode, AxiosResponse } from "axios";
+import apiClient from "./apiClient";
+import { LoginInput } from "../models/auth";
+import { GetReq } from "../models/common-models";
 
 export class ApiProvider {
   constructor(private readonly server: typeof apiClient) {}
 
   showAlertNotification(message: string, success: boolean) {
     showNotification({
-      color: success ? '#5D3587' : '#9A031E',
-      title: success ? 'Success' : 'Error',
+      color: success ? "#5D3587" : "#9A031E",
+      title: success ? "Success" : "Error",
       message,
     });
   }
 
   showAxiosErrorAlert(error: unknown | Error) {
-    let message = 'Something went wrong';
+    let message = "Something went wrong";
     if (error instanceof AxiosError && error.response) {
       message = error.response.data?.message ?? message;
     } else {
@@ -31,7 +32,7 @@ export class ApiProvider {
   }
 
   extractMessage(response: AxiosResponse) {
-    const message: string = response.data?.message ?? '';
+    const message: string = response.data?.message ?? "";
     return message;
   }
 
@@ -42,7 +43,7 @@ export class ApiProvider {
 
   async login(loginData: LoginInput) {
     try {
-      const response = await this.server.post('auth', loginData);
+      const response = await this.server.post("auth", loginData);
       const message = this.extractMessage(response);
       if (this.isRequestSuccess(response?.status)) {
         const data = response?.data?.data;
@@ -56,9 +57,22 @@ export class ApiProvider {
     }
   }
 
-  async fetchAllUser(data) {
+  async fetchAllUser(data: GetReq) {
     try {
-      const response = await this.server.get('user');
+      const response = await this.server.get("user", { params: data });
+      if (this.isRequestSuccess(response.status)) {
+        const data = this.extractData(response);
+        return { isSuccess: true, data };
+      } else {
+        return { isSuccess: false };
+      }
+    } catch (error) {
+      this.showAxiosErrorAlert(error);
+    }
+  }
+  async fetchAllCourses(data: GetReq) {
+    try {
+      const response = await this.server.get("test", { params: data });
       if (this.isRequestSuccess(response.status)) {
         const data = this.extractData(response);
         return { isSuccess: true, data };
@@ -72,7 +86,7 @@ export class ApiProvider {
 
   async addUserData(data: any) {
     try {
-      const response = await this.server.post('/user', data);
+      const response = await this.server.post("/user", data);
       const message = this.extractMessage(response);
 
       if (this.isRequestSuccess(response?.status)) {
@@ -88,7 +102,7 @@ export class ApiProvider {
   }
   async UpdateUsers(data: any) {
     try {
-      const response = await this.server.patch('/user', data);
+      const response = await this.server.patch("/user", data);
       const message = this.extractMessage(response);
 
       if (this.isRequestSuccess(response?.status)) {
@@ -105,7 +119,7 @@ export class ApiProvider {
 
   async fetchAllPosition(params: { page: number; search: string }) {
     try {
-      const response = await this.server.get('position', { params: params });
+      const response = await this.server.get("position", { params: params });
       if (this.isRequestSuccess(response.status)) {
         const data = this.extractData(response);
         return { isSuccess: true, data };
@@ -119,7 +133,7 @@ export class ApiProvider {
 
   async viewQuestion(params: { page: number; search: string; id: number }) {
     try {
-      const response = await this.server.get('question', { params: params });
+      const response = await this.server.get("question", { params: params });
       if (this.isRequestSuccess(response.status)) {
         const data = this.extractData(response);
         return { isSuccess: true, data };
@@ -133,7 +147,7 @@ export class ApiProvider {
 
   async createQuestion(data: any) {
     try {
-      const response = await this.server.post('/question', data);
+      const response = await this.server.post("/question", data);
       const message = this.extractMessage(response);
 
       if (this.isRequestSuccess(response?.status)) {
@@ -150,7 +164,7 @@ export class ApiProvider {
 
   async fetchReassignData(data: any) {
     try {
-      const response = await this.server.get('test/get-reassign-tests', {
+      const response = await this.server.get("test/get-reassign-tests", {
         params: data,
       });
       if (this.isRequestSuccess(response.status)) {
@@ -166,7 +180,7 @@ export class ApiProvider {
 
   async reassignTest(data: any) {
     try {
-      const response = await this.server.patch('/test/test-reassign', data);
+      const response = await this.server.patch("/test/test-reassign", data);
       const message = this.extractMessage(response);
 
       if (this.isRequestSuccess(response?.status)) {
@@ -183,7 +197,7 @@ export class ApiProvider {
 
   async fetchAllResult(params: { page: number; search: string }) {
     try {
-      const response = await this.server.get('result', { params: params });
+      const response = await this.server.get("result", { params: params });
       if (this.isRequestSuccess(response.status)) {
         const data = this.extractData(response);
         return { isSuccess: true, data };
@@ -195,9 +209,11 @@ export class ApiProvider {
     }
   }
 
-  async fetchAllTest() {
+  async fetchAllTest(data: GetReq) {
     try {
-      const response = await this.server.get('test/start-test');
+      const response = await this.server.get("test/start-test", {
+        params: data,
+      });
       if (this.isRequestSuccess(response.status)) {
         const data = this.extractData(response);
         return { isSuccess: true, data };
@@ -211,7 +227,7 @@ export class ApiProvider {
 
   async submitTest(data: any) {
     try {
-      const response = await this.server.post('test/evaluate-test', data);
+      const response = await this.server.post("test/evaluate-test", data);
       const message = this.extractMessage(response);
 
       if (this.isRequestSuccess(response?.status)) {

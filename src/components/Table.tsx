@@ -28,7 +28,15 @@ function TableComponent({
     <section>
       <div className="m-2">
         <ScrollArea className="w-full">
-          <Table withColumnBorders withRowBorders className="w-full ml-0 mr-5">
+          <Table
+            withColumnBorders
+            highlightOnHover
+            withRowBorders
+            withTableBorder
+            stickyHeader
+            horizontalSpacing="xl"
+            className="w-full ml-0 mr-5 whitespace-nowrap"
+          >
             <Table.Thead className="border-2 border-black">
               <Table.Tr>
                 {columns.map((heading, index) => (

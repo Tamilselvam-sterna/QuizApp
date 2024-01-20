@@ -1,19 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
-import './index.css';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.tsx";
+import "./index.css";
 import {
   Route,
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
-} from 'react-router-dom';
-import Login from './pages/Login.tsx';
-import AdminLayout from './components/AdminLayout.tsx';
-import NotFoundPage from './pages/NotFoundPage.tsx';
-import ReassignTest from './pages/admin/test/ReassignTest.tsx';
-import Results from './pages/admin/results/Results.tsx';
-import Courses from './pages/admin/course/Courses.tsx';
+} from "react-router-dom";
+import Login from "./pages/Login.tsx";
+import AdminLayout from "./components/AdminLayout.tsx";
+import NotFoundPage from "./pages/NotFoundPage.tsx";
+import ReassignTest from "./pages/admin/test/ReassignTest.tsx";
+import Results from "./pages/admin/results/Results.tsx";
+import Courses from "./pages/admin/course/Courses.tsx";
+import Users from "./pages/admin/user/Users.tsx";
 // import Users from './pages/admin/user/Users.tsx';
 
 const routes = createBrowserRouter(
@@ -22,18 +23,18 @@ const routes = createBrowserRouter(
       <Route index element={<Login />} />
       <Route path="/" element={<AdminLayout />}>
         <Route path="dashboard" element={<div>dashboard</div>} />
-        <Route path="users" element={<div>user</div>} />
+        <Route path="users" element={<Users />} />
         <Route path="courses" element={<Courses />} />
         <Route path="results" element={<Results />} />
         <Route path="reassign" element={<ReassignTest />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
-    </Route>,
-  ),
+    </Route>
+  )
 );
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <RouterProvider router={routes} />
-  </React.StrictMode>,
+  </React.StrictMode>
 );

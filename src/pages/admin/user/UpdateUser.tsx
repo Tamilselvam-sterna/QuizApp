@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { DateInput } from "@mantine/dates";
 import moment from "moment";
 import { apiProvider } from "../../../network/apiProvider";
-import { IconUserEdit } from "@tabler/icons-react";
+import { IconEye, IconUserEdit } from "@tabler/icons-react";
 import { userStore } from "../../../app/userStore";
 
 // import UserSchema from "./usermodal";
@@ -106,13 +106,10 @@ function UpdateUser({ item }) {
       setPositionData(response.data);
     }
   };
-  useEffect(() => {
-    fetchPosition();
-  }, []);
 
-  useEffect(() => {
-    fetchPosition();
-  }, []);
+  // useEffect(() => {
+  //   fetchPosition();
+  // }, []);
   return (
     <>
       <Drawer
@@ -219,8 +216,8 @@ function UpdateUser({ item }) {
         </form>
       </Drawer>
 
-      <Button color="teal" leftSection={<IconUserEdit />} onClick={open}>
-        Edit User
+      <Button color="teal" onClick={open} variant="outline">
+        <IconUserEdit />
       </Button>
     </>
   );

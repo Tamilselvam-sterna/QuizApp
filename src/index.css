@@ -12,11 +12,11 @@
 
 @layer base {
   * {
-    @apply m-0 box-border scroll-smooth p-0 antialiased;
+    @apply box-border p-0 m-0 antialiased scroll-smooth;
   }
 
   body {
-    @apply overflow-x-hidden bg-gray-200 font-poppins antialiased;
+    @apply overflow-x-hidden antialiased bg-gray-200 font-poppins;
   }
 
   a {

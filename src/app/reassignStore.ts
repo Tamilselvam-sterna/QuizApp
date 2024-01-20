@@ -1,27 +1,28 @@
 import { create } from "zustand";
-import { apiProvider } from "../network/apiProvider";
 import { BaseStoreState } from "../models/common-models";
+import { apiProvider } from "../network/apiProvider";
 
-export interface TestStoreState extends BaseStoreState<[]> {}
-export const testStore = create<TestStoreState>((set) => ({
+export interface reassignState extends BaseStoreState<[]> {}
+
+export const reassignStore = create<reassignState>((set) => ({
+  isLoading: false,
   page: 1,
   search: "",
   data: {
     from: 0,
     to: 0,
-    total: 0,
     totalPages: 0,
+    total: 0,
     data: [],
   },
-  isLoading: false,
   setPage: (page) => set({ page }),
   setSearch: (search) => set({ search }),
   async fetchData() {
     set({ isLoading: true });
-    const { page, search } = testStore.getState();
-    const result = await apiProvider.fetchAllCourses({ page, search });
+    const { page, search } = reassignStore.getState();
+    const result = await apiProvider.fetchReassignData({ page, search });
     if (result != null) {
-      set({ data: result.data ?? [] });
+      set({ data: result.data });
     }
     set({ isLoading: false });
   },

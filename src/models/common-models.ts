@@ -1,4 +1,4 @@
-export interface GenericType<T> {
+export interface CommonResponse<T> {
   from: number;
   to: number;
   total: number;
@@ -6,9 +6,14 @@ export interface GenericType<T> {
   data: T[];
 }
 
+export interface GetReq {
+  page: number;
+  search: string;
+}
+
 export interface BaseStoreState<T> {
   isLoading: boolean;
-  data: GenericType<T>;
+  data: CommonResponse<T>;
   fetchData: () => void;
   page: number;
   search: string;

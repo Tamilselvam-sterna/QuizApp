@@ -53,8 +53,8 @@ function AddSubject() {
           </>
         </form>
       </Modal>
-      <Button onClick={open} variant="filled" color="green">
-        + Add Subject
+      <Button onClick={open} variant="outline" color="green">
+        Add Subject
       </Button>
     </>
   );
