@@ -1,7 +1,7 @@
 import { cleanNotifications, showNotification } from "@mantine/notifications";
 import axios, { HttpStatusCode, InternalAxiosRequestConfig } from "axios";
 
-export const BASE_URL = "http://0.0.0.0:3000/api/";
+export const BASE_URL = "http://192.168.16.145:3000/api/";
 
 export const apiClient = axios.create({
   baseURL: BASE_URL,

@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function TestHome() {
-  return (
-   
-  )
+  return <div>test home</div>;
 }
 
-export default TestHome
+export default TestHome;

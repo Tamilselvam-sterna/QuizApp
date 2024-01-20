@@ -1,15 +1,15 @@
-import { TextInput, PasswordInput } from '@mantine/core';
-import { Button } from '../components/Button';
-import { MdOutlineLockReset } from 'react-icons/md';
-import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
-import { LoginInput, loginScema } from '../models/auth';
-import { apiProvider } from '../network/apiProvider';
-import { useForm } from '@mantine/form';
-import { zodResolver } from 'mantine-form-zod-resolver';
-import { MdLogin } from 'react-icons/md';
-import { Variants, motion } from 'framer-motion';
+import { TextInput, PasswordInput } from "@mantine/core";
+import { Button } from "../components/Button";
+import { MdOutlineLockReset } from "react-icons/md";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import { LoginInput, loginScema } from "../models/auth";
+import { apiProvider } from "../network/apiProvider";
+import { useForm } from "@mantine/form";
+import { zodResolver } from "mantine-form-zod-resolver";
+import { MdLogin } from "react-icons/md";
+import { Variants, motion } from "framer-motion";
 
 const loginVariant: Variants = {
   initial: {
@@ -30,8 +30,8 @@ function Login() {
 
   const form = useForm<LoginInput>({
     initialValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
     validate: zodResolver(loginScema),
   });
@@ -47,12 +47,12 @@ function Login() {
       authContext?.login(data);
       console.log(response);
 
-      navigate('/dashboard');
+      navigate("/dashboard");
     }
   }
 
   return (
-    <main className="login-pattern flex min-h-dvh min-w-full items-center justify-center">
+    <main className="background-pattern flex min-h-dvh min-w-full items-center justify-center">
       <motion.div
         variants={loginVariant}
         initial="initial"
@@ -84,18 +84,18 @@ function Login() {
                 radius="md"
                 size="md"
                 placeholder="jhondoe@gmail.com"
-                {...form.getInputProps('email')}
+                {...form.getInputProps("email")}
               />
               <PasswordInput
                 label="Password"
                 radius="md"
                 size="md"
                 placeholder="********"
-                {...form.getInputProps('password')}
+                {...form.getInputProps("password")}
               />
               <Button className="mt-4 w-full" type="submit">
                 <div className="flex items-center justify-center gap-1">
-                  <h4 className="text-base font-semibold">Login</h4>{' '}
+                  <h4 className="text-base font-semibold">Login</h4>{" "}
                   <MdLogin className="h-5 w-5 text-gray-50" />
                 </div>
               </Button>
