@@ -241,6 +241,19 @@ export class ApiProvider {
       this.showAxiosErrorAlert(error);
     }
   }
+
+  async fetchDashBoardData() {
+    try {
+      const response = await apiClient.get("dashboard");
+      if (this.isRequestSuccess(response.status)) {
+        const data = response?.data?.data;
+        return { isSuccess: true, data };
+      }
+    } catch (error) {
+      this.showAxiosErrorAlert(error);
+      return { isSuccess: false };
+    }
+  }
 }
 
 export const apiProvider = new ApiProvider(apiClient);

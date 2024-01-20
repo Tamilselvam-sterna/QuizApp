@@ -15,6 +15,7 @@ import ReassignTest from "./pages/admin/test/ReassignTest.tsx";
 import Results from "./pages/admin/results/Results.tsx";
 import Courses from "./pages/admin/course/Courses.tsx";
 import Users from "./pages/admin/user/Users.tsx";
+import Dashboard from "./pages/admin/dashboard/Dashboard.tsx";
 // import Users from './pages/admin/user/Users.tsx';
 
 const routes = createBrowserRouter(
@@ -22,7 +23,7 @@ const routes = createBrowserRouter(
     <Route path="/" element={<App />}>
       <Route index element={<Login />} />
       <Route path="/" element={<AdminLayout />}>
-        <Route path="dashboard" element={<div>dashboard</div>} />
+        <Route path="dashboard" element={<Dashboard />} />
         <Route path="users" element={<Users />} />
         <Route path="courses" element={<Courses />} />
         <Route path="results" element={<Results />} />
