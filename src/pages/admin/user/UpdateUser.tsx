@@ -106,13 +106,10 @@ function UpdateUser({ item }) {
       setPositionData(response.data);
     }
   };
-  useEffect(() => {
-    fetchPosition();
-  }, []);
 
-  useEffect(() => {
-    fetchPosition();
-  }, []);
+  // useEffect(() => {
+  //   fetchPosition();
+  // }, []);
   return (
     <>
       <Drawer
