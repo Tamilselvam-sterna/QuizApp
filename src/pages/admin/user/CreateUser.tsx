@@ -41,9 +41,9 @@ function CreateUser() {
       setPosition(response.data);
     }
   };
-  useEffect(() => {
-    fetchPosition();
-  }, []);
+  // useEffect(() => {
+  //   fetchPosition();
+  // }, []);
   const handleSubmit = async (values: typeof form.values) => {
     let userData;
     try {

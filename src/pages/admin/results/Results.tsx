@@ -4,12 +4,11 @@ import { useEffect, useRef } from "react";
 import TableHeader from "../../../components/TableHeader";
 import TableComponent from "../../../components/Table";
 import { Table } from "@mantine/core";
-import DownloadExcel from "./Download-excel";
-import DownloadPdf from "./Download-pdf";
 import moment from "moment";
 import { resultStore } from "../../../app/resultStore";
+import ReportData from "./Reports";
 
-const HeaderComponents = [<DownloadExcel />, <DownloadPdf />];
+const HeaderComponents = [<ReportData />];
 // interface userDetailType {
 //   from: number;
 //   to: number;
