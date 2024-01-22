@@ -40,7 +40,7 @@ export default function CardWrapper({ data }: { data: DashBoardStats | null }) {
         value={data?.totalTestAssignedUsers}
       />
       <Card
-        className="bg-amber-500"
+        className="bg-blue-400"
         title="Total courses"
         value={data?.totalSubjects}
       />

@@ -10,7 +10,6 @@ import { useForm } from "@mantine/form";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { MdLogin } from "react-icons/md";
 import { Variants, motion } from "framer-motion";
-import clsx from "clsx";
 
 const loginVariant: Variants = {
   initial: {
@@ -20,7 +19,7 @@ const loginVariant: Variants = {
     y: 0,
     transition: {
       duration: 1,
-      staggerChildren: 0.3,
+      staggerChildren: 0.2,
     },
   },
 };
@@ -35,6 +34,7 @@ function Login() {
       password: "",
     },
     validate: zodResolver(loginScema),
+    validateInputOnChange: true,
   });
 
   async function onSubmit(val: typeof form.values) {
@@ -60,10 +60,7 @@ function Login() {
         animate="animate"
         className="w-full space-y-2 rounded-md max-sm:px-4 md:w-1/2 xl:w-3/12"
       >
-        <motion.div
-          variants={loginVariant}
-          className="flex items-center justify-center gap-2 rounded-md bg-gray-500 px-2 py-6 text-2xl text-gray-100 shadow-lg"
-        >
+        <motion.div className="flex items-center justify-center gap-2 rounded-md bg-gray-500 px-2 py-6 text-2xl text-gray-100 shadow-lg">
           <MdOutlineLockReset className="rotate-12 text-4xl" />
           <h2 className="font-bold">Sterna-Quiz</h2>
         </motion.div>
@@ -71,10 +68,10 @@ function Login() {
           variants={loginVariant}
           className="flex-1 space-y-2 rounded-lg bg-gray-50 px-8 pb-10 pt-10 shadow-md"
         >
-          <motion.h1 className="mb-3 text-xl font-medium text-gray-700">
+          <h1 className="mb-3 text-xl font-medium text-gray-700">
             Please log in to continue...
-          </motion.h1>
-          <motion.div variants={loginVariant} className="w-full">
+          </h1>
+          <div className="w-full">
             <form
               onSubmit={form.onSubmit(onSubmit)}
               className="space-y-3 text-gray-600"
@@ -101,7 +98,7 @@ function Login() {
                 </div>
               </Button>
             </form>
-          </motion.div>
+          </div>
         </motion.div>
       </motion.div>
     </main>

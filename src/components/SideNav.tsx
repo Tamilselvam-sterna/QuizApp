@@ -5,6 +5,8 @@ import clsx from "clsx";
 import { MdOutlineLockReset } from "react-icons/md";
 import { Variants, motion } from "framer-motion";
 import { Role } from "../utils/enum";
+import { useDisclosure } from "@mantine/hooks";
+import { Modal, Button } from "@mantine/core";
 
 const layoutVariant: Variants = {
   initial: {
@@ -20,6 +22,7 @@ const layoutVariant: Variants = {
 };
 
 export default function SideNav() {
+  const [opened, { open, close }] = useDisclosure(false);
   const navigate = useNavigate();
   return (
     <motion.div
@@ -39,8 +42,41 @@ export default function SideNav() {
       </NavLink>
       <div className="flex grow justify-between rounded-b-md bg-gray-50 px-2 pb-2  shadow-md md:flex-col md:rounded-t-md md:px-0 ">
         <NavLinks />
+        <Modal
+          opened={opened}
+          onClose={close}
+          withCloseButton={false}
+          centered
+          transitionProps={{
+            transition: "fade",
+            duration: 200,
+            timingFunction: "linear",
+          }}
+        >
+          <div className="flex w-full flex-col items-center justify-center gap-4 py-2">
+            <div>Are you sure you wanna sign-out!</div>
+            <div className="flex gap-4">
+              <Button
+                onClick={close}
+                color="gray"
+                variant="outline"
+                radius="md"
+              >
+                cancel
+              </Button>
+              <Button
+                onClick={() => navigate("/")}
+                color="gray"
+                variant="filled"
+                radius="md"
+              >
+                signout
+              </Button>
+            </div>
+          </div>
+        </Modal>
         <button
-          onClick={() => navigate("/")}
+          onClick={open}
           className="my-2 ml-2 flex h-[48px] grow cursor-pointer items-center justify-center gap-2 rounded-md border border-solid border-gray-300 bg-gray-50 p-3 text-sm font-medium hover:bg-gray-500 hover:text-gray-200 md:mx-2  md:my-0 md:flex-none md:justify-start md:p-2 md:px-3"
         >
           <FaPowerOff className="w-6" />

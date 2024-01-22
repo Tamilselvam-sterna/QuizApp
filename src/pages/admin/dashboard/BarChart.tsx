@@ -7,11 +7,12 @@ function BarChart({
   barChartData: SubjectStatsRes[] | undefined;
 }) {
   return (
-    barChartData && (
-      <div className="w-full md:col-span-2 lg:col-span-2">
-        <h1 className="mb-4 text-xl md:text-2xl">Latest Results</h1>
+    <div className="w-full place-items-center  md:col-span-2 lg:col-span-2">
+      <h1 className="mb-4 text-xl md:text-2xl">Overall Statistics</h1>
+
+      {barChartData && barChartData.length > 0 ? (
         <MantineBarChart
-          h={400}
+          h={500}
           data={barChartData}
           dataKey="subject"
           type="stacked"
@@ -20,9 +21,14 @@ function BarChart({
             { name: "testCompletedUser", color: "blue.6" },
             { name: "testInCompleteUser", color: "teal.6" },
           ]}
+          xAxisProps={{ padding: { left: 30, right: 30 } }}
+          yAxisProps={{ domain: [0, 600], padding: { top: 30, bottom: 30 } }}
+          className="rounded-xl border border-solid border-gray-200"
         />
-      </div>
-    )
+      ) : (
+        <div className="flex items-center justify-center">No data found</div>
+      )}
+    </div>
   );
 }
 
