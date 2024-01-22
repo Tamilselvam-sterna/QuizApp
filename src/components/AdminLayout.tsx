@@ -2,14 +2,14 @@ import { Outlet } from "react-router-dom";
 import SideNav from "./SideNav";
 import { Variants, motion } from "framer-motion";
 
-const childrenVariant: Variants = {
+const childVariant: Variants = {
   initial: {
-    y: -300,
+    x: 100,
   },
   animate: {
-    y: 0,
+    x: 0,
     transition: {
-      duration: 1,
+      duration: 0.5,
       staggerChildren: 0.3,
     },
   },
@@ -17,18 +17,15 @@ const childrenVariant: Variants = {
 
 export default function Layout() {
   return (
-    <motion.div
-      variants={childrenVariant}
-      initial="intial"
-      animate="animate"
-      className="background-pattern flex h-dvh flex-col md:flex-row md:overflow-hidden"
-    >
+    <motion.div className="background-pattern flex h-dvh flex-col md:flex-row md:overflow-hidden">
       <div className="w-full flex-none md:w-64">
         <SideNav />
       </div>
       <motion.div
-        variants={childrenVariant}
-        className="mx-3 my-4 flex-grow rounded-md bg-gray-50 px-3 pt-4 shadow-md md:overflow-y-auto md:p-4 md:px-2"
+        variants={childVariant}
+        initial="initial"
+        animate="animate"
+        className="mx-3 my-4 flex-grow rounded-md bg-white shadow-md md:overflow-y-auto "
       >
         <Outlet />
       </motion.div>

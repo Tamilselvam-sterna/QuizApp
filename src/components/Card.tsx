@@ -1,21 +1,25 @@
+import clsx from "clsx";
 import { DashBoardStats } from "../models/dashboard";
+import { shimmer } from "../utils/constant";
 
-export function Card({
-  title,
-  value,
-}: {
-  title: string;
-  value: number | string | null | undefined;
-}) {
+interface CardProps extends React.HTMLProps<HTMLDivElement> {}
+
+export function Card({ title, value, className: bgColor, ...rest }: CardProps) {
   return (
-    <div className="border-primary-500 bg-primary-500 rounded-xl border border-solid p-2 shadow-sm">
-      <div className="flex p-4">
-        <h3 className="ml-2 text-sm font-medium text-white">
+    <div
+      {...rest}
+      className={clsx(
+        `${shimmer} relative rounded-md p-4 transition duration-150`,
+        bgColor,
+      )}
+    >
+      <div className="flex py-2  ">
+        <h3 className="text-base font-bold uppercase tracking-wider text-white">
           {title ?? "None"}
         </h3>
       </div>
       <p
-        className={`border-primary-500 truncate rounded-xl border border-solid  bg-white px-4 py-8 text-center text-2xl`}
+        className={`truncate rounded-md bg-white py-6 text-center text-3xl font-bold`}
       >
         {value ?? "None"}
       </p>
@@ -26,10 +30,31 @@ export function Card({
 export default function CardWrapper({ data }: { data: DashBoardStats | null }) {
   return (
     <>
-      <Card title="Total users" value={data?.totalUsers} />
-      <Card title="Total courses" value={data?.totalSubjects} />
-      <Card title="Completed users" value={data?.totalTestCompletedUsers} />
-      <Card title="In-Complete users" value={data?.totalTestInCompleteUsers} />
+      <Card
+        className="bg-cyan-600"
+        title="Total users"
+        value={data?.totalUsers}
+      />
+      <Card
+        className="bg-emerald-600"
+        title="Test assigned users"
+        value={data?.totalTestAssignedUsers}
+      />
+      <Card
+        className="bg-amber-500"
+        title="Total courses"
+        value={data?.totalSubjects}
+      />
+      <Card
+        className="bg-slate-500"
+        title="Completed users"
+        value={data?.totalTestCompletedUsers}
+      />
+      <Card
+        className="bg-teal-700"
+        title="In-Complete users"
+        value={data?.totalTestInCompleteUsers}
+      />
     </>
   );
 }
