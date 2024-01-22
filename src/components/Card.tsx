@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { DashBoardStats } from "../models/dashboard";
-import { shimmer } from "../utils/constant";
 
 interface CardProps extends React.HTMLProps<HTMLDivElement> {}
 
@@ -9,11 +8,11 @@ export function Card({ title, value, className: bgColor, ...rest }: CardProps) {
     <div
       {...rest}
       className={clsx(
-        `${shimmer} relative rounded-md p-4 transition duration-150`,
+        `flex flex-col  justify-between rounded-xl p-2 shadow-sm`,
         bgColor,
       )}
     >
-      <div className="flex py-2  ">
+      <div className="py-2">
         <h3 className="text-base font-bold uppercase tracking-wider text-white">
           {title ?? "None"}
         </h3>

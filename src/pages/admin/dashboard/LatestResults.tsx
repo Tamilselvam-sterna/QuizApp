@@ -14,7 +14,7 @@ function LatestResults({ data }: { data: LastestResultsRes[] | undefined }) {
               <div
                 key={result.id}
                 className={clsx(
-                  "flex flex-row items-center justify-evenly py-4",
+                  "flex flex-row items-center justify-between py-4",
                   {
                     "border-t": i !== 0,
                   },
