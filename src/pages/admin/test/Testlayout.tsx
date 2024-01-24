@@ -1,9 +1,7 @@
-// import React from 'react'
+import React from "react";
 
-// function Testlayout() {
-//   return (
+function Testlayout() {
+  return <div>test layout</div>;
+}
 
-//   )
-// }
-
-// export default Testlayout
+export default Testlayout;

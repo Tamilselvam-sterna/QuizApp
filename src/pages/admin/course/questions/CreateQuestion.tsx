@@ -104,6 +104,8 @@ function CreateQuestion({ value }) {
         title="Add Questions"
         position="right"
         size={"md"}
+        offset={16}
+        radius="md"
       >
         <form
           onSubmit={form.onSubmit(handleSubmit)}

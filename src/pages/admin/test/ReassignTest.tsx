@@ -17,7 +17,7 @@ function ReassignTest() {
     fetchData();
   }, [page, fetchData, search]);
   return (
-    <>
+    <div className="mt-5 mb-2 ml-2">
       <div>
         <TableHeader
           reference={searchRef}
@@ -53,7 +53,7 @@ function ReassignTest() {
           </Table.Tr>
         ))}
       </TableComponent>
-    </>
+    </div>
   );
 }
 

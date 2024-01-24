@@ -15,7 +15,7 @@ function TableHeader({
 }: TableHeaderType) {
   return (
     <div className="flex p-2 mb-2 whitespace-nowrap">
-      <div className="text-xl font-bold ">{title}</div>
+      <h1 className="mb-4 text-xl md:text-2xl">{title}</h1>
       <section className="flex flex-row justify-end w-full">
         {HeaderComponents?.map((element, index) => (
           <div className="mr-5" key={index}>

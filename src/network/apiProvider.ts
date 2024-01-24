@@ -116,6 +116,22 @@ export class ApiProvider {
       this.showAxiosErrorAlert(error);
     }
   }
+  async addUserUpload(data: any) {
+    try {
+      const response = await this.server.post("/user/upload-file", data);
+      const message = this.extractMessage(response);
+
+      if (this.isRequestSuccess(response?.status)) {
+        this.showAlertNotification(message, true);
+        return true;
+      } else {
+        this.showAlertNotification(message, false);
+        return false;
+      }
+    } catch (error) {
+      this.showAxiosErrorAlert(error);
+    }
+  }
 
   async fetchAllPosition(params: { page: number; search: string }) {
     try {
@@ -239,6 +255,19 @@ export class ApiProvider {
       }
     } catch (error) {
       this.showAxiosErrorAlert(error);
+    }
+  }
+
+  async fetchDashBoardData() {
+    try {
+      const response = await apiClient.get("dashboard");
+      if (this.isRequestSuccess(response.status)) {
+        const data = response?.data?.data;
+        return { isSuccess: true, data };
+      }
+    } catch (error) {
+      this.showAxiosErrorAlert(error);
+      return { isSuccess: false };
     }
   }
 }

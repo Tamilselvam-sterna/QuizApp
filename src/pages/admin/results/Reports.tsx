@@ -88,7 +88,7 @@ function ReportData() {
         PERCENTAGE: report.percentage,
         "TEST ASSIGNED": report.test.subject,
         "UPDATED DATE AND TIME": moment(report.updatedAt).format(
-          "MMMM Do YYYY, h:mm a"
+          "MMMM Do YYYY, h:mm a",
         ),
       });
     }
