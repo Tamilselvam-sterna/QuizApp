@@ -9,8 +9,9 @@ import CreateUser from "./CreateUser";
 import UpdateUser from "./UpdateUser";
 import { userStore } from "../../../app/userStore";
 import UserFilter from "./UserFilter";
+import UserBulkUpload from "./userUpload";
 
-const HeaderComponents = [<UserFilter />, <CreateUser />];
+const HeaderComponents = [<UserBulkUpload />, <UserFilter />, <CreateUser />];
 
 // interface userDetailType {
 //   from: number;
@@ -75,51 +76,59 @@ function Users() {
         currentPage={page ?? 0}
         onPageChanged={setPage}
       >
-        {data?.data?.map((value: any, index: any) => (
-          <Table.Tr key={index}>
-            <Table.Td>{data?.from + index}</Table.Td>
-            <Table.Td>{value.firstName + " " + value.lastName}</Table.Td>
-            <Table.Td>{value.email}</Table.Td>
-            <Table.Td>{value.role.role}</Table.Td>
-            {value.role.id == 3 ? (
-              <>
-                <Table.Td>
-                  {value?.userInfo[0]?.position?.position ?? "NA"}
+        {data?.data?.map((value: any, index: any) =>
+          value.role.id != 1 ? (
+            <>
+              <Table.Tr key={index}>
+                <Table.Td>{data?.from + index}</Table.Td>
+                <Table.Td>{value.firstName + " " + value.lastName}</Table.Td>
+                <Table.Td>{value.email}</Table.Td>
+                <Table.Td>{value.role.role}</Table.Td>
+                {value.role.id == 3 ? (
+                  <>
+                    <Table.Td>
+                      {value?.userInfo[0]?.position?.position ?? "NA"}
+                    </Table.Td>
+                    <Table.Td>{value?.userInfo[0]?.college ?? "NA"}</Table.Td>
+                    <Table.Td>{value?.userInfo[0]?.degree ?? "NA"}</Table.Td>
+                    <Table.Td>
+                      {value?.userInfo[0]?.specialization ?? "NA"}
+                    </Table.Td>
+                    <Table.Td>
+                      {value?.userInfo[0]?.isFresher
+                        ? "Fresher"
+                        : "Experienced"}
+                    </Table.Td>
+                    <Table.Td>
+                      {value?.userInfo[0]?.isFresher
+                        ? "NA"
+                        : value?.userInfo[0]?.experience}
+                    </Table.Td>
+                    <Table.Td>
+                      {value.userTestDetails[0]?.test.subject ?? "NA"}
+                    </Table.Td>
+                  </>
+                ) : (
+                  <>
+                    <Table.Td>{"NA"}</Table.Td>
+                    <Table.Td>{"NA"}</Table.Td>
+                    <Table.Td>{"NA"}</Table.Td>
+                    <Table.Td>{"NA"}</Table.Td>
+                    <Table.Td>{"NA"}</Table.Td>
+                    <Table.Td>{"NA"}</Table.Td>
+                    <Table.Td>{"NA"}</Table.Td>
+                  </>
+                )}
+                <Table.Td className="min-w-max ">
+                  {moment(value.createdAt).format("MMMM Do YYYY, h:mm a")}
                 </Table.Td>
-                <Table.Td>{value?.userInfo[0]?.college ?? "NA"}</Table.Td>
-                <Table.Td>{value?.userInfo[0]?.degree ?? "NA"}</Table.Td>
-                <Table.Td>
-                  {value?.userInfo[0]?.specialization ?? "NA"}
-                </Table.Td>
-                <Table.Td>
-                  {value?.userInfo[0]?.isFresher ? "Fresher" : "Experienced"}
-                </Table.Td>
-                <Table.Td>
-                  {value?.userInfo[0]?.isFresher
-                    ? "NA"
-                    : value?.userInfo[0]?.experience}
-                </Table.Td>
-                <Table.Td>
-                  {value.userTestDetails[0]?.test.subject ?? "NA"}
-                </Table.Td>
-              </>
-            ) : (
-              <>
-                <Table.Td>{"NA"}</Table.Td>
-                <Table.Td>{"NA"}</Table.Td>
-                <Table.Td>{"NA"}</Table.Td>
-                <Table.Td>{"NA"}</Table.Td>
-                <Table.Td>{"NA"}</Table.Td>
-                <Table.Td>{"NA"}</Table.Td>
-                <Table.Td>{"NA"}</Table.Td>
-              </>
-            )}
-            <Table.Td className="min-w-max ">
-              {moment(value.createdAt).format("MMMM Do YYYY, h:mm a")}
-            </Table.Td>
-            <Table.Td>{<UpdateUser item={value} />}</Table.Td>
-          </Table.Tr>
-        ))}
+                <Table.Td>{<UpdateUser item={value} />}</Table.Td>
+              </Table.Tr>
+            </>
+          ) : (
+            <></>
+          ),
+        )}
       </TableComponent>
     </div>
   );

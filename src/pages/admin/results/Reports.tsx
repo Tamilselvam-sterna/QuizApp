@@ -15,7 +15,9 @@ function ReportData() {
       const reports: any = (reportss ?? [])[index];
       content.push([
         index + 1,
-        reports.user.firstName ?? "None",
+        (reports.user.firstName ?? "None") +
+          " " +
+          (reports.user.lastName ?? "None"),
         reports.user.email ?? "None",
         reports.user.mobile ?? "None",
         reports.user.role.role,
@@ -72,7 +74,10 @@ function ReportData() {
       const report: any = (reports ?? [])[i];
       datas.push({
         "S.NO": i + 1,
-        "USER NAME": report.user.firstName ?? "None",
+        "USER NAME":
+          (report.user.firstName ?? "None") +
+          " " +
+          (report.user.lastName ?? "None"),
         EMAIL: report.user.email ?? "None",
         "MOBILE NUMBER": report.user.mobile ?? "None",
         ROLE: report.user.role.role,
@@ -83,7 +88,7 @@ function ReportData() {
         PERCENTAGE: report.percentage,
         "TEST ASSIGNED": report.test.subject,
         "UPDATED DATE AND TIME": moment(report.updatedAt).format(
-          "MMMM Do YYYY, h:mm a"
+          "MMMM Do YYYY, h:mm a",
         ),
       });
     }
@@ -107,7 +112,7 @@ function ReportData() {
         Download Pdf
       </Button>
       <Button
-        className="font-medium"
+        className="ml-2 font-medium"
         variant="light"
         color="orange"
         onClick={() => fetchreports(true)}

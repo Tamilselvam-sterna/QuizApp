@@ -72,7 +72,9 @@ function Results() {
         {data?.data?.map((value: any, index: any) => (
           <Table.Tr key={index}>
             <Table.Td>{index + 1}</Table.Td>
-            <Table.Td>{value.user.firstName}</Table.Td>
+            <Table.Td>
+              {value.user.firstName + " " + value.user.lastName}
+            </Table.Td>
             <Table.Td>{value.user.email}</Table.Td>
             <Table.Td>{value.user.mobile}</Table.Td>
             <Table.Td>{value.user.role.role}</Table.Td>
