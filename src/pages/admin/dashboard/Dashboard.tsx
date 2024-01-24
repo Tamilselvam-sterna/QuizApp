@@ -3,6 +3,7 @@ import { DashBoardStats } from "../../../models/dashboard";
 import { apiProvider } from "../../../network/apiProvider";
 import LatestResults from "./LatestResults";
 import BarChart from "./BarChart";
+import CardWrapper from "../../../components/Card";
 
 const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState<DashBoardStats | null>(
@@ -21,15 +22,13 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <main className="mb-2 ml-2 mt-5 grid gap-2  p-5 md:grid-cols-2">
-      <BarChart />
-      <div className="">
-        {dashboardData?.lastestResults && (
-          <LatestResults
-            data={dashboardData?.lastestResults}
-            key={dashboardData.id}
-          />
-        )}
+    <main className="m-5">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+        <CardWrapper data={dashboardData} />
+      </div>
+      <div className="mt-6 grid grid-cols-1  gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <LatestResults data={dashboardData?.lastestResults} />
+        <BarChart barChartData={dashboardData?.subjectData} />
       </div>
     </main>
   );

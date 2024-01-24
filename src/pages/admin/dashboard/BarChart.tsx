@@ -1,42 +1,35 @@
-import { BarChart, Card, Title } from "@tremor/react";
+import { BarChart as MantineBarChart } from "@mantine/charts";
+import { SubjectStatsRes } from "../../../models/dashboard";
 
-const chartdata2 = [
-  {
-    name: "Javascript",
-    "Total users": 890,
-    "Completed users": 338,
-    "In-complete users": 538,
-  },
-  {
-    name: "Flutter",
-    "Total users": 890,
-    "Completed users": 338,
-    "In-complete users": 538,
-  },
-  {
-    name: "Embedded",
-    "Total users": 890,
-    "Completed users": 338,
-    "In-complete users": 538,
-  },
-];
+function BarChart({
+  barChartData,
+}: {
+  barChartData: SubjectStatsRes[] | undefined;
+}) {
+  return (
+    <div className="w-full place-items-center  md:col-span-2 lg:col-span-2">
+      <h1 className="mb-4 text-xl md:text-2xl">Overall Statistics</h1>
 
-const valueFormatter = (number: any) =>
-  `$ ${new Intl.NumberFormat("us").format(number).toString()}`;
+      {barChartData && barChartData.length > 0 ? (
+        <MantineBarChart
+          h={500}
+          data={barChartData}
+          dataKey="subject"
+          type="stacked"
+          series={[
+            { name: "totalUser", color: "violet.6" },
+            { name: "testCompletedUser", color: "blue.6" },
+            { name: "testInCompleteUser", color: "teal.6" },
+          ]}
+          xAxisProps={{ padding: { left: 30, right: 30 } }}
+          yAxisProps={{ domain: [0, 600], padding: { top: 30, bottom: 30 } }}
+          className="rounded-xl border border-solid border-gray-200"
+        />
+      ) : (
+        <div className="flex items-center justify-center">No data found</div>
+      )}
+    </div>
+  );
+}
 
-export default () => (
-  <Card>
-    <Title>Overall statistics</Title>
-    <BarChart
-      className="mt-6"
-      data={chartdata2}
-      index="name"
-      categories={["Total users", "Completed users", "In-complete users"]}
-      colors={["blue", "teal", "amber", "rose", "indigo", "emerald"]}
-      valueFormatter={valueFormatter}
-      yAxisWidth={70}
-      layout="vertical"
-      showAnimation
-    />
-  </Card>
-);
+export default BarChart;

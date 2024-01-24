@@ -9,7 +9,7 @@ export class ApiProvider {
 
   showAlertNotification(message: string, success: boolean) {
     showNotification({
-      color: success ? "#5D3587" : "#9A031E",
+      color: success ? "#6b7280" : "#9A031E",
       title: success ? "Success" : "Error",
       message,
     });
