@@ -2,14 +2,18 @@ import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import apiClient from "../../../network/apiClient";
+import { zodResolver } from "mantine-form-zod-resolver";
+import { createCourseSchema } from "../../../models/create-course";
+import { testStore } from "../../../app/TestStore";
 
 function AddSubject() {
   const [opened, { open, close }] = useDisclosure(false);
+  const { fetchData } = testStore();
   const form = useForm({
     initialValues: {
       subjectName: "",
     },
-    // validate: zodResolver(createCourseSchema),
+    validate: zodResolver(createCourseSchema),
   });
   const handleSubmit = async (values: typeof form.values) => {
     try {
@@ -18,7 +22,9 @@ function AddSubject() {
       };
       const response = await apiClient.post("/test", subjectData);
       if (response != null) {
-        console.log("success");
+        close();
+        form.reset();
+        fetchData();
       }
     } catch (error) {
       console.log(error);
@@ -37,16 +43,16 @@ function AddSubject() {
       >
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <>
-            <div className="flex flex-row justify-between w-full">
+            <div className="flex w-full flex-row justify-between">
               <TextInput
                 label="Subject Name"
                 placeholder="Subject Name"
-                className="w-full mb-1 mr-2"
+                className="mb-1 mr-2 w-full"
                 {...form.getInputProps("subjectName")}
               />
             </div>
             <div>
-              <Button type="submit" mt="sm">
+              <Button type="submit" mt="sm" color="teal" fullWidth>
                 Submit
               </Button>
             </div>

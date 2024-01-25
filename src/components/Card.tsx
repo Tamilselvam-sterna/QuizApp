@@ -13,7 +13,7 @@ export function Card({ title, value, className: bgColor, ...rest }: CardProps) {
       )}
     >
       <div className="py-2">
-        <h3 className="text-base font-bold uppercase tracking-wider text-white">
+        <h3 className="text-center text-base font-bold uppercase tracking-wider text-white">
           {title ?? "None"}
         </h3>
       </div>

@@ -6,7 +6,9 @@ function LatestResults({ data }: { data: LastestResultsRes[] | undefined }) {
 
   return (
     <div className="flex w-full flex-col md:col-span-2 lg:col-span-2">
-      <h1 className="mb-4 text-xl md:text-2xl">Latest Results</h1>
+      <h1 className="mb-4 text-xl font-semibold tracking-wider subpixel-antialiased md:text-2xl">
+        Latest Results
+      </h1>
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-200 p-4">
         <div className="bg-white px-6">
           {data && data?.length > 0 ? (

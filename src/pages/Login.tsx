@@ -10,6 +10,7 @@ import { useForm } from "@mantine/form";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { MdLogin } from "react-icons/md";
 import { Variants, motion } from "framer-motion";
+import { Role } from "../utils/enum";
 
 const loginVariant: Variants = {
   initial: {
@@ -46,9 +47,13 @@ function Login() {
     if (response?.status) {
       const data = response?.data;
       authContext?.login(data);
-      console.log(response);
-
-      navigate("/dashboard");
+      const roleId = response?.data?.role?.id;
+      console.log(roleId);
+      if (roleId == Role.SuperAdmin || roleId == Role.Admin)
+        navigate("/dashboard");
+      else {
+        navigate("/user");
+      }
     }
   }
 

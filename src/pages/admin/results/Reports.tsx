@@ -103,7 +103,7 @@ function ReportData() {
   };
 
   return (
-    <>
+    <div className="flex space-x-4">
       <Button
         className="font-medium"
         variant="light"
@@ -119,7 +119,7 @@ function ReportData() {
       >
         Download Excel
       </Button>
-    </>
+    </div>
   );
 }
 export default ReportData;

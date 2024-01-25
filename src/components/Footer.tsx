@@ -1,8 +1,9 @@
 function Footer() {
+  const year = new Date().getFullYear();
   return (
-    <footer className="fixed bottom-0 w-full bg-teal-700 text-center shadow-sm">
-      <p className="m-0 mt-2 p-0 text-white">
-        Copyright © 2023 Sterna-Quiz. All rights reserved.
+    <footer className="text-center ">
+      <p className="py-2 text-sm font-semibold  text-primary-600 ">
+        Copyright &copy; {year} Sterna-Quiz. All rights reserved.
       </p>
     </footer>
   );

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import TableHeader from "../../../components/TableHeader";
 import TableComponent from "../../../components/Table";
-import { Pagination, Table } from "@mantine/core";
+import { Pagination, Table, Text } from "@mantine/core";
 import moment from "moment";
 import CreateUser from "./CreateUser";
 import UpdateUser from "./UpdateUser";
@@ -11,10 +11,13 @@ import { userStore } from "../../../app/userStore";
 import UserFilter from "./UserFilter";
 import UserBulkUpload from "./userUpload";
 import AnimatedComponent from "../../../components/AnimatedComponent";
+import ManageTest from "../course/ManageCourse";
 
 const HeaderComponents = [<UserBulkUpload />, <UserFilter />, <CreateUser />];
 
 function Users() {
+  const [activePage, setPages] = useState(1);
+
   const { data, page, search, setPage, setSearch, isLoading, fetchData } =
     userStore();
   const searchRef = useRef<HTMLInputElement>(null);
@@ -46,11 +49,12 @@ function Users() {
           "EMAIL",
           "ROLE",
           "POSITION",
+          "DATE OF BIRTH",
           "COLLEGE",
           "DEGREE",
           "SPECIALIZATION",
           "EXPERIENCE LEVEL",
-          "EXPERIENCE",
+          "YEARS OF EXPERIENCE",
           "TEST ASSIGNED",
           "CREATED DATE AND TIME",
           "EDIT",
@@ -59,7 +63,7 @@ function Users() {
         to={data?.to ?? 0}
         total={data?.total ?? 0}
         totalPages={data?.totalPages ?? 0}
-        currentPage={page ?? 0}
+        currentPage={page}
         onPageChanged={setPage}
       >
         {data?.data?.map((value: any, index: any) =>
@@ -75,6 +79,7 @@ function Users() {
                     <Table.Td>
                       {value?.userInfo[0]?.position?.position ?? "NA"}
                     </Table.Td>
+                    <Table.Td>{value?.userInfo[0]?.dob ?? "NA"}</Table.Td>
                     <Table.Td>{value?.userInfo[0]?.college ?? "NA"}</Table.Td>
                     <Table.Td>{value?.userInfo[0]?.degree ?? "NA"}</Table.Td>
                     <Table.Td>
@@ -109,6 +114,7 @@ function Users() {
                   {moment(value.createdAt).format("MMMM Do YYYY, h:mm a")}
                 </Table.Td>
                 <Table.Td>{<UpdateUser item={value} />}</Table.Td>
+                <Table.Td>{<ManageTest item={value} />}</Table.Td>
               </Table.Tr>
             </>
           ) : (

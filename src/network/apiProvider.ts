@@ -3,6 +3,8 @@ import { AxiosError, HttpStatusCode, AxiosResponse } from "axios";
 import apiClient from "./apiClient";
 import { LoginInput } from "../models/auth";
 import { GetReq } from "../models/common-models";
+import { GetResult } from "../models/result";
+import { CreateAdminUserInput, CreateUserInput } from "../models/create-user";
 
 export class ApiProvider {
   constructor(private readonly server: typeof apiClient) {}
@@ -57,7 +59,7 @@ export class ApiProvider {
     }
   }
 
-  async fetchAllUser(data: GetReq) {
+  async fetchAllUser(data: any) {
     try {
       const response = await this.server.get("user", { params: data });
       if (this.isRequestSuccess(response.status)) {
@@ -84,9 +86,12 @@ export class ApiProvider {
     }
   }
 
-  async addUserData(data: any) {
+  async addUserData(data: CreateUserInput) {
     try {
-      const response = await this.server.post("/user", data);
+      const response = await this.server.post("/user", {
+        date: data.date,
+        ...data,
+      });
       const message = this.extractMessage(response);
 
       if (this.isRequestSuccess(response?.status)) {
@@ -147,6 +152,20 @@ export class ApiProvider {
     }
   }
 
+  async fetchAllRole(params: { page: number; search: string }) {
+    try {
+      const response = await this.server.get("role", { params: params });
+      if (this.isRequestSuccess(response.status)) {
+        const data = this.extractData(response);
+        return { isSuccess: true, data };
+      } else {
+        return { isSuccess: false };
+      }
+    } catch (error) {
+      this.showAxiosErrorAlert(error);
+    }
+  }
+
   async viewQuestion(params: { page: number; search: string; id: number }) {
     try {
       const response = await this.server.get("question", { params: params });
@@ -164,6 +183,39 @@ export class ApiProvider {
   async createQuestion(data: any) {
     try {
       const response = await this.server.post("/question", data);
+      const message = this.extractMessage(response);
+
+      if (this.isRequestSuccess(response?.status)) {
+        this.showAlertNotification(message, true);
+        return true;
+      } else {
+        this.showAlertNotification(message, false);
+        return false;
+      }
+    } catch (error) {
+      this.showAxiosErrorAlert(error);
+    }
+  }
+  async updateQuestion(data: any) {
+    try {
+      const response = await this.server.patch("/question", data);
+      const message = this.extractMessage(response);
+
+      if (this.isRequestSuccess(response?.status)) {
+        this.showAlertNotification(message, true);
+        return true;
+      } else {
+        this.showAlertNotification(message, false);
+        return false;
+      }
+    } catch (error) {
+      this.showAxiosErrorAlert(error);
+    }
+  }
+
+  async assignTest(data: any) {
+    try {
+      const response = await this.server.post("test/assign-test", data);
       const message = this.extractMessage(response);
 
       if (this.isRequestSuccess(response?.status)) {
@@ -211,9 +263,9 @@ export class ApiProvider {
     }
   }
 
-  async fetchAllResult(params: { page: number; search: string }) {
+  async fetchAllResult(params: GetResult) {
     try {
-      const response = await this.server.get("result", { params: params });
+      const response = await this.server.get("result", { params });
       if (this.isRequestSuccess(response.status)) {
         const data = this.extractData(response);
         return { isSuccess: true, data };

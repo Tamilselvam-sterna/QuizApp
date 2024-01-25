@@ -8,7 +8,9 @@ function BarChart({
 }) {
   return (
     <div className="w-full place-items-center  md:col-span-2 lg:col-span-2">
-      <h1 className="mb-4 text-xl md:text-2xl">Overall Statistics</h1>
+      <h1 className="mb-4 text-xl font-semibold tracking-wider md:text-2xl">
+        Overall Statistics
+      </h1>
 
       {barChartData && barChartData.length > 0 ? (
         <MantineBarChart

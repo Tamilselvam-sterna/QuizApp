@@ -14,7 +14,7 @@ interface TableProps {
 }
 
 function TableComponent({
-  isLoading,
+  isLoading = true,
   columns,
   from,
   to,
@@ -35,20 +35,26 @@ function TableComponent({
             withTableBorder
             stickyHeader
             horizontalSpacing="xl"
-            className="w-full ml-0 mr-5 whitespace-nowrap"
+            className="ml-0 mr-5 w-full whitespace-nowrap"
           >
-            <Table.Thead className="border-2 border-black">
+            <Table.Thead className="border border-primary-400">
               <Table.Tr>
                 {columns.map((heading, index) => (
                   <Table.Th key={index}>{heading}</Table.Th>
                 ))}
               </Table.Tr>
             </Table.Thead>
-            <Table.Tbody className="border-2 border-black">
+            <Table.Tbody className="border border-primary-400">
               {isLoading ? (
                 <TableSkeleton columns={columns} />
-              ) : (
+              ) : from > 0 ? (
                 <>{children}</>
+              ) : (
+                <Table.Tr className="w-full">
+                  <Table.Td colSpan={columns.length}>
+                    <h3 className="mt-5 flex justify-center">No Data Found</h3>
+                  </Table.Td>
+                </Table.Tr>
               )}
             </Table.Tbody>
           </Table>
@@ -56,12 +62,13 @@ function TableComponent({
       </div>
 
       {total > 0 && (
-        <div className="flex items-center justify-between pt-4 m-2">
-          <div className="text-gray-700 text-[15px]">
+        <div className="m-2 flex items-center justify-between pt-4">
+          <div className="text-[15px] text-gray-700">
             Showing From {from} To {to} of {total} results
           </div>
           <Pagination
             radius="lg"
+            color="gray"
             total={isLoading ? 1 : totalPages}
             value={isLoading ? 0 : currentPage}
             onChange={isLoading ? () => {} : onPageChanged}

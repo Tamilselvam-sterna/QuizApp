@@ -1,7 +1,7 @@
 import { apiProvider } from "../../../network/apiProvider";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, Button } from "@mantine/core";
-import { IconPhoto } from "@tabler/icons-react";
+import { Modal, Button, Tooltip } from "@mantine/core";
+import { FiRefreshCcw } from "react-icons/fi";
 
 function Reassigned({ subject, user }: { subject: string; user: string }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -17,20 +17,14 @@ function Reassigned({ subject, user }: { subject: string; user: string }) {
       close();
     }
   }
-  function reassignTest() {
-    open();
-  }
 
   return (
     <>
-      <Button
-        leftSection={<IconPhoto size={14} />}
-        color="teal"
-        onClick={reassignTest}
-        variant="outline"
-      >
-        Reassign
-      </Button>
+      <Tooltip label="Reassign Test">
+        <Button onClick={open} color="teal" variant="outline">
+          <FiRefreshCcw color="teal" className="h-5 w-5" />
+        </Button>
+      </Tooltip>
       <Modal
         opened={opened}
         onClose={close}
@@ -38,7 +32,7 @@ function Reassigned({ subject, user }: { subject: string; user: string }) {
         size={"sm"}
       >
         <p>Are you sure you want to reassign the test?</p>
-        <div className="flex justify-between mt-7">
+        <div className="mt-7 flex justify-between">
           <Button color="red" onClick={close}>
             Cancel
           </Button>

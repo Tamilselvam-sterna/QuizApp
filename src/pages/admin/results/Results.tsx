@@ -8,9 +8,9 @@ import moment from "moment";
 import { resultStore } from "../../../app/resultStore";
 import ReportData from "./Reports";
 import AnimatedComponent from "../../../components/AnimatedComponent";
+import ResultFilter from "./ResultFilter";
 
-const HeaderComponents = [<ReportData />];
-
+const HeaderComponents = [<ReportData />, <ResultFilter />];
 function Results() {
   const { data, page, search, fetchData, setPage, setSearch, isLoading } =
     resultStore();
