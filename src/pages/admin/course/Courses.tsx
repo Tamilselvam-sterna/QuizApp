@@ -9,21 +9,7 @@ import CreateCourse from "./CreateCourse";
 import { Link } from "react-router-dom";
 import { testStore } from "../../../app/TestStore";
 import { IconEye } from "@tabler/icons-react";
-
-// interface userDetailType {
-//   from: number;
-//   to: number;
-//   total: number;
-//   totalPages: number;
-//   data: userType[];
-// }
-// interface userType {
-//   createdAt: string;
-//   email: string;
-//   firstName: string;
-//   id: string;
-//   lastName: string;
-// }
+import AnimatedComponent from "../../../components/AnimatedComponent";
 
 function Courses() {
   const HeaderComponents = [<CreateCourse />];
@@ -41,45 +27,47 @@ function Courses() {
     fetchData();
   }, [page, fetchData, search]);
   return (
-    <div className="mt-5 mb-2 ml-2 ">
-      <div>
-        <TableHeader
-          reference={searchRef}
-          title="Subjects"
-          HeaderComponents={HeaderComponents}
-          onSubmit={handleSearch}
-        />
+    <AnimatedComponent>
+      <div className="mb-2 ml-2 mt-5 ">
+        <div>
+          <TableHeader
+            reference={searchRef}
+            title="Subjects"
+            HeaderComponents={HeaderComponents}
+            onSubmit={handleSearch}
+          />
+        </div>
+        <TableComponent
+          isLoading={isLoading}
+          columns={["S.NO", "COURSE NAME", "ACTION"]}
+          from={data?.from ?? 0}
+          to={data?.to ?? 0}
+          total={data?.total ?? 0}
+          totalPages={data?.totalPages ?? 0}
+          currentPage={page}
+          onPageChanged={setPage}
+        >
+          {data?.data?.map((value: any, index: any) => (
+            <Table.Tr key={index}>
+              <Table.Td>{index + 1}</Table.Td>
+              <Table.Td>{value.subject}</Table.Td>
+              <Table.Td className="flex flex-row">
+                <div className="mr-5">
+                  <CreateQuestion value={value} />
+                </div>
+                <div>
+                  <Link to={`/admin/courses/${value.id}`}>
+                    <Button color="teal" variant="outline">
+                      <IconEye />
+                    </Button>
+                  </Link>
+                </div>
+              </Table.Td>
+            </Table.Tr>
+          ))}
+        </TableComponent>
       </div>
-      <TableComponent
-        isLoading={isLoading}
-        columns={["S.NO", "COURSE NAME", "ACTION"]}
-        from={data?.from ?? 0}
-        to={data?.to ?? 0}
-        total={data?.total ?? 0}
-        totalPages={data?.totalPages ?? 0}
-        currentPage={page}
-        onPageChanged={setPage}
-      >
-        {data?.data?.map((value: any, index: any) => (
-          <Table.Tr key={index}>
-            <Table.Td>{index + 1}</Table.Td>
-            <Table.Td>{value.subject}</Table.Td>
-            <Table.Td className="flex flex-row">
-              <div className="mr-5">
-                <CreateQuestion value={value} />
-              </div>
-              <div>
-                <Link to={`/admin/courses/${value.id}`}>
-                  <Button color="teal" variant="outline">
-                    <IconEye />
-                  </Button>
-                </Link>
-              </div>
-            </Table.Td>
-          </Table.Tr>
-        ))}
-      </TableComponent>
-    </div>
+    </AnimatedComponent>
   );
 }
 

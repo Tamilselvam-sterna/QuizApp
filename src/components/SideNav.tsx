@@ -35,7 +35,7 @@ export default function SideNav() {
         className="flex h-16 items-center justify-center rounded-t-md bg-gray-500 p-4 active:scale-95 md:mb-2 md:h-20 md:justify-start md:rounded-md md:shadow-md"
         to="/dashboard"
       >
-        <div className="flex w-40 items-center justify-center gap-1 text-xl text-gray-100 md:w-40">
+        <div className="flex w-40 items-center justify-center gap-1 text-xl text-white md:w-40">
           <MdOutlineLockReset className="rotate-12 text-2xl" />
           <p className="font-extrabold">Sterna-Quiz</p>
         </div>
@@ -47,6 +47,8 @@ export default function SideNav() {
           onClose={close}
           withCloseButton={false}
           centered
+          radius="md"
+          size="md"
           transitionProps={{
             transition: "fade",
             duration: 200,
@@ -100,7 +102,7 @@ function NavLinks() {
               to={link.to}
               className={({ isActive }) =>
                 clsx(
-                  "flex h-[48px] grow items-center justify-center gap-2 rounded-md  p-3 text-sm font-medium  transition-all duration-75 hover:bg-gray-500 hover:text-gray-100 active:scale-95 md:flex-none md:justify-start md:p-2 md:px-3",
+                  "flex h-[48px] grow items-center justify-center gap-2 rounded-md  p-3  transition-all duration-75 hover:bg-gray-500 hover:text-gray-100 active:scale-95 md:flex-none md:justify-start md:p-2 md:px-3",
                   {
                     "border border-solid bg-gray-500 text-gray-100 shadow":
                       isActive,
@@ -110,8 +112,10 @@ function NavLinks() {
                 )
               }
             >
-              {link.icon}
-              <p className="hidden md:block">{link.title}</p>
+              <div className="flex items-center">{link.icon}</div>
+              <p className="hidden flex-1 font-semibold tracking-wider md:block">
+                {link.title}
+              </p>
             </NavLink>
           ),
       )}
