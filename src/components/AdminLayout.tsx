@@ -9,7 +9,7 @@ export default function Layout() {
       <div className="w-full flex-none md:w-64">
         <SideNav />
       </div>
-      <div className="mx-3 my-4 flex-grow rounded-md bg-white shadow-md md:overflow-y-auto ">
+      <div className="mx-3 my-4 flex flex-grow flex-col justify-between rounded-md bg-white shadow-md md:overflow-y-auto ">
         <Outlet />
         <Footer />
       </div>
