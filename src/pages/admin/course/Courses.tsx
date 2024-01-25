@@ -56,7 +56,7 @@ function Courses() {
                   <CreateQuestion value={value} />
                 </div>
                 <div>
-                  <Link to={`/admin/courses/${value.id}`}>
+                  <Link to={`/subjects/${value.id}`}>
                     <Button color="teal" variant="outline">
                       <IconEye />
                     </Button>

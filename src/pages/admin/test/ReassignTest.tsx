@@ -39,6 +39,7 @@ function ReassignTest() {
             "EMAIL",
             "MOBILE",
             "TEST ASSIGNED",
+            "REASSIGN COUNT",
             "ACTION",
           ]}
           from={data?.from}
@@ -59,6 +60,8 @@ function ReassignTest() {
               <Table.Td>
                 {value?.user?.userTestDetails[0].test?.subject}
               </Table.Td>
+              <Table.Td>{value?.reassignCount}</Table.Td>
+
               <Table.Td>
                 <Reassigned
                   user={value.userId}
