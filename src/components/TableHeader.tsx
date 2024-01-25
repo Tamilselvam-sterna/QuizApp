@@ -14,22 +14,22 @@ function TableHeader({
   HeaderComponents,
 }: TableHeaderType) {
   return (
-    <div className="flex p-2 mb-2 whitespace-nowrap">
-      <h1 className="mb-4 text-xl md:text-2xl">{title}</h1>
-      <section className="flex flex-row justify-end w-full">
+    <div className="mb-2 flex whitespace-nowrap p-2">
+      <h1 className="mb-4 text-xl font-bold md:text-2xl">{title}</h1>
+      <section className="flex w-full flex-row justify-end">
         {HeaderComponents?.map((element, index) => (
           <div className="mr-5" key={index}>
             {element}
           </div>
         ))}
-        <section className="flex mr-5">
+        <section className="mr-5 flex">
           <Input
             placeholder="Search"
             size="compact-md"
             radius="md"
             ref={reference}
           />
-          <div className="w-20 px-2 ml-1">
+          <div className="ml-1 w-20 px-2">
             <Button
               type="button"
               variant="filled"
