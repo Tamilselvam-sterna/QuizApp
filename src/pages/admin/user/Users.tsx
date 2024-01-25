@@ -10,23 +10,9 @@ import UpdateUser from "./UpdateUser";
 import { userStore } from "../../../app/userStore";
 import UserFilter from "./UserFilter";
 import UserBulkUpload from "./userUpload";
+import AnimatedComponent from "../../../components/AnimatedComponent";
 
 const HeaderComponents = [<UserBulkUpload />, <UserFilter />, <CreateUser />];
-
-// interface userDetailType {
-//   from: number;
-//   to: number;
-//   total: number;
-//   totalPages: number;
-//   data: userType[];
-// }
-// interface userType {
-//   createdAt: string;
-//   email: string;
-//   firstName: string;
-//   id: string;
-//   lastName: string;
-// }
 
 function Users() {
   const { data, page, search, setPage, setSearch, isLoading, fetchData } =
@@ -43,7 +29,7 @@ function Users() {
   }, [fetchData, page, search]);
 
   return (
-    <div className="mt-5 mb-2 ml-2">
+    <AnimatedComponent>
       <div>
         <TableHeader
           reference={searchRef}
@@ -130,7 +116,7 @@ function Users() {
           ),
         )}
       </TableComponent>
-    </div>
+    </AnimatedComponent>
   );
 }
 
