@@ -9,6 +9,7 @@ import CreateCourse from "./CreateCourse";
 import { Link } from "react-router-dom";
 import { testStore } from "../../../app/TestStore";
 import { IconEye } from "@tabler/icons-react";
+import AnimatedComponent from "../../../components/AnimatedComponent";
 
 function Courses() {
   const HeaderComponents = [<CreateCourse />];
@@ -26,49 +27,47 @@ function Courses() {
     fetchData();
   }, [page, fetchData, search]);
   return (
-    <div className="mb-2 ml-2 mt-5 ">
-      <div>
-        <TableHeader
-          reference={searchRef}
-          title="Subjects"
-          HeaderComponents={HeaderComponents}
-          onSubmit={handleSearch}
-        />
-      </div>
-      <TableComponent
-        isLoading={isLoading}
-        columns={["S.NO", "COURSE NAME", "ACTION"]}
-        from={data?.from ?? 0}
-        to={data?.to ?? 0}
-        total={data?.total ?? 0}
-        totalPages={data?.totalPages ?? 0}
-        currentPage={page}
-        onPageChanged={setPage}
-      >
-        {data?.data?.map((value: any, index: any) => (
-          <Table.Tr key={index}>
-            <Table.Td>{data?.from + index}</Table.Td>
-            <Table.Td>{value.subject}</Table.Td>
-            <Table.Td className="flex flex-row">
-              <Tooltip label="AddQuestion">
+    <AnimatedComponent>
+      <div className="mb-2 ml-2 mt-5 ">
+        <div>
+          <TableHeader
+            reference={searchRef}
+            title="Subjects"
+            HeaderComponents={HeaderComponents}
+            onSubmit={handleSearch}
+          />
+        </div>
+        <TableComponent
+          isLoading={isLoading}
+          columns={["S.NO", "COURSE NAME", "ACTION"]}
+          from={data?.from ?? 0}
+          to={data?.to ?? 0}
+          total={data?.total ?? 0}
+          totalPages={data?.totalPages ?? 0}
+          currentPage={page}
+          onPageChanged={setPage}
+        >
+          {data?.data?.map((value: any, index: any) => (
+            <Table.Tr key={index}>
+              <Table.Td>{index + 1}</Table.Td>
+              <Table.Td>{value.subject}</Table.Td>
+              <Table.Td className="flex flex-row">
                 <div className="mr-5">
                   <CreateQuestion value={value} />
                 </div>
-              </Tooltip>
-              <div>
-                <Link to={`/subjects/${value.id}`}>
-                  <Tooltip label="ViewQuestion">
+                <div>
+                  <Link to={`/admin/courses/${value.id}`}>
                     <Button color="teal" variant="outline">
                       <IconEye />
                     </Button>
-                  </Tooltip>
-                </Link>
-              </div>
-            </Table.Td>
-          </Table.Tr>
-        ))}
-      </TableComponent>
-    </div>
+                  </Link>
+                </div>
+              </Table.Td>
+            </Table.Tr>
+          ))}
+        </TableComponent>
+      </div>
+    </AnimatedComponent>
   );
 }
 
