@@ -5,6 +5,9 @@ import Reassigned from "./Reassigned";
 import { reassignStore } from "../../../app/reassignStore";
 import TableHeader from "../../../components/TableHeader";
 import AnimatedComponent from "../../../components/AnimatedComponent";
+import ReassignFilter from "./ReassignFilter";
+import ResultFilter from "../results/ResultFilter";
+import ReportData from "../results/Reports";
 
 function ReassignTest() {
   const { data, page, search, isLoading, fetchData, setPage, setSearch } =
@@ -25,6 +28,7 @@ function ReassignTest() {
             reference={searchRef}
             title="Re-Assign Test"
             onSubmit={handleSearch}
+            HeaderComponents={[<ReassignFilter />]}
           />
         </div>
         <TableComponent
