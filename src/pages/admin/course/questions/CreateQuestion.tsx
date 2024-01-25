@@ -6,6 +6,7 @@ import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { apiProvider } from "../../../../network/apiProvider";
 import { IconPlus } from "@tabler/icons-react";
+import { viewQuestionsStore } from "../../../../app/viewQuestionStore";
 
 function CreateQuestion({ value }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -50,11 +51,10 @@ function CreateQuestion({ value }) {
       options: formattedOptions,
     };
 
-    // Now you can use formData for your API submission or further processing
     try {
       const result = await apiProvider.createQuestion(formData);
       if (result != null) {
-        console.log("added");
+        close();
       }
     } catch (e) {
       console.log(e);
@@ -62,7 +62,7 @@ function CreateQuestion({ value }) {
   };
   <form
     onSubmit={form.onSubmit(handleSubmit)}
-    className="flex flex-col mt-10 align-middle space-y-9"
+    className="mt-10 flex flex-col space-y-9 align-middle"
   >
     <TextInput
       description="Question"
@@ -109,7 +109,7 @@ function CreateQuestion({ value }) {
       >
         <form
           onSubmit={form.onSubmit(handleSubmit)}
-          className="flex flex-col mt-10 align-middle space-y-9"
+          className="mt-10 flex flex-col space-y-9 align-middle"
         >
           <TextInput
             description="Question"

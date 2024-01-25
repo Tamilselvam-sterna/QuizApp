@@ -83,7 +83,7 @@ function ReportData() {
         PERCENTAGE: report.percentage,
         "TEST ASSIGNED": report.test.subject,
         "UPDATED DATE AND TIME": moment(report.updatedAt).format(
-          "MMMM Do YYYY, h:mm a"
+          "MMMM Do YYYY, h:mm a",
         ),
       });
     }
@@ -98,7 +98,7 @@ function ReportData() {
   };
 
   return (
-    <>
+    <div className="flex space-x-4">
       <Button
         className="font-medium"
         variant="light"
@@ -114,7 +114,7 @@ function ReportData() {
       >
         Download Excel
       </Button>
-    </>
+    </div>
   );
 }
 export default ReportData;

@@ -25,6 +25,8 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
+  const [testResponse, setTestResponse] = useState(null);
+
   const navigate = useNavigate();
 
   const login = (userData: AuthUser) => {
@@ -53,10 +55,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () => {
     localStorage.clear(), setUser(null), navigate("/");
   };
+  const testData = (data: any) => {
+    setTestResponse(data);
+  };
+  const getTestData = () => testResponse;
 
   return (
     <AuthContext.Provider
-      value={{ isUserAuthenticated, getUser, login, logout }}
+      value={{
+        isUserAuthenticated,
+        getUser,
+        login,
+        logout,
+        testData,
+        getTestData,
+      }}
     >
       {children}
     </AuthContext.Provider>

@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import SideNav from "./SideNav";
 import { Variants, motion } from "framer-motion";
+import Footer from "./Footer";
 
 const childVariant: Variants = {
   initial: {
@@ -25,9 +26,10 @@ export default function Layout() {
         variants={childVariant}
         initial="initial"
         animate="animate"
-        className="mx-3 my-4 flex-grow rounded-md bg-white shadow-md md:overflow-y-auto "
+        className="mx-3 my-4 flex flex-grow flex-col justify-between rounded-md bg-white shadow-md md:overflow-y-auto "
       >
         <Outlet />
+        <Footer />
       </motion.div>
     </motion.div>
   );

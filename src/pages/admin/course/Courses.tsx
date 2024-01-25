@@ -1,29 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import TableHeader from "../../../components/TableHeader";
 import TableComponent from "../../../components/Table";
-import { Button, Table } from "@mantine/core";
+import { Button, Table, Tooltip } from "@mantine/core";
 import CreateQuestion from "./questions/CreateQuestion";
 import CreateCourse from "./CreateCourse";
 import { Link } from "react-router-dom";
 import { testStore } from "../../../app/TestStore";
 import { IconEye } from "@tabler/icons-react";
-
-// interface userDetailType {
-//   from: number;
-//   to: number;
-//   total: number;
-//   totalPages: number;
-//   data: userType[];
-// }
-// interface userType {
-//   createdAt: string;
-//   email: string;
-//   firstName: string;
-//   id: string;
-//   lastName: string;
-// }
 
 function Courses() {
   const HeaderComponents = [<CreateCourse />];
@@ -41,7 +26,7 @@ function Courses() {
     fetchData();
   }, [page, fetchData, search]);
   return (
-    <div className="mt-5 mb-2 ml-2 ">
+    <div className="mb-2 ml-2 mt-5 ">
       <div>
         <TableHeader
           reference={searchRef}
@@ -62,17 +47,21 @@ function Courses() {
       >
         {data?.data?.map((value: any, index: any) => (
           <Table.Tr key={index}>
-            <Table.Td>{index + 1}</Table.Td>
+            <Table.Td>{data?.from + index}</Table.Td>
             <Table.Td>{value.subject}</Table.Td>
             <Table.Td className="flex flex-row">
-              <div className="mr-5">
-                <CreateQuestion value={value} />
-              </div>
+              <Tooltip label="AddQuestion">
+                <div className="mr-5">
+                  <CreateQuestion value={value} />
+                </div>
+              </Tooltip>
               <div>
-                <Link to={`/admin/courses/${value.id}`}>
-                  <Button color="teal" variant="outline">
-                    <IconEye />
-                  </Button>
+                <Link to={`/subjects/${value.id}`}>
+                  <Tooltip label="ViewQuestion">
+                    <Button color="teal" variant="outline">
+                      <IconEye />
+                    </Button>
+                  </Tooltip>
                 </Link>
               </div>
             </Table.Td>

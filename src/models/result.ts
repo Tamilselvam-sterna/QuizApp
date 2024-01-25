@@ -1,3 +1,5 @@
+import { GetReq } from "./common-models";
+
 export interface ResultDataType {
   id: number;
   userId: number;
@@ -39,4 +41,13 @@ export interface userInfoType {
     id: number;
     position: string;
   };
+}
+
+export interface GetResult extends GetReq {
+  positionId: number;
+  subjectId: number;
+  percentage: string;
+  dateFilter: string;
+  startDate: string | undefined;
+  endDate: string | undefined;
 }

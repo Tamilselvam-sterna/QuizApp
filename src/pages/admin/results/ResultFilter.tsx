@@ -1,18 +1,32 @@
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button, Select } from "@mantine/core";
 import { IconFilterStar } from "@tabler/icons-react";
-import { positionStore } from "../../../app/positionStore";
-import { DatePicker, DatePickerInput } from "@mantine/dates";
-import { userStore } from "../../../app/userStore";
+import { DatePickerInput } from "@mantine/dates";
 import { useEffect, useState } from "react";
 import moment from "moment";
-import { roleStore } from "../../../app/roleStore";
 import { dateValue } from "../../../utils/constant";
+import { percentageValue } from "../../../utils/constant";
+import { resultStore } from "../../../app/resultStore";
+import { positionStore } from "../../../app/positionStore";
+import { testStore } from "../../../app/TestStore";
 
-function UserFilter() {
+function ResultFilter() {
   const [opened, { open, close }] = useDisclosure(false);
-  const { data, fetchData: fetchPositions } = positionStore();
-  const { fetchData: fetchRoles, data: roleData } = roleStore();
+  const {
+    data,
+    fetchData: fetchPositions,
+    setPage: setPositionPage,
+    reset: positionReset,
+  } = positionStore();
+  const { positionId, subjectId } = resultStore();
+  const {
+    data: subjectData,
+    fetchData: fetchTestData,
+    page: subjectPage,
+    setPage: setSubjectPage,
+    reset: subjectReset,
+  } = testStore();
+
   const [value, setValue] = useState<[Date | null, Date | null]>([null, null]);
   const startDates =
     value[0] != null ? moment(value[0]).format("YYYY-MM-DD") : undefined;
@@ -22,19 +36,18 @@ function UserFilter() {
   const {
     dateFilter,
     setDateFilter,
-    setPosition,
-    positionId,
-    roleId,
-    setRoleId,
+    percentage,
     setPage,
-    fetchData: fetchUsers,
     isFilterApplied,
     reset,
     setIsFilterApplied,
     setStartDate,
     setEndDate,
-  } = userStore();
-
+    setPercentage,
+    fetchData,
+    setPosition,
+    setSubject,
+  } = resultStore();
   const newData = {
     id: 0,
     position: "All",
@@ -42,45 +55,46 @@ function UserFilter() {
 
   const Alldata = [newData, ...data.data];
 
-  const roleNewData = {
-    id: 0,
-    role: "All",
-  };
+  const subjectDatas = [{ id: 0, subject: "All" }, ...subjectData.data];
 
-  const AllRoleData = [roleNewData, ...roleData.data];
+  function changeResultValue(value: string | null) {
+    setPercentage(value ?? "All");
+  }
 
   function changeDay(value: string | null) {
     setDateFilter(value ?? "All");
   }
-
   function changePosition(value: string | null) {
     setPosition(value!);
   }
-
-  function changeRole(value: string | null) {
-    setRoleId(value!);
+  function changeSubject(value: string | null) {
+    setSubject(value!);
   }
-
   function filterApplied() {
     setStartDate(startDates);
     setEndDate(endDates);
     setPage(1);
+    fetchData();
     setIsFilterApplied(true);
-    fetchUsers();
+
     close();
   }
 
   function clearFilter() {
     reset();
     setValue([null, null]);
-    fetchUsers();
+    fetchData();
     close();
   }
 
   useEffect(() => {
     if (opened) {
+      setPositionPage(0);
       fetchPositions();
-      fetchRoles();
+      positionReset();
+      setSubjectPage(0);
+      fetchTestData();
+      subjectReset();
     }
   }, [opened]);
 
@@ -89,12 +103,21 @@ function UserFilter() {
       <Modal
         opened={opened}
         onClose={close}
-        title="UserFilter"
+        title="ResultFilter"
         overlayProps={{
           backgroundOpacity: 0.55,
           blur: 3,
         }}
       >
+        <Select
+          label="Percentage"
+          value={percentage}
+          data={percentageValue.map((day) => ({
+            value: day.value,
+            label: day.label,
+          }))}
+          onChange={changeResultValue}
+        />
         <Select
           label="Position"
           value={positionId.toString()}
@@ -106,14 +129,14 @@ function UserFilter() {
           onChange={changePosition}
         />
         <Select
-          label="Role"
-          value={roleId.toString()}
-          placeholder="select Role"
-          data={AllRoleData.map((item) => ({
+          label="Subject"
+          value={subjectId.toString()}
+          placeholder="select subject"
+          data={subjectDatas.map((item) => ({
             value: String(item.id),
-            label: item?.role,
+            label: item.subject,
           }))}
-          onChange={changeRole}
+          onChange={changeSubject}
         />
         <Select
           label="DateFilter"
@@ -157,4 +180,4 @@ function UserFilter() {
   );
 }
 
-export default UserFilter;
+export default ResultFilter;

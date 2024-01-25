@@ -1,11 +1,11 @@
 import { create } from "zustand";
-import { apiProvider } from "../network/apiProvider";
 import { BaseStoreState } from "../models/common-models";
+import { apiProvider } from "../network/apiProvider";
+import { RoleDataType } from "../models/role";
 
-export interface TestStoreState extends BaseStoreState<[]> {
-  reset: () => void;
-}
-export const testStore = create<TestStoreState>((set) => ({
+export interface positionStoreState extends BaseStoreState<RoleDataType> {}
+
+export const roleStore = create<positionStoreState>((set) => ({
   page: 1,
   search: "",
   data: {
@@ -18,16 +18,11 @@ export const testStore = create<TestStoreState>((set) => ({
   isLoading: false,
   setPage: (page) => set({ page }),
   setSearch: (search) => set({ search }),
-  reset: () => {
-    set({
-      page: 1,
-      search: "",
-    });
-  },
   async fetchData() {
     set({ isLoading: true });
-    const { page, search } = testStore.getState();
-    const result = await apiProvider.fetchAllCourses({ page, search });
+    const { page, search } = roleStore.getState();
+    const result = await apiProvider.fetchAllRole({ page, search });
+
     if (result != null) {
       set({ data: result.data ?? [] });
     }

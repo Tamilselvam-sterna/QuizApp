@@ -7,23 +7,9 @@ import { Table } from "@mantine/core";
 import moment from "moment";
 import { resultStore } from "../../../app/resultStore";
 import ReportData from "./Reports";
+import ResultFilter from "./ResultFilter";
 
-const HeaderComponents = [<ReportData />];
-// interface userDetailType {
-//   from: number;
-//   to: number;
-//   total: number;
-//   totalPages: number;
-//   data: userType[];
-// }
-// interface userType {
-//   createdAt: string;
-//   email: string;
-//   firstName: string;
-//   id: string;
-//   lastName: string;
-// }
-
+const HeaderComponents = [<ReportData />, <ResultFilter />];
 function Results() {
   const { data, page, search, fetchData, setPage, setSearch, isLoading } =
     resultStore();
@@ -37,11 +23,11 @@ function Results() {
     fetchData();
   }, [page, fetchData, search]);
   return (
-    <div className="mt-5 mb-2 ml-2 ">
+    <div className="mb-2 ml-2 mt-5 ">
       <div>
         <TableHeader
           reference={searchRef}
-          title="Result"
+          title="Results"
           HeaderComponents={HeaderComponents}
           onSubmit={handleSearch}
         />
@@ -53,7 +39,6 @@ function Results() {
           "USER NAME",
           "EMAIL",
           "MOBILE NUMBER",
-          "ROLE",
           "POSITION",
           "DEGREE",
           "SPECIALIZATION",
@@ -75,7 +60,6 @@ function Results() {
             <Table.Td>{value.user.firstName}</Table.Td>
             <Table.Td>{value.user.email}</Table.Td>
             <Table.Td>{value.user.mobile}</Table.Td>
-            <Table.Td>{value.user.role.role}</Table.Td>
             <Table.Td>
               {value.user.userInfo[0]?.position?.position ?? "NA"}
             </Table.Td>

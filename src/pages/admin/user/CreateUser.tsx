@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, Button, TextInput, Select } from "@mantine/core";
+import {
+  Modal,
+  Button,
+  TextInput,
+  Select,
+  Drawer,
+  Tooltip,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import "@mantine/dates/styles.css";
 import { DateInput } from "@mantine/dates";
@@ -11,39 +18,39 @@ import { useEffect, useState } from "react";
 import { apiProvider } from "../../../network/apiProvider";
 import { Role } from "../../../utils/enum";
 import { userStore } from "../../../app/userStore";
+import { positionStore } from "../../../app/positionStore";
+import { roleStore } from "../../../app/roleStore";
+import { IconPlus, IconUserPlus } from "@tabler/icons-react";
+import moment from "moment";
+import { CreateUserInput, createuserSchema } from "../../../models/create-user";
+import { zodResolver } from "mantine-form-zod-resolver";
 
 function CreateUser() {
+  const { data, fetchData: fetchPositionData } = positionStore();
+  const { data: datas, fetchData: fetchRoleData } = roleStore();
+  const { fetchData: fetchUserData } = userStore();
+
   const [opened, { open, close }] = useDisclosure(false);
-  const [position, setPosition] = useState();
-  const form = useForm({
+  const form = useForm<CreateUserInput>({
     initialValues: {
       firstName: "",
       lastName: "",
       email: "",
-      mobileNumber: "",
-      date: "",
+      mobile: "",
+      date: new Date(),
       degree: "",
       college: "",
       specialization: "",
       roleId: "",
       positionId: "",
       experience: "",
-      experienceLevel: "",
+      isexperience: "",
+      subjectName: "",
     },
-    // validate: zodResolver(createUserSchema),
+    validate: zodResolver(createuserSchema),
+    validateInputOnChange: true,
   });
-  const fetchPosition = async () => {
-    const response = await apiProvider.fetchAllPosition({
-      page: 1,
-      search: "",
-    });
-    if (response != null) {
-      setPosition(response.data);
-    }
-  };
-  // useEffect(() => {
-  //   fetchPosition();
-  // }, []);
+
   const handleSubmit = async (values: typeof form.values) => {
     let userData;
     try {
@@ -55,7 +62,7 @@ function CreateUser() {
           firstName: values.firstName,
           lastName: values.lastName,
           email: values.email,
-          mobile: values.mobileNumber,
+          mobile: values.mobile,
           roleId: +values.roleId,
         };
       } else {
@@ -63,16 +70,17 @@ function CreateUser() {
           firstName: values.firstName,
           lastName: values.lastName,
           email: values.email,
-          mobile: values.mobileNumber,
+          mobile: values.mobile,
           degree: values.degree,
           college: values.college,
           specialization: values.specialization,
           roleId: +values.roleId,
-          dob: values.date,
+          dob: moment(values.date).format("YYYY-MM-DD"),
           positionId: +values.positionId,
-          isFresher: values.experience == "2" ? false : true,
-          experience: values.experience,
-          experienceLevel: +values.experienceLevel,
+          isFresher: values.isexperience == "2" ? false : true,
+          isExperience: values.isexperience == "2" ? true : false,
+          experience:
+            values.isexperience == "2" ? values.experience : undefined,
         };
       }
 
@@ -80,38 +88,54 @@ function CreateUser() {
       if (response != null) {
         form.reset();
         close();
-        userStore.fetchAlluser();
+        fetchUserData();
       }
     } catch (error) {
       console.log(error);
     }
   };
 
+  useEffect(() => {
+    if (opened) {
+      fetchPositionData();
+      fetchRoleData();
+    }
+  }, [opened, fetchUserData]);
+
   return (
     <>
-      <Modal
+      <Drawer
         opened={opened}
         onClose={close}
-        title={<div className="text-xl font-bold">Create new User</div>}
-        overlayProps={{
-          backgroundOpacity: 0.55,
-          blur: 3,
-        }}
-        size="lg"
+        title="Add User"
+        position="right"
+        size={"md"}
+        offset={16}
+        radius="md"
       >
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <>
-            <div className="flex flex-row justify-between w-full">
+            <Select
+              label="Role"
+              placeholder="Select Role"
+              data={datas.data.map((item) => ({
+                value: item.id.toString(),
+                label: item.role,
+              }))}
+              className="mb-1 w-full"
+              {...form.getInputProps("roleId")}
+            />
+            <div className="flex w-full flex-row justify-between">
               <TextInput
                 label="First Name"
                 placeholder="Enter First Name"
-                className="w-full mb-1 mr-2"
+                className="mb-1 mr-2 w-full"
                 {...form.getInputProps("firstName")}
               />
               <TextInput
                 label="Last Name"
                 placeholder="Enter Last Name"
-                className="w-full mb-1"
+                className="mb-1 w-full"
                 {...form.getInputProps("lastName")}
               />
             </div>
@@ -119,37 +143,27 @@ function CreateUser() {
               mt="sm"
               label="Email"
               placeholder="Enter Email"
-              className="w-full mb-1"
+              className="mb-1 w-full"
               {...form.getInputProps("email")}
             />
             <TextInput
-              label="Mobile number"
-              placeholder=" Enter Mobile"
-              className="w-full mb-1"
+              label="Mobile Number"
+              placeholder="Enter Mobile Number"
+              className="mb-1 w-full"
               {...form.getInputProps("mobileNumber")}
             />
-            <Select
-              label="Role"
-              placeholder="Select Role"
-              data={[
-                { value: "1", label: "Super Admin" },
-                { value: "2", label: "Admin" },
-                { value: "3", label: "User" },
-              ]}
-              className="w-full mb-1"
-              {...form.getInputProps("roleId")}
-            />
+
             {form.values.roleId == String(Role.User) ? (
               <>
                 <DateInput
                   valueFormat="YYYY MMM DD"
-                  label="DOB"
-                  placeholder="Select Date of birth"
+                  label="Date of Birth"
+                  placeholder="Select Date of Birth"
                   {...form.getInputProps("date")}
                 />
                 <TextInput
                   label="College"
-                  placeholder="Enter college Name"
+                  placeholder="Enter College Name"
                   {...form.getInputProps("college")}
                 />
                 <TextInput
@@ -159,8 +173,8 @@ function CreateUser() {
                 />
                 <Select
                   label="Position"
-                  placeholder="select position"
-                  data={position.data.map((item) => ({
+                  placeholder="Select Position"
+                  data={data.data.map((item) => ({
                     value: String(item.id),
                     label: item.position,
                   }))}
@@ -174,20 +188,21 @@ function CreateUser() {
                 />
                 <Select
                   label="Work Experience"
+                  placeholder="Select Work Experience"
                   data={[
                     { value: "1", label: "Fresher" },
-                    { value: "2", label: "experience" },
+                    { value: "2", label: "Experienced" },
                   ]}
-                  className="w-full mb-1"
-                  {...form.getInputProps("experience")}
+                  className="mb-1 w-full"
+                  {...form.getInputProps("isexperience")}
                 />
-                {form.values.experience == "2" ? (
+                {form.values.isexperience == "2" ? (
                   <>
                     <TextInput
-                      label="Experience Level"
-                      placeholder="Enter Years of experience"
-                      className="w-full mr-4"
-                      {...form.getInputProps("experienceLevel")}
+                      label="Years Of Experience"
+                      placeholder="Enter Years of Experience"
+                      className="mr-4 w-full"
+                      {...form.getInputProps("experience")}
                     />
                   </>
                 ) : (
@@ -198,16 +213,18 @@ function CreateUser() {
               <></>
             )}
 
-            <Button type="submit" mt="sm">
-              Submit
+            <Button type="submit" color="teal" mt="sm" fullWidth>
+              Add User
             </Button>
           </>
         </form>
-      </Modal>
+      </Drawer>
 
-      <Button onClick={open} variant="filled" color="green">
-        Add User
-      </Button>
+      <Tooltip label="Add User">
+        <Button onClick={open} color="teal" variant="outline">
+          <IconUserPlus color="teal" />
+        </Button>
+      </Tooltip>
     </>
   );
 }

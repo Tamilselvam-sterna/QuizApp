@@ -3,6 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
+*,
 ::before,
 ::after {
   border-width: 0;
@@ -12,11 +13,11 @@
 
 @layer base {
   * {
-    @apply box-border p-0 m-0 antialiased scroll-smooth;
+    @apply m-0 box-border scroll-smooth p-0 antialiased;
   }
 
   body {
-    @apply overflow-x-hidden antialiased bg-gray-200 font-poppins;
+    @apply overflow-x-hidden bg-gray-200 font-poppins antialiased;
   }
 
   a {

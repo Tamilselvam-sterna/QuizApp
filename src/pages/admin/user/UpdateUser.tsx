@@ -1,20 +1,22 @@
 import { useDisclosure } from "@mantine/hooks";
-import { Drawer, Select } from "@mantine/core";
+import { Drawer, Select, Tooltip } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { TextInput, Button } from "@mantine/core";
-// import { AddUserFormInput } from "./usermodal";
 import { useEffect, useState } from "react";
 import { DateInput } from "@mantine/dates";
 import moment from "moment";
 import { apiProvider } from "../../../network/apiProvider";
-import { IconEye, IconUserEdit } from "@tabler/icons-react";
+import { IconUserEdit } from "@tabler/icons-react";
 import { userStore } from "../../../app/userStore";
+import { positionStore } from "../../../app/positionStore";
 
 // import UserSchema from "./usermodal";
 
 function UpdateUser({ item }) {
   const [opened, { open, close }] = useDisclosure(false);
-  const [positionData, setPositionData] = useState();
+  const { data, fetchData: fetchPositionData } = positionStore();
+  const { fetchData: fetchUserData } = userStore();
+
   const form = useForm<any>({
     initialValues: {
       role: "",
@@ -25,10 +27,10 @@ function UpdateUser({ item }) {
       position: "",
       specilization: "",
       college: "",
-      date: "",
+      dob: "",
       experience: "",
       degree: "",
-      experiencelevel: "",
+      isexperience: "",
     },
 
     // validate: zodResolver(UserSchema),
@@ -45,14 +47,15 @@ function UpdateUser({ item }) {
           email: values.email,
           mobile: values.mobilenumber,
           roleId: item?.role?.role,
-          dob: values.date,
+          dob: moment(values.date).format("YYYY-MM-DD"),
           college: values.college,
           degree: values.degree,
           specialization: values.specilization,
           positionId: +values.position,
-          isFresher: values.experienceLevel == "1" ? true : false,
-          isExperience: values.experienceLevel == "2" ? true : false,
-          experience: values.experienceLvel == "2" ? values.experience : null,
+          isFresher: values.isexperience == "1" ? true : false,
+          isExperience: values.isexperience == "2" ? true : false,
+          experience:
+            values.isexperience == "1" ? undefined : values.experience,
         };
       } else {
         data = {
@@ -68,14 +71,16 @@ function UpdateUser({ item }) {
       const result = await apiProvider.UpdateUsers(data);
       if (result != null) {
         form.reset();
+        fetchUserData();
+
         close();
-        userStore.fetchAlluser();
       }
     } catch (e) {
       console.log(e);
     }
   }
   function editUserData() {
+    console.log(item);
     form.setFieldValue("role", item.role.role);
     form.setFieldValue("firstname", item.firstName);
     form.setFieldValue("lastname", item.lastName);
@@ -85,31 +90,22 @@ function UpdateUser({ item }) {
     form.setFieldValue("degree", item.userInfo[0]?.degree);
     form.setFieldValue("specilization", item.userInfo[0]?.specialization);
     form.setFieldValue(
-      "experienceLevel",
-      item?.userInfo[0]?.isFresher === true ? "1" : "2"
+      "isexperience",
+      item?.userInfo[0]?.isFresher === true ? "1" : "2",
     );
+    form.setFieldValue("dob", new Date(item.userInfo[0]?.dob));
 
     form.setFieldValue("experience", item?.userInfo[0]?.experience);
     form.setFieldValue("position", item.userInfo[0]?.position?.id.toString());
   }
 
   useEffect(() => {
-    editUserData();
-  }, []);
-
-  const fetchPosition = async () => {
-    const response = await apiProvider.fetchAllPosition({
-      page: 1,
-      search: "",
-    });
-    if (response != null) {
-      setPositionData(response.data);
+    if (opened) {
+      editUserData();
+      fetchPositionData();
     }
-  };
+  }, [opened, fetchUserData]);
 
-  // useEffect(() => {
-  //   fetchPosition();
-  // }, []);
   return (
     <>
       <Drawer
@@ -144,21 +140,21 @@ function UpdateUser({ item }) {
           <TextInput
             mt="sm"
             label="Email"
-            placeholder="Enter your email"
+            placeholder="Enter Your Email"
             {...form.getInputProps("email")}
           />
           <TextInput
             mt="sm"
             label="Mobile Number"
-            placeholder="Enter your Mobile Number"
+            placeholder="Enter Your Mobile Number"
             {...form.getInputProps("mobilenumber")}
           />
           {item.role.role == "User" ? (
             <>
               <Select
-                label="Position Applied For"
+                label="Position"
                 placeholder="Select Position"
-                data={positionData?.data?.map((value) => ({
+                data={data?.data?.map((value) => ({
                   label: value?.position,
                   value: value?.id.toString(),
                 }))}
@@ -167,7 +163,7 @@ function UpdateUser({ item }) {
 
               <TextInput
                 label="College"
-                placeholder="Enter College"
+                placeholder="Enter College Name"
                 {...form.getInputProps("college")}
               />
               <TextInput
@@ -186,11 +182,11 @@ function UpdateUser({ item }) {
                 placeholder="Select your experience"
                 data={[
                   { value: "1", label: "Fresher" },
-                  { value: "2", label: "Experience" },
+                  { value: "2", label: "Experienced" },
                 ]}
-                {...form.getInputProps("experienceLevel")}
+                {...form.getInputProps("isexperience")}
               />
-              {form.values.experienceLevel === "2" ? (
+              {form.values.isexperience === "2" ? (
                 <TextInput
                   label="Years of Experience"
                   placeholder="Enter Your Years of experience"
@@ -203,22 +199,23 @@ function UpdateUser({ item }) {
                 valueFormat="YYYY MMM DD"
                 label="Date of Birth"
                 placeholder="enter your date of birth"
-                {...form.getInputProps("date")}
+                {...form.getInputProps("dob")}
               />
             </>
           ) : (
             <></>
           )}
 
-          <Button type="submit" mt="sm" fullWidth>
+          <Button type="submit" color="teal" mt="sm" fullWidth>
             Submit
           </Button>
         </form>
       </Drawer>
-
-      <Button color="teal" onClick={open} variant="outline">
-        <IconUserEdit />
-      </Button>
+      <Tooltip label="EditUser">
+        <Button color="gray" onClick={open} variant="filled">
+          <IconUserEdit />
+        </Button>
+      </Tooltip>
     </>
   );
 }
