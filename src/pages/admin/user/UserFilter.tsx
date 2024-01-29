@@ -151,7 +151,7 @@ function UserFilter() {
         variant="outline"
         color={isFilterApplied ? "gray" : "teal"}
       >
-        {isFilterApplied ? "ClearFilter" : "Filter"}
+        {isFilterApplied ? "Clear Filter" : "Filter"}
       </Button>
     </>
   );

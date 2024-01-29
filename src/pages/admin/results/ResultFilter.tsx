@@ -103,7 +103,7 @@ function ResultFilter() {
       <Modal
         opened={opened}
         onClose={close}
-        title="ResultFilter"
+        title="Result Filter"
         overlayProps={{
           backgroundOpacity: 0.55,
           blur: 3,
@@ -139,7 +139,7 @@ function ResultFilter() {
           onChange={changeSubject}
         />
         <Select
-          label="DateFilter"
+          label="Date Filter"
           value={dateFilter}
           data={dateValue.map((day) => ({
             value: day,

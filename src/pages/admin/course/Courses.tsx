@@ -39,7 +39,7 @@ function Courses() {
         </div>
         <TableComponent
           isLoading={isLoading}
-          columns={["S.NO", "COURSE NAME", "ACTION"]}
+          columns={["S.NO", "SUBJECT NAME", "ACTION"]}
           from={data?.from ?? 0}
           to={data?.to ?? 0}
           total={data?.total ?? 0}

@@ -29,7 +29,7 @@ function Results() {
         <div>
           <TableHeader
             reference={searchRef}
-            title="Result"
+            title="Results"
             HeaderComponents={HeaderComponents}
             onSubmit={handleSearch}
           />

@@ -30,7 +30,7 @@ function ReportData() {
         moment(reports.updatedAt).format("MMMM Do YYYY, h:mm a"),
       ]);
     }
-    doc.text("user_results", 40, 30);
+    doc.text("user-report", 40, 30);
     doc.setFontSize(36);
     autoTable(doc, {
       head: [
@@ -65,7 +65,7 @@ function ReportData() {
         fillColor: [255, 255, 255],
       },
     });
-    doc.save("user_results.pdf");
+    doc.save("user-report.pdf");
   };
 
   function downloadExcel(reports: any) {
@@ -95,7 +95,7 @@ function ReportData() {
     const worksheet = XLSX.utils.json_to_sheet(datas);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-    XLSX.writeFile(workbook, "user_results.xlsx");
+    XLSX.writeFile(workbook, "user-report.xlsx");
   }
 
   const fetchreports = async (isExcel: any) => {
@@ -109,7 +109,7 @@ function ReportData() {
         variant="light"
         onClick={() => fetchreports(false)}
       >
-        Download Pdf
+        Download PDF
       </Button>
       <Button
         className="ml-2 font-medium"

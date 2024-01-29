@@ -5,7 +5,6 @@ import { DatePickerInput } from "@mantine/dates";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { dateValue } from "../../../utils/constant";
-import { resultStore } from "../../../app/resultStore";
 import { positionStore } from "../../../app/positionStore";
 import { testStore } from "../../../app/TestStore";
 import { reassignStore } from "../../../app/reassignStore";
@@ -95,7 +94,7 @@ function ReassignFilter() {
       <Modal
         opened={opened}
         onClose={close}
-        title="ReassignFilter"
+        title="Reassign Filter"
         overlayProps={{
           backgroundOpacity: 0.55,
           blur: 3,
@@ -122,7 +121,7 @@ function ReassignFilter() {
           onChange={changeSubject}
         />
         <Select
-          label="DateFilter"
+          label="Date Filter"
           value={dateFilter}
           data={dateValue.map((day) => ({
             value: day,
