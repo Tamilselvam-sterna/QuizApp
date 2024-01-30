@@ -4,6 +4,7 @@ import { FaRegRectangleList } from "react-icons/fa6";
 import { TbReportAnalytics } from "react-icons/tb";
 import { FiRefreshCcw } from "react-icons/fi";
 import { Role } from "./enum";
+import { IconChecklist } from "@tabler/icons-react";
 
 export const navLinks = [
   {
@@ -31,9 +32,15 @@ export const navLinks = [
     allowedUsers: [Role.SuperAdmin, Role.Admin],
   },
   {
+    title: "Positions",
+    to: "positions",
+    icon: <IconChecklist className="h-6 w-6" />,
+    allowedUsers: [Role.SuperAdmin],
+  },
+  {
     title: "Reassign",
     to: "reassign",
-    icon: <FiRefreshCcw className="h-5 w-5" />,
+    icon: <FiRefreshCcw className="h-6 w-6" />,
     allowedUsers: [Role.SuperAdmin],
   },
 ];

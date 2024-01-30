@@ -18,6 +18,7 @@ function Results() {
   const searchRef = useRef<HTMLInputElement>(null);
   const handleSearch = () => {
     setSearch(searchRef.current!.value);
+    setPage(1);
   };
 
   useEffect(() => {
@@ -59,7 +60,7 @@ function Results() {
         >
           {data?.data?.map((value: any, index: any) => (
             <Table.Tr key={index}>
-              <Table.Td>{index + 1}</Table.Td>
+              <Table.Td>{data.from + index}</Table.Td>
               <Table.Td>
                 {value.user.firstName + " " + value.user.lastName}
               </Table.Td>

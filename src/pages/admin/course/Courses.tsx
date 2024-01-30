@@ -19,8 +19,8 @@ function Courses() {
 
   const searchRef = useRef<HTMLInputElement>(null);
   const handleSearch = () => {
-    console.log("search" ?? "empty");
     setSearch(searchRef.current!.value);
+    setPage(1);
   };
 
   useEffect(() => {
@@ -49,7 +49,7 @@ function Courses() {
         >
           {data?.data?.map((value: any, index: any) => (
             <Table.Tr key={index}>
-              <Table.Td>{index + 1}</Table.Td>
+              <Table.Td>{data.from + index}</Table.Td>
               <Table.Td>{value.subject}</Table.Td>
               <Table.Td className="flex flex-row">
                 <div className="mr-5">
@@ -57,9 +57,11 @@ function Courses() {
                 </div>
                 <div>
                   <Link to={`/subjects/${value.id}`}>
-                    <Button color="teal" variant="outline">
-                      <IconEye />
-                    </Button>
+                    <Tooltip label="View Question">
+                      <Button color="teal" variant="outline">
+                        <IconEye />
+                      </Button>
+                    </Tooltip>
                   </Link>
                 </div>
               </Table.Td>

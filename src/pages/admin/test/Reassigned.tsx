@@ -2,9 +2,11 @@ import { apiProvider } from "../../../network/apiProvider";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button, Tooltip } from "@mantine/core";
 import { FiRefreshCcw } from "react-icons/fi";
+import { reassignStore } from "../../../app/reassignStore";
 
 function Reassigned({ subject, user }: { subject: string; user: string }) {
   const [opened, { open, close }] = useDisclosure(false);
+  const { fetchData } = reassignStore();
 
   async function reassignTest1() {
     const data = {
@@ -14,6 +16,7 @@ function Reassigned({ subject, user }: { subject: string; user: string }) {
 
     const result = await apiProvider.reassignTest(data);
     if (result) {
+      fetchData();
       close();
     }
   }
@@ -29,16 +32,24 @@ function Reassigned({ subject, user }: { subject: string; user: string }) {
         opened={opened}
         onClose={close}
         withCloseButton={false}
+        centered
         size={"sm"}
       >
-        <p>Are you sure you want to reassign the test?</p>
-        <div className="mt-7 flex justify-between">
-          <Button color="red" onClick={close}>
-            Cancel
-          </Button>
-          <Button color="teal" onClick={reassignTest1}>
-            Yes
-          </Button>
+        <div className="flex w-full flex-col items-center justify-center gap-4 py-2">
+          <div>Are you sure do you want to reassign test?</div>
+          <div className="flex gap-4">
+            <Button onClick={close} color="gray" variant="outline" radius="md">
+              cancel
+            </Button>
+            <Button
+              onClick={reassignTest1}
+              color="gray"
+              variant="filled"
+              radius="md"
+            >
+              reassign
+            </Button>
+          </div>
         </div>
       </Modal>
     </>

@@ -1,12 +1,27 @@
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, Button, FileButton, Select, ScrollArea } from "@mantine/core";
+import {
+  Modal,
+  Button,
+  Select,
+  ScrollArea,
+  FileInput,
+  Text,
+  FileButton,
+} from "@mantine/core";
 import * as XLSX from "xlsx";
-import { useForm } from "@mantine/form";
+import { useForm, zodResolver } from "@mantine/form";
 import { useEffect, useState } from "react";
 import { apiProvider } from "../../../network/apiProvider";
 import { Group } from "@mantine/core";
 import { userStore } from "../../../app/userStore";
 import { showNotification } from "@mantine/notifications";
+import { IconFileUpload, IconUpload } from "@tabler/icons-react";
+import { z } from "zod";
+
+const userUploadSchema = z.object({
+  courseName: z.string().min(1, "Select Any One Course"),
+  positionName: z.string().min(1, "Select Any One Position"),
+});
 
 function UserBulkUpload() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -20,6 +35,7 @@ function UserBulkUpload() {
       courseName: "",
       positionName: "",
     },
+    validate: zodResolver(userUploadSchema),
   });
   const changeCourse = (val: any) => {
     form.setFieldValue("courseName", val);
@@ -34,7 +50,6 @@ function UserBulkUpload() {
     };
     const result = await apiProvider.fetchAllCourses(data);
     if (result !== null) {
-      console.log(result?.data.data);
       setCourseData(result?.data?.data ?? null);
     }
   };
@@ -45,25 +60,9 @@ function UserBulkUpload() {
     };
     const result = await apiProvider.fetchAllPosition(data);
     if (result !== null) {
-      console.log(result);
       setPosition(result?.data?.data ?? null);
     }
   };
-  // async function onSubmit(values: typeof form.values) {
-  //   const formData: any = new FormData();
-
-  //   formData.append("file", file);
-  //   formData.append("subjectId", +values.courseName);
-  //   formData.append("positionId", +values.positionName);
-  //   const result = await apiProvider.addUserUpload(formData);
-  //   if (result !== null) {
-  //     await fetchUser();
-  //     close();
-  //   }
-  // }
-  // Email validation function
-
-  // Your component continues...
 
   async function onSubmit(values: typeof form.values) {
     const formData: any = new FormData();
@@ -84,7 +83,7 @@ function UserBulkUpload() {
               reject(error);
             }
           };
-          reader.readAsArrayBuffer(file);
+          FileButton, reader.readAsArrayBuffer(file);
         });
       };
       const workbook: any = await readExcelFile(file);
@@ -100,7 +99,6 @@ function UserBulkUpload() {
         const mobileRegex = /^\d{10}$/;
         return mobileRegex.test(mobile);
       };
-      console.log(sheetData);
 
       const invalidRows = [];
       for (let i = 0; i < sheetData.length; i++) {
@@ -220,40 +218,44 @@ function UserBulkUpload() {
                 }
                 withAsterisk
               />
-              <Button
-                className="mb-5 text-center font-medium"
-                variant="filled"
-                color="green"
+              <Text
+                className="relative bottom-4 left-72 mt-0 inline  cursor-pointer justify-end text-right text-teal-500"
                 onClick={downloadExcel}
-                fullWidth
               >
-                Demo format
+                Click here to download demo format
+              </Text>
+
+              <FileInput
+                onChange={(e: any) => setFile(e)}
+                label="User Bulk Upload"
+                placeholder=""
+                accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                className="relative bottom-5 w-full"
+                withAsterisk
+                required
+              />
+              <Button
+                type="submit"
+                fullWidth
+                color="teal"
+                variant="filled"
+                leftSection={<IconFileUpload />}
+              >
+                Upload
               </Button>
-              <Group justify="center">
-                <FileButton
-                  onChange={(e: any) => setFile(e)}
-                  accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                >
-                  {(props) => <Button {...props}>UserBulkUpload</Button>}
-                </FileButton>
-              </Group>
-              <div>
-                <Button
-                  type="submit"
-                  fullWidth
-                  className="mt-5"
-                  color="grey"
-                  variant="filled"
-                >
-                  Submit
-                </Button>
-              </div>
             </div>
           </form>
         </Modal>
       </ScrollArea>
 
-      <Button onClick={open}>User Upload</Button>
+      <Button
+        onClick={open}
+        variant="outline"
+        color="teal"
+        leftSection={<IconUpload />}
+      >
+        User Upload
+      </Button>
     </>
   );
 }
