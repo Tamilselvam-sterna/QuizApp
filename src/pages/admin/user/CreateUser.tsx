@@ -22,14 +22,22 @@ import { positionStore } from "../../../app/positionStore";
 import { roleStore } from "../../../app/roleStore";
 import { IconPlus, IconUserPlus } from "@tabler/icons-react";
 import moment from "moment";
-import { CreateUserInput, createuserSchema } from "../../../models/create-user";
+import {
+  CreateAdminUserInput,
+  CreateUserInput,
+  createuserSchema,
+} from "../../../models/create-user";
 import { zodResolver } from "mantine-form-zod-resolver";
 
 function CreateUser() {
-  const { data, fetchData: fetchPositionData } = positionStore();
+  const {
+    data,
+    fetchData: fetchPositionData,
+    setPage: setpositionPage,
+    reset,
+  } = positionStore();
   const { data: datas, fetchData: fetchRoleData } = roleStore();
   const { fetchData: fetchUserData } = userStore();
-
   const [opened, { open, close }] = useDisclosure(false);
   const form = useForm<CreateUserInput>({
     initialValues: {
@@ -37,15 +45,14 @@ function CreateUser() {
       lastName: "",
       email: "",
       mobile: "",
-      date: new Date(),
+      dob: new Date(),
       degree: "",
       college: "",
       specialization: "",
-      roleId: "",
+      roleId: Role.User || Role.Admin,
       positionId: "",
       experience: "",
       isexperience: "",
-      subjectName: "",
     },
     validate: zodResolver(createuserSchema),
     validateInputOnChange: true,
@@ -75,8 +82,8 @@ function CreateUser() {
           college: values.college,
           specialization: values.specialization,
           roleId: +values.roleId,
-          dob: moment(values.date).format("YYYY-MM-DD"),
-          positionId: +values.positionId,
+          dob: moment(values.dob).format("YYYY-MM-DD"),
+          positionId: Number(values.positionId),
           isFresher: values.isexperience == "2" ? false : true,
           isExperience: values.isexperience == "2" ? true : false,
           experience:
@@ -89,6 +96,7 @@ function CreateUser() {
         form.reset();
         close();
         fetchUserData();
+        reset();
       }
     } catch (error) {
       console.log(error);
@@ -97,6 +105,7 @@ function CreateUser() {
 
   useEffect(() => {
     if (opened) {
+      setpositionPage(0);
       fetchPositionData();
       fetchRoleData();
     }
@@ -118,13 +127,14 @@ function CreateUser() {
             <Select
               label="Role"
               placeholder="Select Role"
-              data={datas.data.map((item) => ({
+              data={datas?.data.map((item) => ({
                 value: item.id.toString(),
                 label: item.role,
               }))}
               className="mb-1 w-full"
               {...form.getInputProps("roleId")}
             />
+
             <div className="flex w-full flex-row justify-between">
               <TextInput
                 label="First Name"
@@ -150,16 +160,16 @@ function CreateUser() {
               label="Mobile Number"
               placeholder="Enter Mobile Number"
               className="mb-1 w-full"
-              {...form.getInputProps("mobileNumber")}
+              {...form.getInputProps("mobile")}
             />
 
-            {form.values.roleId == String(Role.User) ? (
+            {form.values.roleId == "3" ? (
               <>
                 <DateInput
                   valueFormat="YYYY MMM DD"
                   label="Date of Birth"
                   placeholder="Select Date of Birth"
-                  {...form.getInputProps("date")}
+                  {...form.getInputProps("dob")}
                 />
                 <TextInput
                   label="College"
@@ -171,6 +181,11 @@ function CreateUser() {
                   placeholder="Enter Degree"
                   {...form.getInputProps("degree")}
                 />
+                <TextInput
+                  label="Specialization"
+                  placeholder="Enter Specialization"
+                  {...form.getInputProps("specialization")}
+                />
                 <Select
                   label="Position"
                   placeholder="Select Position"
@@ -181,11 +196,6 @@ function CreateUser() {
                   {...form.getInputProps("positionId")}
                 />
 
-                <TextInput
-                  label="Specialization"
-                  placeholder="Enter Specialization"
-                  {...form.getInputProps("specialization")}
-                />
                 <Select
                   label="Work Experience"
                   placeholder="Select Work Experience"
@@ -199,6 +209,7 @@ function CreateUser() {
                 {form.values.isexperience == "2" ? (
                   <>
                     <TextInput
+                      value={"1"}
                       label="Years Of Experience"
                       placeholder="Enter Years of Experience"
                       className="mr-4 w-full"

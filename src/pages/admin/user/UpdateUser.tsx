@@ -212,7 +212,7 @@ function UpdateUser({ item }) {
         </form>
       </Drawer>
       <Tooltip label="EditUser">
-        <Button color="gray" onClick={open} variant="filled">
+        <Button color="gray" onClick={open} variant="outline">
           <IconUserEdit />
         </Button>
       </Tooltip>

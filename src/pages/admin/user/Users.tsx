@@ -23,8 +23,8 @@ function Users() {
   const searchRef = useRef<HTMLInputElement>(null);
 
   const handleSearch = () => {
-    console.log(data.data);
     setSearch(searchRef.current!.value);
+    setPage(1);
   };
 
   useEffect(() => {
@@ -57,7 +57,7 @@ function Users() {
           "YEARS OF EXPERIENCE",
           "TEST ASSIGNED",
           "CREATED DATE AND TIME",
-          "EDIT",
+          "ACTION",
         ]}
         from={data?.from ?? 0}
         to={data?.to ?? 0}
@@ -113,8 +113,9 @@ function Users() {
                 <Table.Td className="min-w-max ">
                   {moment(value.createdAt).format("MMMM Do YYYY, h:mm a")}
                 </Table.Td>
-                <Table.Td>{<UpdateUser item={value} />}</Table.Td>
-                <Table.Td>{<ManageTest item={value} />}</Table.Td>
+                <Table.Td>
+                  {<UpdateUser item={value} />} {<ManageTest item={value} />}
+                </Table.Td>
               </Table.Tr>
             </>
           ) : (

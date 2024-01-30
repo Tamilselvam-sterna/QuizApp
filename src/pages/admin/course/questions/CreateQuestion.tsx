@@ -1,12 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Drawer, Radio, TextInput } from "@mantine/core";
+import {
+  Button,
+  Drawer,
+  Radio,
+  TextInput,
+  Textarea,
+  Tooltip,
+} from "@mantine/core";
 import { useState } from "react";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { apiProvider } from "../../../../network/apiProvider";
 import { IconPlus } from "@tabler/icons-react";
-import { viewQuestionsStore } from "../../../../app/viewQuestionStore";
 
 function CreateQuestion({ value }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -111,13 +117,16 @@ function CreateQuestion({ value }) {
           onSubmit={form.onSubmit(handleSubmit)}
           className="mt-10 flex flex-col space-y-9 align-middle"
         >
-          <TextInput
-            description="Question"
-            placeholder="Enter Question"
-            title="Enter Question"
+          <Textarea
+            radius="lg"
             variant="filled"
-            {...form.getInputProps("question")}
+            label="Question"
             withAsterisk
+            placeholder="Enter Question"
+            autosize
+            minRows={2}
+            maxRows={4}
+            {...form.getInputProps("question")}
           />
           {options.map((option, index) => (
             <div key={index} className="flex space-x-4">
@@ -145,9 +154,11 @@ function CreateQuestion({ value }) {
           </Button>
         </form>
       </Drawer>
-      <Button onClick={open} color="gray" variant="filled">
-        <IconPlus color="white" />
-      </Button>
+      <Tooltip label={"Add Question"}>
+        <Button onClick={open} color="gray" variant="outline">
+          <IconPlus />
+        </Button>
+      </Tooltip>
     </>
   );
 }

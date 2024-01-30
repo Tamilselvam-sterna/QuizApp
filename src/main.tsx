@@ -21,6 +21,7 @@ import UserLayout from "./components/UserLayout.tsx";
 import InstructionPage from "./pages/user/Instructions.tsx";
 import TestPage from "./pages/user/TestPage.tsx";
 import Userhome from "./pages/user/Userhome.tsx";
+import Position from "./pages/admin/position/position.tsx";
 // import Users from './pages/admin/user/Users.tsx';
 
 const routes = createBrowserRouter(
@@ -33,6 +34,8 @@ const routes = createBrowserRouter(
         <Route path="subjects" element={<Courses />} />
         <Route path="subjects/:id" element={<Questions />} />
         <Route path="results" element={<Results />} />
+        <Route path="positions" element={<Position />} />
+
         <Route path="reassign" element={<ReassignTest />} />
       </Route>
       <Route path="/user" element={<Userhome />}>
@@ -44,7 +47,6 @@ const routes = createBrowserRouter(
     </Route>,
   ),
 );
-
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

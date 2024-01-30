@@ -1,15 +1,15 @@
 import { useEffect, useRef } from "react";
 import TableComponent from "../../../components/Table";
 import { Table } from "@mantine/core";
-import Reassigned from "./Reassigned";
-import { reassignStore } from "../../../app/reassignStore";
 import TableHeader from "../../../components/TableHeader";
 import AnimatedComponent from "../../../components/AnimatedComponent";
-import ReassignFilter from "./ReassignFilter";
+import { positionStore } from "../../../app/positionStore";
+import moment from "moment";
+import CreatePosition from "./CreatePosition";
 
-function ReassignTest() {
+function position() {
   const { data, page, search, isLoading, fetchData, setPage, setSearch } =
-    reassignStore();
+    positionStore();
   const searchRef = useRef<HTMLInputElement>(null);
 
   const handleSearch = () => {
@@ -25,22 +25,14 @@ function ReassignTest() {
         <div>
           <TableHeader
             reference={searchRef}
-            title="Re-Assign Test"
+            title="Positions"
             onSubmit={handleSearch}
-            HeaderComponents={[<ReassignFilter />]}
+            HeaderComponents={[<CreatePosition />]}
           />
         </div>
         <TableComponent
           isLoading={isLoading}
-          columns={[
-            "S.NO",
-            "NAME",
-            "EMAIL",
-            "MOBILE",
-            "TEST ASSIGNED",
-            "REASSIGN COUNT",
-            "ACTION",
-          ]}
+          columns={["S.NO", "POSITION", "CREATEDAT"]}
           from={data?.from}
           to={data?.to}
           total={data?.total}
@@ -51,22 +43,8 @@ function ReassignTest() {
           {data?.data?.map((value: any, index: any) => (
             <Table.Tr key={index}>
               <Table.Td>{data?.from + index}</Table.Td>
-              <Table.Td>
-                {value?.user?.firstName + " " + value?.user?.lastName}
-              </Table.Td>
-              <Table.Td>{value?.user?.email}</Table.Td>
-              <Table.Td>{value?.user?.mobile}</Table.Td>
-              <Table.Td>
-                {value?.user?.userTestDetails[0].test?.subject}
-              </Table.Td>
-              <Table.Td>{value?.reassignCount}</Table.Td>
-
-              <Table.Td>
-                <Reassigned
-                  user={value.userId}
-                  subject={value?.user?.userTestDetails[0].test?.id}
-                />
-              </Table.Td>
+              <Table.Td>{value?.position}</Table.Td>
+              {moment(value.createdAt).format("MMMM Do YYYY, h:mm a")}
             </Table.Tr>
           ))}
         </TableComponent>
@@ -75,4 +53,4 @@ function ReassignTest() {
   );
 }
 
-export default ReassignTest;
+export default position;

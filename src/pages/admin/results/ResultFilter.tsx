@@ -104,6 +104,7 @@ function ResultFilter() {
         opened={opened}
         onClose={close}
         title="Result Filter"
+        radius={"lg"}
         overlayProps={{
           backgroundOpacity: 0.55,
           blur: 3,
@@ -158,13 +159,26 @@ function ResultFilter() {
         ) : (
           <></>
         )}
-        <div className="flex space-x-8">
-          <Button className="mt-5" onClick={clearFilter} color="red">
-            Clear Filter
-          </Button>
-          <Button className="mt-5" onClick={filterApplied} color="teal">
-            Apply Filter
-          </Button>
+
+        <div className="mt-2 flex w-full flex-col items-center justify-center gap-4 py-3">
+          <div className="flex gap-10">
+            <Button
+              onClick={clearFilter}
+              color="gray"
+              variant="outline"
+              radius="md"
+            >
+              Clear Filter
+            </Button>
+            <Button
+              onClick={filterApplied}
+              color="gray"
+              variant="filled"
+              radius="md"
+            >
+              Apply Filter
+            </Button>
+          </div>
         </div>
       </Modal>
 
