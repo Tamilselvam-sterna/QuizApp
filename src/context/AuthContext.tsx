@@ -6,6 +6,8 @@ type AuthContextType = {
   isUserAuthenticated: () => boolean;
   login: (userData: AuthUser) => void;
   getUser: () => AuthUser | null;
+  testData: (data: any) => void;
+  getTestData: () => any | null;
   logout: () => void;
 };
 

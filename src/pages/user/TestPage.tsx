@@ -41,11 +41,11 @@ function TestPage() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center">
-      <div className="z-10 flex justify-center w-full mb-32">
+    <main className="flex min-h-screen items-center justify-center">
+      <div className="z-10 mb-32 flex w-full justify-center">
         <div
           aria-hidden="true"
-          className="w-6/12 flex flex-col items-center h-[300px] bg-white rounded-r-xl   "
+          className="flex h-[300px] w-6/12 flex-col items-center rounded-r-xl bg-white   "
         >
           <h3>Test page</h3>
           {currentQuestion && (

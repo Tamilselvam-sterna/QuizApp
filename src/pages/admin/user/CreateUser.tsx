@@ -22,11 +22,7 @@ import { positionStore } from "../../../app/positionStore";
 import { roleStore } from "../../../app/roleStore";
 import { IconPlus, IconUserPlus } from "@tabler/icons-react";
 import moment from "moment";
-import {
-  CreateAdminUserInput,
-  CreateUserInput,
-  createuserSchema,
-} from "../../../models/create-user";
+import { CreateUserInput, createUserSchema } from "../../../models/create-user";
 import { zodResolver } from "mantine-form-zod-resolver";
 
 function CreateUser() {
@@ -51,10 +47,10 @@ function CreateUser() {
       specialization: "",
       roleId: Role.User || Role.Admin,
       positionId: "",
-      experience: "",
-      isexperience: "",
+      experience: undefined,
+      isExperience: "",
     },
-    validate: zodResolver(createuserSchema),
+    validate: zodResolver(createUserSchema),
     validateInputOnChange: true,
   });
 
@@ -81,13 +77,13 @@ function CreateUser() {
           degree: values.degree,
           college: values.college,
           specialization: values.specialization,
-          roleId: +values.roleId,
+          roleId: Number(values.roleId),
           dob: moment(values.dob).format("YYYY-MM-DD"),
           positionId: Number(values.positionId),
-          isFresher: values.isexperience == "2" ? false : true,
-          isExperience: values.isexperience == "2" ? true : false,
+          isFresher: values.isExperience != "2",
+          isExperience: values.isExperience == "2",
           experience:
-            values.isexperience == "2" ? values.experience : undefined,
+            values.isExperience == "2" ? values.experience : undefined,
         };
       }
 
@@ -204,9 +200,9 @@ function CreateUser() {
                     { value: "2", label: "Experienced" },
                   ]}
                   className="mb-1 w-full"
-                  {...form.getInputProps("isexperience")}
+                  {...form.getInputProps("isExperience")}
                 />
-                {form.values.isexperience == "2" ? (
+                {form.values.isExperience == "2" ? (
                   <>
                     <TextInput
                       value={"1"}

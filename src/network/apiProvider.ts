@@ -89,7 +89,7 @@ export class ApiProvider {
   async addUserData(data: CreateUserInput) {
     try {
       const response = await this.server.post("/user", {
-        date: data.date,
+        date: data.dob,
         ...data,
       });
       const message = this.extractMessage(response);
