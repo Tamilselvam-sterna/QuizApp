@@ -1,7 +1,9 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { apiProvider } from "../../network/apiProvider";
 import { useNavigate } from "react-router-dom";
+import { Radio } from "@mantine/core";
+import { Button } from "../../components/Button";
+import { apiProvider } from "../../network/apiProvider";
 
 function TestPage() {
   const authUser = useContext(AuthContext);
@@ -12,16 +14,21 @@ function TestPage() {
 
   const [userResponses, setUserResponses] = useState([]);
   const currentQuestion = data?.questionsWithOptions[currentQuestionIndex];
-
-  const handleNextQuestion = () => {
-    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-  };
+  const [selectedOption, setSelectedOption] = useState(null);
 
   const handleOptionSelect = (optionId: any) => {
-    setUserResponses((prevResponses) => [
-      ...prevResponses,
-      { questionId: currentQuestion.id, optionId },
-    ]);
+    setSelectedOption(optionId);
+  };
+
+  const handleNextQuestion = () => {
+    if (selectedOption !== null) {
+      setUserResponses((prevResponses) => [
+        ...prevResponses,
+        { questionId: currentQuestion.id, optionId: selectedOption },
+      ]);
+      setSelectedOption(null);
+      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+    }
   };
 
   const handleSubmitTest = async () => {
@@ -29,57 +36,60 @@ function TestPage() {
       subjectId: subjectId,
       answers: userResponses,
     };
-    const result = await apiProvider.submitTest(response);
+
+    let result = apiProvider.submitTest(response);
     if (result != null) {
-      console.log("completed");
       navigate("/user/finalPage");
     }
 
-    // Reset the component state or redirect the user, etc.
     setCurrentQuestionIndex(0);
     setUserResponses([]);
   };
 
+  const handleButtonClick = () => {
+    if (currentQuestionIndex === data.questionsWithOptions.length - 1) {
+      handleSubmitTest();
+    } else {
+      handleNextQuestion();
+    }
+  };
+
   return (
-    <main className="min-h-screen flex items-center justify-center">
-      <div className="z-10 flex justify-center w-full mb-32">
+    <main className="flex min-h-screen items-center justify-center">
+      <div className="z-10 mb-32 flex w-full justify-center">
         <div
           aria-hidden="true"
-          className="w-6/12 flex flex-col items-center h-[300px] bg-white rounded-r-xl   "
+          className="flex h-[380px] w-6/12 flex-col items-center rounded-xl bg-white"
         >
-          <h3>Test page</h3>
           {currentQuestion && (
             <>
-              <h1>{currentQuestion.question}</h1>
-              <ul>
-                {currentQuestion?.options?.map((option) => (
+              <h1 className="mt-5 flex w-full justify-start pl-6 text-xl font-medium">{`${currentQuestionIndex + 1}. ${currentQuestion.question}`}</h1>
+
+              <ul className="relative right-80">
+                {currentQuestion?.options?.map((option: any) => (
                   <li key={option.id}>
-                    <label>
-                      <input
-                        type="radio"
+                    <div className="flex w-full space-x-5 border-gray-950 p-4">
+                      <Radio
                         name="options"
-                        value={option.id}
+                        className="mt-2"
+                        variant="outline"
+                        value={option.value}
+                        checked={option.isCorrect}
                         onChange={() => handleOptionSelect(option.id)}
                       />
-                      {option.option}
-                    </label>
+                      <label>{option.option}</label>
+                    </div>
                   </li>
                 ))}
               </ul>
-              <button onClick={handleNextQuestion}>
-                {currentQuestionIndex === data.questionsWithOptions.length - 1
-                  ? "Submit Test"
-                  : "Next Question"}
-              </button>
+              <div className="mr-6 flex w-full justify-end">
+                <Button onClick={handleButtonClick} className="w-40">
+                  {currentQuestionIndex === data.questionsWithOptions.length - 1
+                    ? "Submit Test"
+                    : "Next Question"}
+                </Button>
+              </div>
             </>
-          )}
-          {!currentQuestion && (
-            <div>
-              <p>No more questions</p>
-              {userResponses.length > 0 && (
-                <button onClick={handleSubmitTest}>Submit Test</button>
-              )}
-            </div>
           )}
         </div>
       </div>
