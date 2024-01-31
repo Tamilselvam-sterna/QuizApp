@@ -22,6 +22,7 @@ import InstructionPage from "./pages/user/Instructions.tsx";
 import TestPage from "./pages/user/TestPage.tsx";
 import Userhome from "./pages/user/Userhome.tsx";
 import Position from "./pages/admin/position/position.tsx";
+import SuccessPage from "./pages/user/SuccessPage.tsx";
 // import Users from './pages/admin/user/Users.tsx';
 
 const routes = createBrowserRouter(
@@ -41,7 +42,7 @@ const routes = createBrowserRouter(
       <Route path="/user" element={<Userhome />}>
         <Route index element={<InstructionPage />} />
         <Route path="test" element={<TestPage />} />
-        <Route path="fin" element={<div>submit page</div>} />
+        <Route path="fin" element={<SuccessPage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Route>,

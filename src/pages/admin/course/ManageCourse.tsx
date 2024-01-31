@@ -10,7 +10,7 @@ import { userStore } from "../../../app/userStore";
 
 function ManageTest({ item }) {
   const [opened, { open, close }] = useDisclosure(false);
-  const { data, fetchData: fetchPositionData } = testStore();
+  const { data, fetchData: fetchPositionData, setPage, reset } = testStore();
   const { fetchData: fetchUserData } = userStore();
 
   const [assignedCourse, setAssignCourse] = useState(1);
@@ -28,6 +28,7 @@ function ManageTest({ item }) {
         close();
         fetchData();
         fetchUserData();
+        reset();
       }
     } catch (error) {
       console.log(error);
@@ -36,6 +37,7 @@ function ManageTest({ item }) {
 
   useEffect(() => {
     if (opened) {
+      setPage(0);
       fetchPositionData();
     }
   }, [opened]);
