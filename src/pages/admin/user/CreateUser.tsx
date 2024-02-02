@@ -14,13 +14,13 @@ import "@mantine/dates/styles.css";
 import { DateInput } from "@mantine/dates";
 import "@mantine/core/styles/UnstyledButton.css";
 import "@mantine/core/styles/Button.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { apiProvider } from "../../../network/apiProvider";
 import { Role } from "../../../utils/enum";
 import { userStore } from "../../../app/userStore";
 import { positionStore } from "../../../app/positionStore";
 import { roleStore } from "../../../app/roleStore";
-import { IconPlus, IconUserPlus } from "@tabler/icons-react";
+import { IconUserPlus } from "@tabler/icons-react";
 import moment from "moment";
 import { CreateUserInput, createUserSchema } from "../../../models/create-user";
 import { zodResolver } from "mantine-form-zod-resolver";
@@ -53,7 +53,7 @@ function CreateUser() {
     validate: zodResolver(createUserSchema),
     validateInputOnChange: true,
   });
-
+  
   const handleSubmit = async (values: typeof form.values) => {
     let userData;
     try {
@@ -127,21 +127,20 @@ function CreateUser() {
                 value: item.id.toString(),
                 label: item.role,
               }))}
-              className="mb-1 w-full"
+              className="w-full mb-1"
               {...form.getInputProps("roleId")}
             />
-
-            <div className="flex w-full flex-row justify-between">
+            <div className="flex flex-row justify-between w-full">
               <TextInput
                 label="First Name"
                 placeholder="Enter First Name"
-                className="mb-1 mr-2 w-full"
+                className="w-full mb-1 mr-2"
                 {...form.getInputProps("firstName")}
               />
               <TextInput
                 label="Last Name"
                 placeholder="Enter Last Name"
-                className="mb-1 w-full"
+                className="w-full mb-1"
                 {...form.getInputProps("lastName")}
               />
             </div>
@@ -149,13 +148,13 @@ function CreateUser() {
               mt="sm"
               label="Email"
               placeholder="Enter Email"
-              className="mb-1 w-full"
+              className="w-full mb-1"
               {...form.getInputProps("email")}
             />
             <TextInput
               label="Mobile Number"
               placeholder="Enter Mobile Number"
-              className="mb-1 w-full"
+              className="w-full mb-1"
               {...form.getInputProps("mobile")}
             />
 
@@ -199,7 +198,7 @@ function CreateUser() {
                     { value: "1", label: "Fresher" },
                     { value: "2", label: "Experienced" },
                   ]}
-                  className="mb-1 w-full"
+                  className="w-full mb-1"
                   {...form.getInputProps("isExperience")}
                 />
                 {form.values.isExperience == "2" ? (
@@ -208,7 +207,7 @@ function CreateUser() {
                       value={"1"}
                       label="Years Of Experience"
                       placeholder="Enter Years of Experience"
-                      className="mr-4 w-full"
+                      className="w-full mr-4"
                       {...form.getInputProps("experience")}
                     />
                   </>

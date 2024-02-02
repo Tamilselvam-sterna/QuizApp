@@ -42,7 +42,7 @@ const routes = createBrowserRouter(
       <Route path="/user" element={<Userhome />}>
         <Route index element={<InstructionPage />} />
         <Route path="test" element={<TestPage />} />
-        <Route path="fin" element={<SuccessPage />} />
+        <Route path="finalPage" element={<SuccessPage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Route>,

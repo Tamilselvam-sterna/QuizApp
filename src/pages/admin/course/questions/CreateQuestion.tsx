@@ -13,6 +13,7 @@ import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { apiProvider } from "../../../../network/apiProvider";
 import { IconPlus } from "@tabler/icons-react";
+import { showNotification } from "@mantine/notifications";
 
 function CreateQuestion({ value }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -20,18 +21,20 @@ function CreateQuestion({ value }) {
   const form = useForm({
     initialValues: {
       question: "",
+      options:[]
     },
 
     validate: {
       question: (value) => (value.length > 5 ? null : "enter question"),
     },
   });
-  const [options, setOptions] = useState([
+  const initialOptions = [
     { value: "", isCorrect: false },
     { value: "", isCorrect: false },
     { value: "", isCorrect: false },
     { value: "", isCorrect: false },
-  ]);
+  ];
+  const [options, setOptions] = useState(initialOptions);
 
   const handleOptionChange = (index: number, event: any) => {
     const updatedOptions = [...options];
@@ -46,29 +49,38 @@ function CreateQuestion({ value }) {
   };
 
   const handleSubmit = async (event: any) => {
-    const formattedOptions = options.map((option) => ({
-      option: option.value,
-      isCorrect: option.isCorrect,
-    }));
+    if (!options.some((v) => v.isCorrect)) {
+      showNotification({
+        color: "red",
+        title: "Error",
+        message: "option cant be empty",
+      });
+    } else {
+      const formattedOptions = options.map((option) => ({
+        option: option.value,
+        isCorrect: option.isCorrect,
+      }));
+      const formData = {
+        subjectId: value.id,
+        question: form.values.question,
+        options: formattedOptions,
+      };
 
-    const formData = {
-      subjectId: value.id,
-      question: form.values.question,
-      options: formattedOptions,
-    };
-
-    try {
-      const result = await apiProvider.createQuestion(formData);
-      if (result != null) {
-        close();
+      try {
+        const result = await apiProvider.createQuestion(formData);
+        if (result != null) {
+          close();
+          form.reset();
+          setOptions(initialOptions);
+        }
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
     }
   };
   <form
     onSubmit={form.onSubmit(handleSubmit)}
-    className="mt-10 flex flex-col space-y-9 align-middle"
+    className="flex flex-col mt-10 align-middle space-y-9"
   >
     <TextInput
       description="Question"
@@ -115,7 +127,7 @@ function CreateQuestion({ value }) {
       >
         <form
           onSubmit={form.onSubmit(handleSubmit)}
-          className="mt-10 flex flex-col space-y-9 align-middle"
+          className="flex flex-col mt-10 align-middle space-y-9"
         >
           <Textarea
             radius="lg"

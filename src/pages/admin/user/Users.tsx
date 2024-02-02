@@ -16,8 +16,6 @@ import ManageTest from "../course/ManageCourse";
 const HeaderComponents = [<UserBulkUpload />, <UserFilter />, <CreateUser />];
 
 function Users() {
-  const [activePage, setPages] = useState(1);
-
   const { data, page, search, setPage, setSearch, isLoading, fetchData } =
     userStore();
   const searchRef = useRef<HTMLInputElement>(null);
@@ -47,6 +45,7 @@ function Users() {
           "S.NO",
           "USER NAME",
           "EMAIL",
+          "MOBILE",
           "ROLE",
           "POSITION",
           "DATE OF BIRTH",
@@ -73,6 +72,7 @@ function Users() {
                 <Table.Td>{data?.from + index}</Table.Td>
                 <Table.Td>{value.firstName + " " + value.lastName}</Table.Td>
                 <Table.Td>{value.email}</Table.Td>
+                <Table.Td>{value.mobile}</Table.Td>
                 <Table.Td>{value.role.role}</Table.Td>
                 {value.role.id == 3 ? (
                   <>
@@ -108,14 +108,19 @@ function Users() {
                     <Table.Td>{"NA"}</Table.Td>
                     <Table.Td>{"NA"}</Table.Td>
                     <Table.Td>{"NA"}</Table.Td>
+                    <Table.Td>{"NA"}</Table.Td>
                   </>
                 )}
                 <Table.Td className="min-w-max ">
                   {moment(value.createdAt).format("MMMM Do YYYY, h:mm a")}
                 </Table.Td>
-                <Table.Td>
-                  {<UpdateUser item={value} />} {<ManageTest item={value} />}
-                </Table.Td>
+                {value.role.id == 2 ? (
+                  <Table.Td>{<UpdateUser item={value} />}</Table.Td>
+                ) : (
+                  <Table.Td>
+                    {<UpdateUser item={value} />} {<ManageTest item={value} />}
+                  </Table.Td>
+                )}
               </Table.Tr>
             </>
           ) : (

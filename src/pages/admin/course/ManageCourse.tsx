@@ -3,9 +3,7 @@ import { Modal, Button, Tooltip, Select } from "@mantine/core";
 import { testStore } from "../../../app/TestStore";
 import { IconClipboardText } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import { positionStore } from "../../../app/positionStore";
 import { apiProvider } from "../../../network/apiProvider";
-import { viewQuestionsStore } from "../../../app/viewQuestionStore";
 import { userStore } from "../../../app/userStore";
 
 function ManageTest({ item }) {
@@ -75,11 +73,25 @@ function ManageTest({ item }) {
           </div>
         </>
       </Modal>
-      <Tooltip label="Manage Test">
-        <Button type="submit" onClick={open} variant="outline" color="teal">
-          <IconClipboardText />
-        </Button>
-      </Tooltip>
+      {!item.userTestDetails[0]?.test.subject ? (
+        <Tooltip label="Manage Test">
+          <Button type="submit" onClick={open} variant="outline" color="teal">
+            <IconClipboardText />
+          </Button>
+        </Tooltip>
+      ) : (
+        <Tooltip label="Manage Test">
+          <Button
+            type="submit"
+            onClick={open}
+            variant="outline"
+            disabled
+            color="teal"
+          >
+            <IconClipboardText />
+          </Button>
+        </Tooltip>
+      )}
     </>
   );
 }

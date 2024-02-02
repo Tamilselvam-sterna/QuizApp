@@ -4,7 +4,7 @@ import apiClient from "./apiClient";
 import { LoginInput } from "../models/auth";
 import { GetReq } from "../models/common-models";
 import { GetResult } from "../models/result";
-import { CreateAdminUserInput, CreateUserInput } from "../models/create-user";
+import { CreateUserInput } from "../models/create-user";
 
 export class ApiProvider {
   constructor(private readonly server: typeof apiClient) {}
