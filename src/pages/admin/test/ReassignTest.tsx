@@ -36,6 +36,7 @@ function ReassignTest() {
             "S.NO",
             "NAME",
             "EMAIL",
+            "POSITION",
             "MOBILE",
             "TEST ASSIGNED",
             "REASSIGN COUNT",
@@ -55,6 +56,7 @@ function ReassignTest() {
                 {value?.user?.firstName + " " + value?.user?.lastName}
               </Table.Td>
               <Table.Td>{value?.user?.email}</Table.Td>
+              <Table.Td>{value?.user?.userInfo[0].position.position}</Table.Td>
               <Table.Td>{value?.user?.mobile}</Table.Td>
               <Table.Td>
                 {value?.user?.userTestDetails[0].test?.subject}

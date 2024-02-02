@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-*,
+/* *,
 ::before,
 ::after {
   border-width: 0;
@@ -13,11 +13,11 @@
 
 @layer base {
   * {
-    @apply m-0 box-border scroll-smooth p-0 antialiased;
+    @apply box-border p-0 m-0 antialiased scroll-smooth;
   }
 
   body {
-    @apply overflow-x-hidden bg-gray-200 font-poppins antialiased;
+    @apply overflow-x-hidden antialiased bg-gray-200 font-poppins;
   }
 
   a {
@@ -30,4 +30,4 @@
     background-color: #e5e7eb;
     background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236b7280' fill-opacity='0.07'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
-}
+} */

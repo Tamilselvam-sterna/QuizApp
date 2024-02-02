@@ -10,10 +10,14 @@ export interface UserType {
 
 export interface userStoreType extends BaseStoreState<UserType> {
   positionId: string | number;
+  subjectId: string | number;
+  experienceLevel: string | number;
   roleId: string | number;
   dateFilter: string;
   isFilterApplied: boolean;
   setPosition: (position: string) => void;
+  setSubjectId: (subject: string) => void;
+  setExperienceLevel: (experience: string) => void;
   setRoleId: (roleId: string) => void;
   setDateFilter: (search: string) => void;
   setIsFilterApplied: (isApplied: boolean) => void;
@@ -29,6 +33,8 @@ export const userStore = create<userStoreType>((set) => ({
   search: "",
   dateFilter: "All",
   positionId: 0,
+  experienceLevel: 0,
+  subjectId: 0,
   isFilterApplied: false,
   startDate: undefined,
   endDate: undefined,
@@ -49,6 +55,9 @@ export const userStore = create<userStoreType>((set) => ({
   setDateRange: (startDate: string, endDate: string) =>
     set({ startDate, endDate }),
   setPosition: (position: string) => set({ positionId: position }),
+  setExperienceLevel: (experienceLevel: string) =>
+    set({ experienceLevel: experience }),
+  setSubjectId: (subjectId: string) => set({ subjectId: subject }),
   setRoleId: (roleId: string) => set({ roleId }),
   setStartDate: (startDate: string | undefined) => set({ startDate }),
   setEndDate: (endDate: string | undefined) => set({ endDate }),

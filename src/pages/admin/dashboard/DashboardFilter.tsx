@@ -2,7 +2,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button, Select } from "@mantine/core";
 import { IconFilterStar } from "@tabler/icons-react";
 import { DatePickerInput } from "@mantine/dates";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import moment from "moment";
 import { dateValue } from "../../../utils/constant";
 import { dashboardStore } from "../../../app/dashboardStore";

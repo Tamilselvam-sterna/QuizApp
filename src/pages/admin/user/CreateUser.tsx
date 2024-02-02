@@ -1,14 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useDisclosure } from "@mantine/hooks";
-import {
-  Modal,
-  Button,
-  TextInput,
-  Select,
-  Drawer,
-  Tooltip,
-} from "@mantine/core";
+import { Button, TextInput, Select, Drawer, Tooltip } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import "@mantine/dates/styles.css";
 import { DateInput } from "@mantine/dates";
@@ -24,7 +17,6 @@ import { IconUserPlus } from "@tabler/icons-react";
 import moment from "moment";
 import { CreateUserInput, createUserSchema } from "../../../models/create-user";
 import { zodResolver } from "mantine-form-zod-resolver";
-import { Label } from "recharts";
 
 function CreateUser() {
   const {

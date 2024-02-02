@@ -7,7 +7,7 @@ import { userStore } from "../../../app/userStore";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { roleStore } from "../../../app/roleStore";
-import { dateValue } from "../../../utils/constant";
+import { dateValue, experienceLevelData } from "../../../utils/constant";
 
 function UserFilter() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -23,7 +23,11 @@ function UserFilter() {
     dateFilter,
     setDateFilter,
     setPosition,
+    setExperienceLevel,
     positionId,
+    experienceLevel,
+    subjectId,
+    setSubjectId,
     roleId,
     setRoleId,
     setPage,
@@ -54,6 +58,12 @@ function UserFilter() {
   }
 
   function changePosition(value: string | null) {
+    setPosition(value!);
+  }
+  function changeSubject(value: string | null) {
+    setPosition(value!);
+  }
+  function changeExperience(value: string | null) {
     setPosition(value!);
   }
 
@@ -107,6 +117,26 @@ function UserFilter() {
           onChange={changePosition}
         />
         <Select
+          label="Subject"
+          value={subjectId.toString()}
+          placeholder="select Subject"
+          data={Alldata.map((item) => ({
+            value: String(item.id),
+            label: item.position,
+          }))}
+          onChange={changeSubject}
+        />
+        <Select
+          label="ExperienceLevel"
+          value={experienceLevel.toString()}
+          placeholder="select Experience"
+          data={experienceLevelData?.map((item) => ({
+            value: String(item.id),
+            label: item.experience,
+          }))}
+          onChange={changeExperience}
+        />
+        <Select
           label="Role"
           value={roleId.toString()}
           placeholder="select Role"
@@ -137,7 +167,7 @@ function UserFilter() {
           <></>
         )}
 
-        <div className="mt-2 flex w-full flex-col items-center justify-center gap-4 py-3">
+        <div className="flex flex-col items-center justify-center w-full gap-4 py-3 mt-2">
           <div className="flex gap-10">
             <Button
               onClick={clearFilter}
