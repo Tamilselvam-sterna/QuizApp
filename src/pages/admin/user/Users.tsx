@@ -55,6 +55,7 @@ function Users() {
           "S.NO",
           "USER NAME",
           "EMAIL",
+          "MOBILE",
           "ROLE",
           "POSITION",
           "DATE OF BIRTH",
@@ -81,6 +82,7 @@ function Users() {
                 <Table.Td>{data?.from + index}</Table.Td>
                 <Table.Td>{value.firstName + " " + value.lastName}</Table.Td>
                 <Table.Td>{value.email}</Table.Td>
+                <Table.Td>{value.mobile}</Table.Td>
                 <Table.Td>{value.role.role}</Table.Td>
                 {value.role.id == 3 ? (
                   <>
@@ -109,6 +111,7 @@ function Users() {
                   </>
                 ) : (
                   <>
+                    <Table.Td>{"NA"}</Table.Td>
                     <Table.Td>{"NA"}</Table.Td>
                     <Table.Td>{"NA"}</Table.Td>
                     <Table.Td>{"NA"}</Table.Td>

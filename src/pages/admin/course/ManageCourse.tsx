@@ -74,11 +74,25 @@ function ManageTest({ item }) {
           </div>
         </>
       </Modal>
-      <Tooltip label="Manage Test">
-        <Button type="submit" onClick={open} variant="outline" color="teal">
-          <IconClipboardText />
-        </Button>
-      </Tooltip>
+      {!item.userTestDetails[0]?.test.subject ? (
+        <Tooltip label="Manage Test">
+          <Button type="submit" onClick={open} variant="outline" color="teal">
+            <IconClipboardText />
+          </Button>
+        </Tooltip>
+      ) : (
+        <Tooltip label="Manage Test">
+          <Button
+            type="submit"
+            onClick={open}
+            variant="outline"
+            disabled
+            color="teal"
+          >
+            <IconClipboardText />
+          </Button>
+        </Tooltip>
+      )}
     </>
   );
 }

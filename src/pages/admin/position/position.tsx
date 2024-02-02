@@ -44,7 +44,9 @@ function position() {
             <Table.Tr key={index}>
               <Table.Td>{data?.from + index}</Table.Td>
               <Table.Td>{value?.position}</Table.Td>
-              {moment(value.createdAt).format("MMMM Do YYYY, h:mm a")}
+              <Table.Td>
+                {moment(value.createdAt).format("MMMM Do YYYY, h:mm a")}
+              </Table.Td>
             </Table.Tr>
           ))}
         </TableComponent>

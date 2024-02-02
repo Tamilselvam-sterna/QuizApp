@@ -135,7 +135,7 @@ function ResultFilter() {
           placeholder="select subject"
           data={subjectDatas.map((item) => ({
             value: String(item.id),
-            label: item.subject,
+            label: item?.subject,
           }))}
           onChange={changeSubject}
         />
@@ -160,7 +160,7 @@ function ResultFilter() {
           <></>
         )}
 
-        <div className="mt-2 flex w-full flex-col items-center justify-center gap-4 py-3">
+        <div className="flex flex-col items-center justify-center w-full gap-4 py-3 mt-2">
           <div className="flex gap-10">
             <Button
               onClick={clearFilter}
