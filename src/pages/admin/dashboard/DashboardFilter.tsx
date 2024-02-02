@@ -1,18 +1,15 @@
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button, Select } from "@mantine/core";
 import { IconFilterStar } from "@tabler/icons-react";
-import { positionStore } from "../../../app/positionStore";
 import { DatePickerInput } from "@mantine/dates";
-import { userStore } from "../../../app/userStore";
 import { useEffect, useState } from "react";
 import moment from "moment";
-import { roleStore } from "../../../app/roleStore";
 import { dateValue } from "../../../utils/constant";
+import { dashboardStore } from "../../../app/dashboardStore";
 
-function UserFilter() {
+function DashboardFilter() {
   const [opened, { open, close }] = useDisclosure(false);
-  const { data, fetchData: fetchPositions } = positionStore();
-  const { fetchData: fetchRoles, data: roleData } = roleStore();
+
   const [value, setValue] = useState<[Date | null, Date | null]>([null, null]);
   const startDates =
     value[0] != null ? moment(value[0]).format("YYYY-MM-DD") : undefined;
@@ -22,74 +19,39 @@ function UserFilter() {
   const {
     dateFilter,
     setDateFilter,
-    setPosition,
-    positionId,
-    roleId,
-    setRoleId,
-    setPage,
-    fetchData: fetchUsers,
     isFilterApplied,
     reset,
     setIsFilterApplied,
     setStartDate,
     setEndDate,
-  } = userStore();
-
-  const newData = {
-    id: 0,
-    position: "All",
-  };
-
-  const Alldata = [newData, ...data.data];
-
-  const roleNewData = {
-    id: 0,
-    role: "All",
-  };
-
-  const AllRoleData = [roleNewData, ...roleData.data];
+    fetchData,
+  } = dashboardStore();
 
   function changeDay(value: string | null) {
     setDateFilter(value ?? "All");
   }
 
-  function changePosition(value: string | null) {
-    setPosition(value!);
-  }
-
-  function changeRole(value: string | null) {
-    setRoleId(value!);
-  }
-
   function filterApplied() {
     setStartDate(startDates);
     setEndDate(endDates);
-    setPage(1);
+    fetchData();
     setIsFilterApplied(true);
-    fetchUsers();
     close();
   }
 
   function clearFilter() {
     reset();
     setValue([null, null]);
-    fetchUsers();
+    fetchData();
     close();
   }
-
-  useEffect(() => {
-    if (opened) {
-      fetchPositions();
-      fetchRoles();
-    }
-  }, [opened]);
 
   return (
     <>
       <Modal
         opened={opened}
         onClose={close}
-        title="UserFilter"
+        title="Dashboard Filter"
         radius={"lg"}
         overlayProps={{
           backgroundOpacity: 0.55,
@@ -97,27 +59,7 @@ function UserFilter() {
         }}
       >
         <Select
-          label="Position"
-          value={positionId.toString()}
-          placeholder="select position"
-          data={Alldata.map((item) => ({
-            value: String(item.id),
-            label: item.position,
-          }))}
-          onChange={changePosition}
-        />
-        <Select
-          label="Role"
-          value={roleId.toString()}
-          placeholder="select Role"
-          data={AllRoleData.map((item) => ({
-            value: String(item.id),
-            label: item?.role,
-          }))}
-          onChange={changeRole}
-        />
-        <Select
-          label="DateFilter"
+          label="Date Filter"
           value={dateFilter}
           data={dateValue.map((day) => ({
             value: day,
@@ -165,10 +107,10 @@ function UserFilter() {
         variant="outline"
         color={isFilterApplied ? "gray" : "teal"}
       >
-        {isFilterApplied ? "Clear Filter" : "Filter"}
+        {isFilterApplied ? "ClearFilter" : "Filter"}
       </Button>
     </>
   );
 }
 
-export default UserFilter;
+export default DashboardFilter;

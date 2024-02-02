@@ -12,7 +12,6 @@ import * as XLSX from "xlsx";
 import { useForm, zodResolver } from "@mantine/form";
 import { useEffect, useState } from "react";
 import { apiProvider } from "../../../network/apiProvider";
-import { Group } from "@mantine/core";
 import { userStore } from "../../../app/userStore";
 import { showNotification } from "@mantine/notifications";
 import { IconFileUpload, IconUpload } from "@tabler/icons-react";

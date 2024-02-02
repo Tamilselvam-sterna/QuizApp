@@ -7,9 +7,12 @@ import { useDisclosure } from "@mantine/hooks";
 import { apiProvider } from "../../../../network/apiProvider";
 import { IconEditCircle } from "@tabler/icons-react";
 import { viewQuestionsStore } from "../../../../app/viewQuestionStore";
+import { useParams } from "react-router-dom";
 
 function UpdateQuestion({ item }) {
   const [opened, { open, close }] = useDisclosure(false);
+  const { fetchData } = viewQuestionsStore();
+  const { id } = useParams();
 
   const form = useForm({
     initialValues: {
@@ -54,6 +57,7 @@ function UpdateQuestion({ item }) {
     try {
       const result = await apiProvider.updateQuestion(formData);
       if (result != null) {
+        fetchData(id);
         close();
       }
     } catch (e) {

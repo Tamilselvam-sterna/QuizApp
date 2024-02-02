@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Button,
   Drawer,
@@ -25,6 +23,7 @@ function CreateQuestion({ value }) {
     validate: {
       question: (value) => (value.length > 5 ? null : "enter question"),
     },
+    validateInputOnChange: true,
   });
   const [options, setOptions] = useState([
     { value: "", isCorrect: false },
@@ -46,6 +45,9 @@ function CreateQuestion({ value }) {
   };
 
   const handleSubmit = async (event: any) => {
+    if (options.some((option) => option.isCorrect)) {
+    }
+
     const formattedOptions = options.map((option) => ({
       option: option.value,
       isCorrect: option.isCorrect,

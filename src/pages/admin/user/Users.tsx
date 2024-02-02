@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import TableHeader from "../../../components/TableHeader";
 import TableComponent from "../../../components/Table";
-import { Pagination, Table, Text } from "@mantine/core";
+import { Table } from "@mantine/core";
 import moment from "moment";
 import CreateUser from "./CreateUser";
 import UpdateUser from "./UpdateUser";
@@ -16,10 +14,16 @@ import ManageTest from "../course/ManageCourse";
 const HeaderComponents = [<UserBulkUpload />, <UserFilter />, <CreateUser />];
 
 function Users() {
-  const [activePage, setPages] = useState(1);
-
-  const { data, page, search, setPage, setSearch, isLoading, fetchData } =
-    userStore();
+  const {
+    data,
+    page,
+    reset,
+    search,
+    setPage,
+    setSearch,
+    isLoading,
+    fetchData,
+  } = userStore();
   const searchRef = useRef<HTMLInputElement>(null);
 
   const handleSearch = () => {
@@ -30,6 +34,10 @@ function Users() {
   useEffect(() => {
     fetchData();
   }, [fetchData, page, search]);
+
+  useEffect(() => {
+    reset();
+  }, []);
 
   return (
     <AnimatedComponent>
@@ -108,14 +116,19 @@ function Users() {
                     <Table.Td>{"NA"}</Table.Td>
                     <Table.Td>{"NA"}</Table.Td>
                     <Table.Td>{"NA"}</Table.Td>
+                    <Table.Td>{"NA"}</Table.Td>
                   </>
                 )}
                 <Table.Td className="min-w-max ">
                   {moment(value.createdAt).format("MMMM Do YYYY, h:mm a")}
                 </Table.Td>
-                <Table.Td>
-                  {<UpdateUser item={value} />} {<ManageTest item={value} />}
-                </Table.Td>
+                {value.role.id == "3" ? (
+                  <Table.Td>
+                    {<UpdateUser item={value} />} {<ManageTest item={value} />}
+                  </Table.Td>
+                ) : (
+                  <Table.Td>{"NA"}</Table.Td>
+                )}
               </Table.Tr>
             </>
           ) : (

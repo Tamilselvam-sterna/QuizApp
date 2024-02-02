@@ -26,6 +26,7 @@ const loginVariant: Variants = {
 };
 
 function Login() {
+  localStorage.clear();
   const navigate = useNavigate();
   const authContext = useContext(AuthContext);
 
@@ -91,11 +92,13 @@ function Login() {
               />
               <PasswordInput
                 label="Password"
+                withAsterisk
                 radius="md"
                 size="md"
                 placeholder="********"
                 {...form.getInputProps("password")}
               />
+
               <Button className="mt-4 w-full" type="submit">
                 <div className="flex items-center justify-center gap-1">
                   <h4 className="text-base font-semibold">Login</h4>{" "}

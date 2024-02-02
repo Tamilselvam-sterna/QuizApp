@@ -23,6 +23,7 @@ function Courses() {
     setPage(1);
   };
 
+  // setPage(1);
   useEffect(() => {
     fetchData();
   }, [page, fetchData, search]);

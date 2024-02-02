@@ -1,36 +1,34 @@
-import { useState, useEffect } from "react";
-import { DashBoardStats } from "../../../models/dashboard";
-import { apiProvider } from "../../../network/apiProvider";
+import { useEffect, useRef } from "react";
 import LatestResults from "./LatestResults";
 import BarChart from "./BarChart";
 import CardWrapper from "../../../components/Card";
 import AnimatedComponent from "../../../components/AnimatedComponent";
 
-const Dashboard = () => {
-  const [dashboardData, setDashboardData] = useState<DashBoardStats | null>(
-    null,
-  );
+import DashboardFilter from "./DashboardFilter";
+import { dashboardStore } from "../../../app/dashboardStore";
 
-  async function fetchDashBoardData() {
-    const response = await apiProvider.fetchDashBoardData();
-    if (response?.isSuccess) {
-      setDashboardData(response.data);
-    }
-  }
+const Dashboard = () => {
+  const { fetchData, data } = dashboardStore();
 
   useEffect(() => {
-    fetchDashBoardData();
+    fetchData();
   }, []);
 
   return (
     <AnimatedComponent>
-      <main className="m-5">
+      <div className="mt-3 flex w-full justify-between">
+        <h1 className="mb-4 text-xl font-bold md:text-2xl">Dashboard</h1>
+        <div className="relative right-10">
+          <DashboardFilter />
+        </div>
+      </div>
+      <main className="m-10">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-          <CardWrapper data={dashboardData} />
+          <CardWrapper data={data} />
         </div>
         <div className="mt-6 grid grid-cols-1  gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <LatestResults data={dashboardData?.lastestResults} />
-          <BarChart barChartData={dashboardData?.subjectData} />
+          <LatestResults data={data?.lastestResults} />
+          <BarChart barChartData={data?.subjectData} />
         </div>
       </main>
     </AnimatedComponent>

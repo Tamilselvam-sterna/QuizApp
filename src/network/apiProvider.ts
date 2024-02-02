@@ -59,6 +59,27 @@ export class ApiProvider {
     }
   }
 
+  // async function fetchDashBoardData() {
+  //   const response = await apiProvider.fetchDashBoardData();
+  //   if (response?.isSuccess) {
+  //     setDashboardData(response.data);
+  //   }
+  // }
+
+  // async fetchDashBoardData(params: { page: number; search: string }) {
+  //   try {
+  //     const response = await this.server.get("position", { params: params });
+  //     if (this.isRequestSuccess(response.status)) {
+  //       const data = this.extractData(response);
+  //       return { isSuccess: true, data };
+  //     } else {
+  //       return { isSuccess: false };
+  //     }
+  //   } catch (error) {
+  //     this.showAxiosErrorAlert(error);
+  //   }
+  // }
+
   async fetchAllUser(data: any) {
     try {
       const response = await this.server.get("user", { params: data });
@@ -159,6 +180,8 @@ export class ApiProvider {
         const data = this.extractData(response);
         return { isSuccess: true, data };
       } else {
+        set({ isLoading: false });
+
         return { isSuccess: false };
       }
     } catch (error) {
@@ -310,9 +333,11 @@ export class ApiProvider {
     }
   }
 
-  async fetchDashBoardData() {
+  async fetchDashBoardData(data: any) {
     try {
-      const response = await apiClient.get("dashboard");
+      const response = await apiClient.get("dashboard", {
+        params: data,
+      });
       if (this.isRequestSuccess(response.status)) {
         const data = response?.data?.data;
         return { isSuccess: true, data };

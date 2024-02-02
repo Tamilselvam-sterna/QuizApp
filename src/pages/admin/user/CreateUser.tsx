@@ -28,6 +28,7 @@ import {
   createuserSchema,
 } from "../../../models/create-user";
 import { zodResolver } from "mantine-form-zod-resolver";
+import { Label } from "recharts";
 
 function CreateUser() {
   const {
@@ -39,6 +40,7 @@ function CreateUser() {
   const { data: datas, fetchData: fetchRoleData } = roleStore();
   const { fetchData: fetchUserData } = userStore();
   const [opened, { open, close }] = useDisclosure(false);
+  const userid = localStorage.getItem("roleId");
   const form = useForm<CreateUserInput>({
     initialValues: {
       firstName: "",
@@ -127,10 +129,14 @@ function CreateUser() {
             <Select
               label="Role"
               placeholder="Select Role"
-              data={datas?.data.map((item) => ({
-                value: item.id.toString(),
-                label: item.role,
-              }))}
+              data={
+                Role.Admin == userid
+                  ? [{ value: "3", label: "User" }]
+                  : datas?.data.map((item) => ({
+                      value: item.id.toString(),
+                      label: item.role,
+                    }))
+              }
               className="mb-1 w-full"
               {...form.getInputProps("roleId")}
             />

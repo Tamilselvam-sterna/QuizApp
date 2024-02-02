@@ -24,6 +24,11 @@ const layoutVariant: Variants = {
 export default function SideNav() {
   const [opened, { open, close }] = useDisclosure(false);
   const navigate = useNavigate();
+
+  function logoutUser() {
+    localStorage.clear();
+    navigate("/");
+  }
   return (
     <motion.div
       initial="initial"
@@ -67,7 +72,7 @@ export default function SideNav() {
                 cancel
               </Button>
               <Button
-                onClick={() => navigate("/")}
+                onClick={logoutUser}
                 color="gray"
                 variant="filled"
                 radius="md"

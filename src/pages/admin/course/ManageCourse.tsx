@@ -3,20 +3,19 @@ import { Modal, Button, Tooltip, Select } from "@mantine/core";
 import { testStore } from "../../../app/TestStore";
 import { IconClipboardText } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import { positionStore } from "../../../app/positionStore";
 import { apiProvider } from "../../../network/apiProvider";
-import { viewQuestionsStore } from "../../../app/viewQuestionStore";
 import { userStore } from "../../../app/userStore";
 
 function ManageTest({ item }) {
   const [opened, { open, close }] = useDisclosure(false);
   const { data, fetchData: fetchPositionData, setPage, reset } = testStore();
   const { fetchData: fetchUserData } = userStore();
-
   const [assignedCourse, setAssignCourse] = useState(1);
-
   const { fetchData } = testStore();
-
+  function modalClose() {
+    setPage(1);
+    close();
+  }
   const handleSubmit = async () => {
     try {
       const assignData = {
@@ -45,7 +44,7 @@ function ManageTest({ item }) {
     <>
       <Modal
         opened={opened}
-        onClose={close}
+        onClose={modalClose}
         title="Assign Test"
         overlayProps={{
           backgroundOpacity: 0.55,

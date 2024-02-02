@@ -1,16 +1,14 @@
 import { useDisclosure } from "@mantine/hooks";
 import { Drawer, Select, Tooltip } from "@mantine/core";
-import { useForm, zodResolver } from "@mantine/form";
+import { useForm } from "@mantine/form";
 import { TextInput, Button } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { DateInput } from "@mantine/dates";
 import moment from "moment";
 import { apiProvider } from "../../../network/apiProvider";
 import { IconUserEdit } from "@tabler/icons-react";
 import { userStore } from "../../../app/userStore";
 import { positionStore } from "../../../app/positionStore";
-
-// import UserSchema from "./usermodal";
 
 function UpdateUser({ item }) {
   const [opened, { open, close }] = useDisclosure(false);
