@@ -19,7 +19,7 @@ function CreateQuestion({ value }) {
   const form = useForm({
     initialValues: {
       question: "",
-      options:[]
+      options: [],
     },
 
     validate: {
@@ -48,15 +48,6 @@ function CreateQuestion({ value }) {
   };
 
   const handleSubmit = async (event: any) => {
-<<<<<<< HEAD
-    if (options.some((option) => option.isCorrect)) {
-    }
-
-    const formattedOptions = options.map((option) => ({
-      option: option.value,
-      isCorrect: option.isCorrect,
-    }));
-=======
     if (!options.some((v) => v.isCorrect)) {
       showNotification({
         color: "red",
@@ -73,7 +64,6 @@ function CreateQuestion({ value }) {
         question: form.values.question,
         options: formattedOptions,
       };
->>>>>>> af8800adfe11a0fd76f12b223c9f001dcc420483
 
       try {
         const result = await apiProvider.createQuestion(formData);
@@ -89,7 +79,7 @@ function CreateQuestion({ value }) {
   };
   <form
     onSubmit={form.onSubmit(handleSubmit)}
-    className="flex flex-col mt-10 align-middle space-y-9"
+    className="mt-10 flex flex-col space-y-9 align-middle"
   >
     <TextInput
       description="Question"
@@ -136,7 +126,7 @@ function CreateQuestion({ value }) {
       >
         <form
           onSubmit={form.onSubmit(handleSubmit)}
-          className="flex flex-col mt-10 align-middle space-y-9"
+          className="mt-10 flex flex-col space-y-9 align-middle"
         >
           <Textarea
             radius="lg"
