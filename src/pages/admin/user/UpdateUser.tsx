@@ -19,16 +19,16 @@ function UpdateUser({ item }) {
     initialValues: {
       role: "",
       email: "",
-      firstname: "",
-      lastname: "",
-      mobilenumber: "",
+      firstName: "",
+      lastName: "",
+      mobileNumber: "",
       position: "",
-      specilization: "",
+      specialization: "",
       college: "",
       dob: "",
       experience: "",
       degree: "",
-      isexperience: "",
+      isExperience: "",
     },
 
     // validate: zodResolver(UserSchema),
@@ -40,15 +40,15 @@ function UpdateUser({ item }) {
       if (item.role.role === "User") {
         data = {
           userId: item.id,
-          firstName: values.firstname,
-          lastName: values.lastname,
+          firstName: values.firstName,
+          lastName: values.lastName,
           email: values.email,
-          mobile: values.mobilenumber,
+          mobile: values.mobileNumber,
           roleId: item?.role?.role,
           dob: moment(values.date).format("YYYY-MM-DD"),
           college: values.college,
           degree: values.degree,
-          specialization: values.specilization,
+          specialization: values.specialization,
           positionId: +values.position,
           isFresher: values.isexperience == "1" ? true : false,
           isExperience: values.isexperience == "2" ? true : false,
@@ -70,7 +70,6 @@ function UpdateUser({ item }) {
       if (result != null) {
         form.reset();
         fetchUserData();
-
         close();
       }
     } catch (e) {
@@ -125,13 +124,13 @@ function UpdateUser({ item }) {
               label="First Name"
               placeholder="Enter Your FirstName"
               className="w-64"
-              {...form.getInputProps("firstname")}
+              {...form.getInputProps("firstName")}
             />
             <TextInput
               label="Last Name"
               className="w-64"
               placeholder="Enter Your LastName"
-              {...form.getInputProps("lastname")}
+              {...form.getInputProps("lastName")}
             />
           </div>
 
@@ -145,7 +144,7 @@ function UpdateUser({ item }) {
             mt="sm"
             label="Mobile Number"
             placeholder="Enter Your Mobile Number"
-            {...form.getInputProps("mobilenumber")}
+            {...form.getInputProps("mobileNumber")}
           />
           {item.role.role == "User" ? (
             <>
@@ -170,9 +169,9 @@ function UpdateUser({ item }) {
                 {...form.getInputProps("degree")}
               />
               <TextInput
-                label="Specilization"
-                placeholder="Enter Your specilization"
-                {...form.getInputProps("specilization")}
+                label="Specialization"
+                placeholder="Enter Your specialization"
+                {...form.getInputProps("specialization")}
               />
 
               <Select

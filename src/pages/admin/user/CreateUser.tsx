@@ -125,20 +125,20 @@ function CreateUser() {
                       label: item.role,
                     }))
               }
-              className="mb-1 w-full"
+              className="w-full mb-1"
               {...form.getInputProps("roleId")}
             />
-            <div className="flex w-full flex-row justify-between">
+            <div className="flex flex-row justify-between w-full">
               <TextInput
                 label="First Name"
                 placeholder="Enter First Name"
-                className="mb-1 mr-2 w-full"
+                className="w-full mb-1 mr-2"
                 {...form.getInputProps("firstName")}
               />
               <TextInput
                 label="Last Name"
                 placeholder="Enter Last Name"
-                className="mb-1 w-full"
+                className="w-full mb-1"
                 {...form.getInputProps("lastName")}
               />
             </div>
@@ -146,13 +146,13 @@ function CreateUser() {
               mt="sm"
               label="Email"
               placeholder="Enter Email"
-              className="mb-1 w-full"
+              className="w-full mb-1"
               {...form.getInputProps("email")}
             />
             <TextInput
               label="Mobile Number"
               placeholder="Enter Mobile Number"
-              className="mb-1 w-full"
+              className="w-full mb-1"
               {...form.getInputProps("mobile")}
             />
 
@@ -188,7 +188,6 @@ function CreateUser() {
                   }))}
                   {...form.getInputProps("positionId")}
                 />
-
                 <Select
                   label="Work Experience"
                   placeholder="Select Work Experience"
@@ -196,7 +195,7 @@ function CreateUser() {
                     { value: "1", label: "Fresher" },
                     { value: "2", label: "Experienced" },
                   ]}
-                  className="mb-1 w-full"
+                  className="w-full mb-1"
                   {...form.getInputProps("isExperience")}
                 />
                 {form.values.isExperience == "2" ? (
@@ -205,7 +204,7 @@ function CreateUser() {
                       value={"1"}
                       label="Years Of Experience"
                       placeholder="Enter Years of Experience"
-                      className="mr-4 w-full"
+                      className="w-full mr-4"
                       {...form.getInputProps("experience")}
                     />
                   </>
