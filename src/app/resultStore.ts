@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { apiProvider } from "../network/apiProvider";
 import { BaseStoreState } from "../models/common-models";
 
-export interface resultStoreState extends BaseStoreState<[]> {
+export interface resultStoreState extends BaseStoreState<[ResultResponse]> {
   percentage: string;
   positionId: number;
   subjectId: number;
@@ -57,7 +57,6 @@ export const resultStore = create<resultStoreState>((set) => ({
       percentage: "All",
       positionId: 0,
       subjectId: 0,
-
       isFilterApplied: false,
       startDate: undefined,
       endDate: undefined,

@@ -75,7 +75,7 @@ function Users() {
         currentPage={page}
         onPageChanged={setPage}
       >
-        {data?.data?.map((value: any, index: any) =>
+        {data?.data?.map((value, index: number) =>
           value.role.id != 1 ? (
             <>
               <Table.Tr key={index}>
@@ -119,18 +119,17 @@ function Users() {
                     <Table.Td>{"NA"}</Table.Td>
                     <Table.Td>{"NA"}</Table.Td>
                     <Table.Td>{"NA"}</Table.Td>
-                    <Table.Td>{"NA"}</Table.Td>
                   </>
                 )}
                 <Table.Td className="min-w-max ">
                   {moment(value.createdAt).format("MMMM Do YYYY, h:mm a")}
                 </Table.Td>
-                {value.role.id == "3" ? (
+                {value.role.id == 3 ? (
                   <Table.Td>
                     {<UpdateUser item={value} />} {<ManageTest item={value} />}
                   </Table.Td>
                 ) : (
-                  <Table.Td>{"NA"}</Table.Td>
+                  <Table.Td>{<UpdateUser item={value} />}</Table.Td>
                 )}
               </Table.Tr>
             </>

@@ -6,7 +6,6 @@ import {
   ScrollArea,
   FileInput,
   Text,
-  FileButton,
 } from "@mantine/core";
 import * as XLSX from "xlsx";
 import { useForm, zodResolver } from "@mantine/form";
@@ -82,7 +81,7 @@ function UserBulkUpload() {
               reject(error);
             }
           };
-          FileButton, reader.readAsArrayBuffer(file);
+          reader.readAsArrayBuffer(file);
         });
       };
       const workbook: any = await readExcelFile(file);
@@ -102,7 +101,6 @@ function UserBulkUpload() {
       const invalidRows = [];
       for (let i = 0; i < sheetData.length; i++) {
         const row: any = sheetData[i];
-        console.log(row);
         if (!validateEmail(row?.Email) || !validateMobile(row.Mobile)) {
           invalidRows.push(row?.Email);
         }
@@ -120,6 +118,7 @@ function UserBulkUpload() {
       const result = await apiProvider.addUserUpload(formData);
       if (result !== null) {
         await fetchUser();
+        form.reset();
         close();
       }
     } catch (error) {
@@ -227,20 +226,18 @@ function UserBulkUpload() {
               <FileInput
                 onChange={(e: any) => setFile(e)}
                 label="User Bulk Upload"
-                placeholder=""
+                placeholder={
+                  <div className="flex justify-center font-bold text-black">
+                    <IconFileUpload size={20} /> Upload File
+                  </div>
+                }
                 accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 className="relative bottom-5 w-full"
                 withAsterisk
                 required
               />
-              <Button
-                type="submit"
-                fullWidth
-                color="teal"
-                variant="filled"
-                leftSection={<IconFileUpload />}
-              >
-                Upload
+              <Button type="submit" fullWidth color="teal" variant="filled">
+                Submit
               </Button>
             </div>
           </form>

@@ -5,6 +5,9 @@ import { LoginInput } from "../models/auth";
 import { GetReq } from "../models/common-models";
 import { GetResult } from "../models/result";
 import { CreateUserInput } from "../models/create-user";
+import { EditUserInput } from "../models/update-user";
+import { DashboardFilterData } from "../models/dashboard";
+import { ReassignData } from "../models/re-assign";
 
 export class ApiProvider {
   constructor(private readonly server: typeof apiClient) {}
@@ -59,28 +62,22 @@ export class ApiProvider {
     }
   }
 
-  // async function fetchDashBoardData() {
-  //   const response = await apiProvider.fetchDashBoardData();
-  //   if (response?.isSuccess) {
-  //     setDashboardData(response.data);
-  //   }
-  // }
+  async fetchDashBoardData(data: DashboardFilterData) {
+    try {
+      const response = await apiClient.get("dashboard", {
+        params: data,
+      });
+      if (this.isRequestSuccess(response.status)) {
+        const data = response?.data?.data;
+        return { isSuccess: true, data };
+      }
+    } catch (error) {
+      this.showAxiosErrorAlert(error);
+      return { isSuccess: false };
+    }
+  }
 
-  // async fetchDashBoardData(params: { page: number; search: string }) {
-  //   try {
-  //     const response = await this.server.get("position", { params: params });
-  //     if (this.isRequestSuccess(response.status)) {
-  //       const data = this.extractData(response);
-  //       return { isSuccess: true, data };
-  //     } else {
-  //       return { isSuccess: false };
-  //     }
-  //   } catch (error) {
-  //     this.showAxiosErrorAlert(error);
-  //   }
-  // }
-
-  async fetchAllUser(data: any) {
+  async fetchAllUser(data: GetReq) {
     try {
       const response = await this.server.get("user", { params: data });
       if (this.isRequestSuccess(response.status)) {
@@ -126,9 +123,12 @@ export class ApiProvider {
       this.showAxiosErrorAlert(error);
     }
   }
-  async UpdateUsers(data: any) {
+  async UpdateUsers(data: EditUserInput) {
     try {
-      const response = await this.server.patch("/user", data);
+      const response = await this.server.patch("/user", {
+        data: data.dob,
+        ...data,
+      });
       const message = this.extractMessage(response);
 
       if (this.isRequestSuccess(response?.status)) {
@@ -180,8 +180,6 @@ export class ApiProvider {
         const data = this.extractData(response);
         return { isSuccess: true, data };
       } else {
-        set({ isLoading: false });
-
         return { isSuccess: false };
       }
     } catch (error) {
@@ -269,7 +267,7 @@ export class ApiProvider {
     }
   }
 
-  async reassignTest(data: any) {
+  async reassignTest(data: ReassignData) {
     try {
       const response = await this.server.patch("/test/test-reassign", data);
       const message = this.extractMessage(response);
@@ -330,21 +328,6 @@ export class ApiProvider {
       }
     } catch (error) {
       this.showAxiosErrorAlert(error);
-    }
-  }
-
-  async fetchDashBoardData(data: any) {
-    try {
-      const response = await apiClient.get("dashboard", {
-        params: data,
-      });
-      if (this.isRequestSuccess(response.status)) {
-        const data = response?.data?.data;
-        return { isSuccess: true, data };
-      }
-    } catch (error) {
-      this.showAxiosErrorAlert(error);
-      return { isSuccess: false };
     }
   }
 }

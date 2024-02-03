@@ -1,20 +1,18 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useDisclosure } from "@mantine/hooks";
 import {
-  Modal,
   Button,
   TextInput,
   Select,
   Drawer,
   Tooltip,
+  NumberInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import "@mantine/dates/styles.css";
 import { DateInput } from "@mantine/dates";
 import "@mantine/core/styles/UnstyledButton.css";
 import "@mantine/core/styles/Button.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { apiProvider } from "../../../network/apiProvider";
 import { Role } from "../../../utils/enum";
 import { userStore } from "../../../app/userStore";
@@ -24,7 +22,6 @@ import { IconUserPlus } from "@tabler/icons-react";
 import moment from "moment";
 import { CreateUserInput, createUserSchema } from "../../../models/create-user";
 import { zodResolver } from "mantine-form-zod-resolver";
-import { Label } from "recharts";
 
 function CreateUser() {
   const {
@@ -35,6 +32,7 @@ function CreateUser() {
   } = positionStore();
   const { data: datas, fetchData: fetchRoleData } = roleStore();
   const { fetchData: fetchUserData } = userStore();
+
   const [opened, { open, close }] = useDisclosure(false);
   const userid = localStorage.getItem("roleId");
   const form = useForm<CreateUserInput>({
@@ -49,8 +47,8 @@ function CreateUser() {
       specialization: "",
       roleId: Role.User || Role.Admin,
       positionId: "",
-      experience: undefined,
-      isExperience: "",
+      experience: "1",
+      isFresher: "",
     },
     validate: zodResolver(createUserSchema),
     validateInputOnChange: true,
@@ -59,16 +57,13 @@ function CreateUser() {
   const handleSubmit = async (values: typeof form.values) => {
     let userData;
     try {
-      if (
-        values.roleId === String(Role.SuperAdmin) ||
-        values.roleId === String(Role.Admin)
-      ) {
+      if (values.roleId === Role.SuperAdmin || values.roleId === Role.Admin) {
         userData = {
           firstName: values.firstName,
           lastName: values.lastName,
           email: values.email,
           mobile: values.mobile,
-          roleId: +values.roleId,
+          roleId: Number(values.roleId),
         };
       } else {
         userData = {
@@ -82,10 +77,9 @@ function CreateUser() {
           roleId: Number(values.roleId),
           dob: moment(values.dob).format("YYYY-MM-DD"),
           positionId: Number(values.positionId),
-          isFresher: values.isExperience != "2",
-          isExperience: values.isExperience == "2",
+          isFresher: values.isFresher == "1" ? true : false,
           experience:
-            values.isExperience == "2" ? values.experience : undefined,
+            values.isFresher == "2" ? values.experience?.toString() : undefined,
         };
       }
 
@@ -205,12 +199,11 @@ function CreateUser() {
                     { value: "2", label: "Experienced" },
                   ]}
                   className="mb-1 w-full"
-                  {...form.getInputProps("isExperience")}
+                  {...form.getInputProps("isFresher")}
                 />
-                {form.values.isExperience == "2" ? (
+                {form.values.isFresher == "2" ? (
                   <>
                     <TextInput
-                      value={"1"}
                       label="Years Of Experience"
                       placeholder="Enter Years of Experience"
                       className="mr-4 w-full"

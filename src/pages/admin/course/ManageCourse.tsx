@@ -1,6 +1,6 @@
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button, Tooltip, Select } from "@mantine/core";
-import { testStore } from "../../../app/TestStore";
+import { testStore } from "../../../app/courseStore";
 import { IconClipboardText } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { apiProvider } from "../../../network/apiProvider";

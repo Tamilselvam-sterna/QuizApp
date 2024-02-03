@@ -9,29 +9,34 @@ import { apiProvider } from "../../../network/apiProvider";
 import { IconUserEdit } from "@tabler/icons-react";
 import { userStore } from "../../../app/userStore";
 import { positionStore } from "../../../app/positionStore";
+import { UserResponse } from "../../../models/user";
+import { Role } from "../../../utils/enum";
+import { updateUserInput, updateUserSchema } from "../../../models/update-user";
+import { zodResolver } from "mantine-form-zod-resolver";
 
-function UpdateUser({ item }) {
+function UpdateUser({ item }: { item: UserResponse }) {
   const [opened, { open, close }] = useDisclosure(false);
   const { data, fetchData: fetchPositionData } = positionStore();
   const { fetchData: fetchUserData } = userStore();
 
   const form = useForm<any>({
     initialValues: {
-      role: "",
+      firstName: "",
+      lastName: "",
       email: "",
-      firstname: "",
-      lastname: "",
-      mobilenumber: "",
-      position: "",
-      specilization: "",
-      college: "",
-      dob: "",
-      experience: "",
+      mobile: "",
+      dob: new Date(),
       degree: "",
-      isexperience: "",
+      college: "",
+      specialization: "",
+      roleId: Role.User || Role.Admin,
+      positionId: "",
+      experience: undefined,
+      isExperience: "",
     },
 
-    // validate: zodResolver(UserSchema),
+    validate: zodResolver(updateUserSchema),
+    validateInputOnChange: true,
   });
 
   async function UpdateUser(values: typeof form.values) {
@@ -78,15 +83,14 @@ function UpdateUser({ item }) {
     }
   }
   function editUserData() {
-    console.log(item);
-    form.setFieldValue("role", item.role.role);
-    form.setFieldValue("firstname", item.firstName);
-    form.setFieldValue("lastname", item.lastName);
-    form.setFieldValue("mobilenumber", item.mobile);
+    form.setFieldValue("roleId", item?.role?.role);
+    form.setFieldValue("firstName", item.firstName);
+    form.setFieldValue("lastName", item.lastName);
+    form.setFieldValue("mobile", item.mobile);
     form.setFieldValue("email", item.email);
     form.setFieldValue("college", item.userInfo[0]?.college);
     form.setFieldValue("degree", item.userInfo[0]?.degree);
-    form.setFieldValue("specilization", item.userInfo[0]?.specialization);
+    form.setFieldValue("specilization", item?.userInfo[0]?.specialization);
     form.setFieldValue(
       "isexperience",
       item?.userInfo[0]?.isFresher === true ? "1" : "2",
@@ -118,20 +122,20 @@ function UpdateUser({ item }) {
           <TextInput
             disabled
             label="Type of User"
-            {...form.getInputProps("role")}
+            {...form.getInputProps("roleId")}
           />
           <div className="flex flex-row justify-between">
             <TextInput
               label="First Name"
               placeholder="Enter Your FirstName"
               className="w-64"
-              {...form.getInputProps("firstname")}
+              {...form.getInputProps("firstName")}
             />
             <TextInput
               label="Last Name"
               className="w-64"
               placeholder="Enter Your LastName"
-              {...form.getInputProps("lastname")}
+              {...form.getInputProps("lastName")}
             />
           </div>
 
@@ -145,18 +149,15 @@ function UpdateUser({ item }) {
             mt="sm"
             label="Mobile Number"
             placeholder="Enter Your Mobile Number"
-            {...form.getInputProps("mobilenumber")}
+            {...form.getInputProps("mobile")}
           />
           {item.role.role == "User" ? (
             <>
-              <Select
-                label="Position"
-                placeholder="Select Position"
-                data={data?.data?.map((value) => ({
-                  label: value?.position,
-                  value: value?.id.toString(),
-                }))}
-                {...form.getInputProps("position")}
+              <DateInput
+                valueFormat="YYYY MMM DD"
+                label="Date of Birth"
+                placeholder="enter your date of birth"
+                {...form.getInputProps("dob")}
               />
 
               <TextInput
@@ -172,7 +173,16 @@ function UpdateUser({ item }) {
               <TextInput
                 label="Specilization"
                 placeholder="Enter Your specilization"
-                {...form.getInputProps("specilization")}
+                {...form.getInputProps("specialization")}
+              />
+              <Select
+                label="Position"
+                placeholder="Select Position"
+                data={data?.data?.map((value) => ({
+                  label: value?.position,
+                  value: value?.id.toString(),
+                }))}
+                {...form.getInputProps("positionId")}
               />
 
               <Select
@@ -182,7 +192,7 @@ function UpdateUser({ item }) {
                   { value: "1", label: "Fresher" },
                   { value: "2", label: "Experienced" },
                 ]}
-                {...form.getInputProps("isexperience")}
+                {...form.getInputProps("isFresher")}
               />
               {form.values.isexperience === "2" ? (
                 <TextInput
@@ -193,12 +203,6 @@ function UpdateUser({ item }) {
               ) : (
                 <></>
               )}
-              <DateInput
-                valueFormat="YYYY MMM DD"
-                label="Date of Birth"
-                placeholder="enter your date of birth"
-                {...form.getInputProps("dob")}
-              />
             </>
           ) : (
             <></>

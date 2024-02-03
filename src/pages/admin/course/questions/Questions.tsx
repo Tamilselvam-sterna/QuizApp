@@ -13,7 +13,6 @@ function Questions() {
     viewQuestionsStore();
   const searchRef = useRef<HTMLInputElement>(null);
   const handleSearch = () => {
-    console.log("search" ?? "empty");
     setSearch(searchRef.current!.value);
   };
   const { id } = useParams();

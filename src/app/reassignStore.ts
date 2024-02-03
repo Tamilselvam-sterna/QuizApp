@@ -1,8 +1,9 @@
 import { create } from "zustand";
 import { BaseStoreState } from "../models/common-models";
 import { apiProvider } from "../network/apiProvider";
+import { ReassignDetails } from "../models/re-assign";
 
-export interface reassignState extends BaseStoreState<[]> {
+export interface reassignState extends BaseStoreState<ReassignDetails> {
   positionId: number;
   subjectId: number;
   setDateFilter: (dateFilter: string) => void;

@@ -6,7 +6,6 @@ export interface viewQuestionStore extends BaseStoreState<[]> {}
 export const viewQuestionsStore = create<viewQuestionStore>((set) => ({
   page: 1,
   search: "",
-
   data: {
     from: 0,
     to: 0,

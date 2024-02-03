@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef } from "react";
 import TableHeader from "../../../components/TableHeader";
 import TableComponent from "../../../components/Table";
@@ -7,7 +5,7 @@ import { Button, Table, Tooltip } from "@mantine/core";
 import CreateQuestion from "./questions/CreateQuestion";
 import CreateCourse from "./CreateCourse";
 import { Link } from "react-router-dom";
-import { testStore } from "../../../app/TestStore";
+import { testStore } from "../../../app/courseStore";
 import { IconEye } from "@tabler/icons-react";
 import AnimatedComponent from "../../../components/AnimatedComponent";
 
@@ -23,7 +21,6 @@ function Courses() {
     setPage(1);
   };
 
-  // setPage(1);
   useEffect(() => {
     fetchData();
   }, [page, fetchData, search]);
@@ -48,7 +45,7 @@ function Courses() {
           currentPage={page}
           onPageChanged={setPage}
         >
-          {data?.data?.map((value: any, index: any) => (
+          {data?.data?.map((value, index) => (
             <Table.Tr key={index}>
               <Table.Td>{data.from + index}</Table.Td>
               <Table.Td>{value.subject}</Table.Td>

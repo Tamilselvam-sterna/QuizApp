@@ -6,8 +6,8 @@ type AuthContextType = {
   isUserAuthenticated: () => boolean;
   login: (userData: AuthUser) => void;
   getUser: () => AuthUser | null;
-  testData: (data: any) => void;
-  getTestData: () => any | null;
+  testData: (data: TestResponseData) => void;
+  getTestData: () => TestResponseData | null;
   logout: () => void;
 };
 
@@ -23,11 +23,29 @@ export type AuthUser = {
   };
 };
 
+type Option = {
+  id: number;
+  option: string;
+};
+
+type Question = {
+  id: number;
+  question: string;
+  options: Option[];
+};
+
+export type TestResponseData = {
+  subjectId: number;
+  questionsWithOptions: Question[];
+};
+
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
-  const [testResponse, setTestResponse] = useState(null);
+  const [testResponse, setTestResponse] = useState<TestResponseData | null>(
+    null,
+  );
 
   const navigate = useNavigate();
 
@@ -57,7 +75,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () => {
     localStorage.clear(), setUser(null), navigate("/");
   };
-  const testData = (data: any) => {
+  const testData = (data: TestResponseData) => {
     setTestResponse(data);
   };
   const getTestData = () => testResponse;

@@ -40,7 +40,7 @@ function position() {
           currentPage={page}
           onPageChanged={setPage}
         >
-          {data?.data?.map((value: any, index: any) => (
+          {data?.data?.map((value, index: number) => (
             <Table.Tr key={index}>
               <Table.Td>{data?.from + index}</Table.Td>
               <Table.Td>{value?.position}</Table.Td>

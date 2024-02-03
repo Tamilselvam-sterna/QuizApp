@@ -30,3 +30,9 @@ export type SubjectStatsRes = {
   testCompletedUser: number;
   testInCompleteUser: number;
 };
+
+export type DashboardFilterData = {
+  dateFilter: "All" | "Today" | " Yesterday" | "MonthTillDate" | "DateRange";
+  startDate: string | undefined;
+  endDate: string | undefined;
+};

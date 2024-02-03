@@ -17,13 +17,11 @@ import Courses from "./pages/admin/course/Courses.tsx";
 import Users from "./pages/admin/user/Users.tsx";
 import Dashboard from "./pages/admin/dashboard/Dashboard.tsx";
 import Questions from "./pages/admin/course/questions/Questions.tsx";
-import UserLayout from "./components/UserLayout.tsx";
 import InstructionPage from "./pages/user/Instructions.tsx";
 import TestPage from "./pages/user/TestPage.tsx";
 import Userhome from "./pages/user/Userhome.tsx";
 import Position from "./pages/admin/position/position.tsx";
 import SuccessPage from "./pages/user/SuccessPage.tsx";
-// import Users from './pages/admin/user/Users.tsx';
 
 const routes = createBrowserRouter(
   createRoutesFromElements(

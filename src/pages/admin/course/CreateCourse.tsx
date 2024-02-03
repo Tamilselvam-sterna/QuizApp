@@ -4,7 +4,7 @@ import { useForm } from "@mantine/form";
 import apiClient from "../../../network/apiClient";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { createCourseSchema } from "../../../models/create-course";
-import { testStore } from "../../../app/TestStore";
+import { testStore } from "../../../app/courseStore";
 import { IconPlus } from "@tabler/icons-react";
 
 function AddSubject() {

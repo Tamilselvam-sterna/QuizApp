@@ -1,14 +1,9 @@
 import { create } from "zustand";
 import { apiProvider } from "../network/apiProvider";
 import { BaseStoreState } from "../models/common-models";
+import { UserResponse } from "../models/user";
 
-export interface UserType {
-  id: number;
-  firstName: string;
-  lastName: string;
-}
-
-export interface userStoreType extends BaseStoreState<UserType> {
+export interface userStoreType extends BaseStoreState<UserResponse> {
   positionId: string | number;
   roleId: string | number;
   dateFilter: string;

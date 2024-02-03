@@ -8,7 +8,7 @@ import { dateValue } from "../../../utils/constant";
 import { percentageValue } from "../../../utils/constant";
 import { resultStore } from "../../../app/resultStore";
 import { positionStore } from "../../../app/positionStore";
-import { testStore } from "../../../app/TestStore";
+import { testStore } from "../../../app/courseStore";
 
 function ResultFilter() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -22,7 +22,6 @@ function ResultFilter() {
   const {
     data: subjectData,
     fetchData: fetchTestData,
-    page: subjectPage,
     setPage: setSubjectPage,
     reset: subjectReset,
   } = testStore();
@@ -160,7 +159,7 @@ function ResultFilter() {
           <></>
         )}
 
-        <div className="flex flex-col items-center justify-center w-full gap-4 py-3 mt-2">
+        <div className="mt-2 flex w-full flex-col items-center justify-center gap-4 py-3">
           <div className="flex gap-10">
             <Button
               onClick={clearFilter}
