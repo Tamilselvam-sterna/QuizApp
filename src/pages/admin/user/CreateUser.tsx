@@ -1,12 +1,5 @@
 import { useDisclosure } from "@mantine/hooks";
-import {
-  Button,
-  TextInput,
-  Select,
-  Drawer,
-  Tooltip,
-  NumberInput,
-} from "@mantine/core";
+import { Button, TextInput, Select, Drawer, Tooltip } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import "@mantine/dates/styles.css";
 import { DateInput } from "@mantine/dates";
@@ -190,7 +183,6 @@ function CreateUser() {
                   }))}
                   {...form.getInputProps("positionId")}
                 />
-
                 <Select
                   label="Work Experience"
                   placeholder="Select Work Experience"

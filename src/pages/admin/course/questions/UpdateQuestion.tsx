@@ -59,6 +59,13 @@ function UpdateQuestion({ item }) {
       if (result != null) {
         fetchData(id);
         close();
+        form.reset();
+        setOptions([
+          { value: "", isCorrect: false },
+          { value: "", isCorrect: false },
+          { value: "", isCorrect: false },
+          { value: "", isCorrect: false },
+        ]);
       }
     } catch (e) {
       console.log(e);

@@ -24,14 +24,15 @@ function UpdateUser({ item }: { item: UserResponse }) {
       firstName: "",
       lastName: "",
       email: "",
-      mobile: "",
-      dob: new Date(),
-      degree: "",
-      college: "",
+      firstName: "",
+      lastName: "",
+      mobileNumber: "",
+      position: "",
       specialization: "",
-      roleId: Role.User || Role.Admin,
-      positionId: "",
-      experience: undefined,
+      college: "",
+      dob: "",
+      experience: "",
+      degree: "",
       isExperience: "",
     },
 
@@ -45,15 +46,15 @@ function UpdateUser({ item }: { item: UserResponse }) {
       if (item.role.role === "User") {
         data = {
           userId: item.id,
-          firstName: values.firstname,
-          lastName: values.lastname,
+          firstName: values.firstName,
+          lastName: values.lastName,
           email: values.email,
-          mobile: values.mobilenumber,
+          mobile: values.mobileNumber,
           roleId: item?.role?.role,
           dob: moment(values.date).format("YYYY-MM-DD"),
           college: values.college,
           degree: values.degree,
-          specialization: values.specilization,
+          specialization: values.specialization,
           positionId: +values.position,
           isFresher: values.isexperience == "1" ? true : false,
           isExperience: values.isexperience == "2" ? true : false,
@@ -75,7 +76,6 @@ function UpdateUser({ item }: { item: UserResponse }) {
       if (result != null) {
         form.reset();
         fetchUserData();
-
         close();
       }
     } catch (e) {
@@ -149,7 +149,7 @@ function UpdateUser({ item }: { item: UserResponse }) {
             mt="sm"
             label="Mobile Number"
             placeholder="Enter Your Mobile Number"
-            {...form.getInputProps("mobile")}
+            {...form.getInputProps("mobileNumber")}
           />
           {item.role.role == "User" ? (
             <>
@@ -171,18 +171,9 @@ function UpdateUser({ item }: { item: UserResponse }) {
                 {...form.getInputProps("degree")}
               />
               <TextInput
-                label="Specilization"
-                placeholder="Enter Your specilization"
+                label="Specialization"
+                placeholder="Enter Your specialization"
                 {...form.getInputProps("specialization")}
-              />
-              <Select
-                label="Position"
-                placeholder="Select Position"
-                data={data?.data?.map((value) => ({
-                  label: value?.position,
-                  value: value?.id.toString(),
-                }))}
-                {...form.getInputProps("positionId")}
               />
 
               <Select

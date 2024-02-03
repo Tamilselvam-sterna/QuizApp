@@ -16,7 +16,7 @@ function ReportData() {
       showNotification({
         color: "red",
         title: "Sorry",
-        message: "no data found",
+        message: "No data found",
       });
     } else {
       for (let index = 0; index < (reportData?.length ?? 0); index++) {
@@ -123,15 +123,16 @@ function ReportData() {
     <div className="flex space-x-4">
       <Button
         className="font-medium"
-        variant="light"
+        color="red"
+        variant="outline"
         onClick={() => fetchReports(false)}
       >
         Download PDF
       </Button>
       <Button
         className="ml-2 font-medium"
-        variant="light"
-        color="orange"
+        variant="outline"
+        color="green"
         onClick={() => fetchReports(true)}
       >
         Download Excel

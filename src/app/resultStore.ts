@@ -6,7 +6,6 @@ export interface resultStoreState extends BaseStoreState<[ResultResponse]> {
   percentage: string;
   positionId: number;
   subjectId: number;
-
   setDateFilter: (dateFilter: string) => void;
   setPercentage: (percentage: string) => void;
   setIsFilterApplied: (isApplied: boolean) => void;
@@ -14,7 +13,6 @@ export interface resultStoreState extends BaseStoreState<[ResultResponse]> {
   setEndDate: (endDate: string | undefined) => void;
   setPosition: (position: string) => void;
   setSubject: (subject: string) => void;
-
   startDate: string | undefined;
   endDate: string | undefined;
   dateFilter: string;

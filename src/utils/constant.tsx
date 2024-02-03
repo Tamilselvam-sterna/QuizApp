@@ -10,37 +10,37 @@ export const navLinks = [
   {
     title: "Home",
     to: "dashboard",
-    icon: <MdOutlineAnalytics className="h-6 w-6" />,
+    icon: <MdOutlineAnalytics className="w-6 h-6" />,
     allowedUsers: [Role.SuperAdmin, Role.Admin],
   },
   {
     title: "Users",
     to: "users",
-    icon: <FaPeopleGroup className="h-6 w-6" />,
+    icon: <FaPeopleGroup className="w-6 h-6" />,
     allowedUsers: [Role.SuperAdmin, Role.Admin],
   },
   {
     title: "Subjects",
     to: "subjects",
-    icon: <FaRegRectangleList className="h-6 w-6" />,
+    icon: <FaRegRectangleList className="w-6 h-6" />,
     allowedUsers: [Role.SuperAdmin, Role.Admin],
   },
   {
     title: "Results",
     to: "results",
-    icon: <TbReportAnalytics className="h-6 w-6" />,
+    icon: <TbReportAnalytics className="w-6 h-6" />,
     allowedUsers: [Role.SuperAdmin, Role.Admin],
   },
   {
     title: "Positions",
     to: "positions",
-    icon: <IconChecklist className="h-6 w-6" />,
+    icon: <IconChecklist className="w-6 h-6" />,
     allowedUsers: [Role.SuperAdmin],
   },
   {
     title: "Reassign",
     to: "reassign",
-    icon: <FiRefreshCcw className="h-6 w-6" />,
+    icon: <FiRefreshCcw className="w-6 h-6" />,
     allowedUsers: [Role.SuperAdmin],
   },
 ];
@@ -73,3 +73,4 @@ export const percentageValue = [
     label: "Above 75%",
   },
 ];
+export const experienceLevelData=[{value:0,label:"All"},{value:1,label:"Fresher"},{value:3,label:"Experienced"}]
