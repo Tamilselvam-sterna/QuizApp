@@ -47,8 +47,11 @@ function Login() {
 
     if (response?.status) {
       const data = response?.data;
+
       authContext?.login(data);
-      const roleId = response?.data?.role?.id;
+
+      const roleId = response?.data?.user?.role?.id;
+
       if (roleId == Role.SuperAdmin || roleId == Role.Admin)
         navigate("/dashboard");
       else {

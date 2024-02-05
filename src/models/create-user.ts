@@ -16,8 +16,8 @@ export const createUserSchema = z.object({
   specialization: z.string().min(1, "Enter Specialization").optional(),
   positionId: z.string().min(1, "Select Position").optional(),
   isFresher: z.string().min(1, "Select Any One Experience Level").optional(),
-  experience: z
-    .string()
+  yearsOfExperience: z
+    .number()
     .min(1, "Enter Years Of Experience In Numeric Value")
     .optional(),
 });

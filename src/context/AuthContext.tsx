@@ -12,16 +12,27 @@ type AuthContextType = {
 };
 
 export type AuthUser = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  token: string;
-  role: {
-    id: number;
-    role: string;
+  user: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    token: string;
+    role: {
+      id: number;
+      role: string;
+    };
+    userInfo: PositionType[];
   };
+  questionCount: string;
 };
+
+export interface PositionType {
+  position: {
+    id: number;
+    position: string;
+  };
+}
 
 type Option = {
   id: number;
@@ -50,21 +61,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
 
   const login = (userData: AuthUser) => {
-    localStorage.setItem("id", userData?.id ?? 0);
-    localStorage.setItem("firstName", userData?.firstName ?? "");
-    localStorage.setItem("lastName", userData?.lastName ?? "");
-    localStorage.setItem("email", userData?.email ?? "");
-    localStorage.setItem("token", userData?.token ?? "");
-    localStorage.setItem("role", userData?.role?.role ?? "");
-    localStorage.setItem("roleId", userData?.role?.id.toString() ?? "");
+    localStorage.setItem("id", userData?.user?.id ?? 0);
+    localStorage.setItem("firstName", userData?.user?.firstName ?? "");
+    localStorage.setItem("lastName", userData?.user?.lastName ?? "");
+    localStorage.setItem("email", userData?.user?.email ?? "");
+    localStorage.setItem("token", userData?.user?.token ?? "");
+    localStorage.setItem("role", userData?.user?.role?.role ?? "");
+    localStorage.setItem("roleId", userData?.user?.role?.id.toString() ?? "");
     localStorage.setItem(
       "isSuperAdmin",
-      userData.id.toString() === Role.SuperAdmin ? "true" : "false",
+      userData?.user?.role?.id.toString() === Role.SuperAdmin
+        ? "true"
+        : "false",
     );
     localStorage.setItem(
       "isAdmin",
-      userData.id.toString() === Role.Admin ? "true" : "false",
+      userData?.user?.role?.id.toString() === Role.Admin ? "true" : "false",
     );
+    if (userData.user.role.id.toString() == Role.User) {
+      localStorage.setItem(
+        "position",
+        userData?.user?.userInfo[0]?.position?.position ?? null,
+      );
+      localStorage.setItem("questionCount", userData?.questionCount);
+    } else {
+      undefined;
+    }
+
     setUser(userData);
   };
 

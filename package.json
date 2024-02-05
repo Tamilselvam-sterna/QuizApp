@@ -21,6 +21,7 @@
     "axios": "^1.6.5",
     "clsx": "^2.1.0",
     "dayjs": "^1.11.10",
+    "emoji-picker-react": "^4.7.12",
     "framer-motion": "^10.18.0",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.1",

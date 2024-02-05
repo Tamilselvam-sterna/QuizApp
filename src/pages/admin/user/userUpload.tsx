@@ -175,7 +175,7 @@ function UserBulkUpload() {
           opened={opened}
           onClose={close}
           size="lg"
-          title="User upload"
+          title={<div className="text-lg font-bold">User Upload</div>}
           className="flex pl-5"
         >
           <form onSubmit={form.onSubmit(onSubmit)}>

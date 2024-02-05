@@ -94,7 +94,7 @@ function UpdateQuestion({ item }) {
       <Drawer
         opened={opened}
         onClose={close}
-        title="Edit Question"
+        title={<div className="text-lg font-bold">Edit Question</div>}
         position="right"
         size={"md"}
         offset={16}

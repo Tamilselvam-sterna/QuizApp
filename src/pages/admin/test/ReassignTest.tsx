@@ -8,8 +8,16 @@ import AnimatedComponent from "../../../components/AnimatedComponent";
 import ReassignFilter from "./ReassignFilter";
 
 function ReassignTest() {
-  const { data, page, search, isLoading, fetchData, setPage, setSearch } =
-    reassignStore();
+  const {
+    data,
+    page,
+    search,
+    isLoading,
+    fetchData,
+    setPage,
+    setSearch,
+    reset,
+  } = reassignStore();
   const searchRef = useRef<HTMLInputElement>(null);
 
   const handleSearch = () => {
@@ -19,6 +27,10 @@ function ReassignTest() {
   useEffect(() => {
     fetchData();
   }, [page, fetchData, search]);
+
+  useEffect(() => {
+    reset();
+  }, []);
   return (
     <AnimatedComponent>
       <div className="mb-2 ml-2 mt-5">

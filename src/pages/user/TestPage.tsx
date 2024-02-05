@@ -93,42 +93,96 @@ function TestPage() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center">
+    // <main className="flex min-h-screen items-center justify-center">
+    //   <div className="z-10 mb-32 flex w-full justify-center">
+    //     <div
+    //       aria-hidden="true"
+    //       className="flex h-[500px] w-6/12 flex-col items-center rounded-xl bg-white"
+    //     >
+    //       <div className="mt-3 text-center ">Time Left: {timeLeft} seconds</div>
+    //       {currentQuestion && (
+    //         <>
+    //           <h1 className="mt-5 flex w-full justify-start pl-9 text-xl font-medium">{`${currentQuestionIndex + 1}. ${currentQuestion.question}`}</h1>
+
+    //           <div className="relative right-80">
+    //             {currentQuestion?.options?.map((option) => (
+    //               <div
+    //                 key={option.id}
+    //                 className="mt-3 flex w-full space-x-8 border-gray-950 p-4"
+    //               >
+    //                 <Radio
+    //                   name="options"
+    //                   className="border-2-black mt-1"
+    //                   variant="outline"
+    //                   value={option.value}
+    //                   checked={option.isCorrect}
+    //                   onChange={() => handleOptionSelect(option.id)}
+    //                 />
+    //                 <label>{option.option}</label>
+    //               </div>
+    //             ))}
+    //           </div>
+    //           <div className="mr-6 flex w-full justify-end">
+    //             <Button onClick={handleButtonClick} className="w-40">
+    //               {currentQuestionIndex === data.questionsWithOptions.length - 1
+    //                 ? "Submit Test"
+    //                 : "Next Question"}
+    //             </Button>
+    //           </div>
+    //         </>
+    //       )}
+    //     </div>
+    //   </div>
+    // </main>
+    <main className="flex min-h-screen items-center justify-center bg-zinc-200">
       <div className="z-10 mb-32 flex w-full justify-center">
-        <div
-          aria-hidden="true"
-          className="flex h-[500px] w-6/12 flex-col items-center rounded-xl bg-white"
-        >
-          <div className="mt-3 text-center">Time Left: {timeLeft} seconds</div>
+        <div className="flex w-6/12 flex-col items-center rounded-xl bg-white p-6">
+          <div className="mb-3 border-solid border-black text-center font-bold">
+            Time Left: {timeLeft} seconds
+          </div>
+
           {currentQuestion && (
             <>
-              <h1 className="mt-5 flex w-full justify-start pl-9 text-xl font-medium">{`${currentQuestionIndex + 1}. ${currentQuestion.question}`}</h1>
+              <h1 className="mt-5 w-full overflow-hidden text-xl font-medium">
+                {`${currentQuestionIndex + 1}. ${currentQuestion.question}`}
+              </h1>
 
-              <div className="relative right-80">
+              <div className="mt-3 max-h-96 w-full overflow-y-auto">
                 {currentQuestion?.options?.map((option) => (
                   <div
                     key={option.id}
-                    className="mt-3 flex w-full space-x-8 border-gray-950 p-4"
+                    className={`mb-2 flex items-center space-x-2 border ${
+                      selectedOption === option.id
+                        ? "rounded-lg border-blue-500 bg-neutral-200" // You can use your desired color for the selected option
+                        : "rounded-lg border-gray-300"
+                    } cursor-pointer`}
+                    onClick={() => handleOptionSelect(option.id)}
                   >
-                    <Radio
-                      name="options"
-                      className="border-2-black mt-1"
-                      variant="outline"
-                      value={option.value}
-                      checked={option.isCorrect}
-                      onChange={() => handleOptionSelect(option.id)}
-                    />
-                    <label>{option.option}</label>
+                    <label className="m-0 flex w-full overflow-hidden overflow-ellipsis  p-3">
+                      <Radio
+                        name="options"
+                        className="border-2-black mr-3"
+                        variant="outline"
+                        value={option.value}
+                        checked={option.isCorrect}
+                        onChange={() => handleOptionSelect(option.id)}
+                      />
+                      {option.option}
+                    </label>
                   </div>
                 ))}
               </div>
-              <div className="mr-6 flex w-full justify-end">
-                <Button onClick={handleButtonClick} className="w-40">
-                  {currentQuestionIndex === data.questionsWithOptions.length - 1
-                    ? "Submit Test"
-                    : "Next Question"}
-                </Button>
-              </div>
+
+              {/* <div className="flex justify-end"> */}
+              <Button
+                onClick={handleButtonClick}
+                className="relative left-96 mt-4 w-40"
+              >
+                {currentQuestionIndex === data.questionsWithOptions.length - 1
+                  ? "Submit Test"
+                  : "Next Question"}
+              </Button>
+              {/* </div> */}
             </>
           )}
         </div>

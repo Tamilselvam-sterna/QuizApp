@@ -3,8 +3,7 @@ interface UserInfo {
   degree: string;
   specialization: string;
   isFresher: boolean;
-  isExperience: boolean;
-  experience: string;
+  yearsOfExperience: string;
   dob: string;
   position: {
     id: number;

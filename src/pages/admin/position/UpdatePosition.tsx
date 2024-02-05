@@ -1,27 +1,36 @@
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, Button, TextInput } from "@mantine/core";
+import { Modal, Button, TextInput, Tooltip } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import apiClient from "../../../network/apiClient";
 import { zodResolver } from "mantine-form-zod-resolver";
-import { createCourseSchema } from "../../../models/create-course";
-import { testStore } from "../../../app/courseStore";
-import { IconPlus } from "@tabler/icons-react";
+import { positionStore } from "../../../app/positionStore";
+import { z } from "zod";
+import { IconEditCircle, IconPlus, IconUserEdit } from "@tabler/icons-react";
+import { useEffect } from "react";
 
-function AddSubject() {
+const createPositionSchema = z.object({
+  positionName: z
+    .string()
+    .min(1, "subject name minimum one character required"),
+});
+
+function UpdatePosition({ value }) {
   const [opened, { open, close }] = useDisclosure(false);
-  const { fetchData } = testStore();
+  const { fetchData } = positionStore();
+
   const form = useForm({
     initialValues: {
-      subjectName: "",
+      positionName: "",
     },
-    validate: zodResolver(createCourseSchema),
+    validate: zodResolver(createPositionSchema),
   });
   const handleSubmit = async (values: typeof form.values) => {
     try {
-      const subjectData = {
-        subject: values.subjectName,
+      const positionData = {
+        positionId: +value.id,
+        position: values.positionName,
       };
-      const response = await apiClient.post("/test", subjectData);
+      const response = await apiClient.patch("/position", positionData);
       if (response != null) {
         close();
         form.reset();
@@ -31,12 +40,15 @@ function AddSubject() {
       console.log(error);
     }
   };
+  useEffect(() => {
+    form.setFieldValue("positionName", value.position);
+  }, []);
   return (
     <>
       <Modal
         opened={opened}
         onClose={close}
-        title={<div className="text-lg font-bold">Add Subject</div>}
+        title="Edit Position"
         overlayProps={{
           backgroundOpacity: 0.55,
           blur: 3,
@@ -46,10 +58,10 @@ function AddSubject() {
           <>
             <div className="flex w-full flex-row justify-between">
               <TextInput
-                label="Subject Name"
-                placeholder="Subject Name"
+                label="Position Name"
+                placeholder="Position Name"
                 className="mb-1 mr-2 w-full"
-                {...form.getInputProps("subjectName")}
+                {...form.getInputProps("positionName")}
               />
             </div>
             <div>
@@ -60,15 +72,20 @@ function AddSubject() {
           </>
         </form>
       </Modal>
-      <Button
+      {/* <Button
         onClick={open}
         variant="outline"
         color="teal"
         leftSection={<IconPlus />}
       >
-        Add Subject
-      </Button>
+        Add Position
+      </Button> */}
+      <Tooltip label="UpdatePosition">
+        <Button color="gray" onClick={open} variant="outline">
+          <IconEditCircle />
+        </Button>
+      </Tooltip>
     </>
   );
 }
-export default AddSubject;
+export default UpdatePosition;

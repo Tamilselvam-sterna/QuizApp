@@ -9,6 +9,7 @@ import { userStore } from "../../../app/userStore";
 function ManageTest({ item }) {
   const [opened, { open, close }] = useDisclosure(false);
   const { data, fetchData: fetchPositionData, setPage, reset } = testStore();
+  const roleId = localStorage.getItem("roleId");
   const { fetchData: fetchUserData } = userStore();
   const [assignedCourse, setAssignCourse] = useState(1);
   const { fetchData } = testStore();
@@ -45,7 +46,7 @@ function ManageTest({ item }) {
       <Modal
         opened={opened}
         onClose={modalClose}
-        title="Assign Test"
+        title={<div className="text-lg font-bold">Assign Test</div>}
         overlayProps={{
           backgroundOpacity: 0.55,
           blur: 3,
@@ -74,7 +75,7 @@ function ManageTest({ item }) {
           </div>
         </>
       </Modal>
-      {!item.userTestDetails[0]?.test.subject ? (
+      {roleId == "1" ? (
         <Tooltip label="Manage Test">
           <Button type="submit" onClick={open} variant="outline" color="teal">
             <IconClipboardText />

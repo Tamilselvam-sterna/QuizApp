@@ -25,7 +25,7 @@ import SuccessPage from "./pages/user/SuccessPage.tsx";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
+    <Route element={<App />}>
       <Route index element={<Login />} />
       <Route path="/" element={<AdminLayout />}>
         <Route path="dashboard" element={<Dashboard />} />

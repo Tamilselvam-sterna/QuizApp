@@ -4,7 +4,7 @@ import { IconFilterStar } from "@tabler/icons-react";
 import { DatePickerInput } from "@mantine/dates";
 import { useEffect, useState } from "react";
 import moment from "moment";
-import { dateValue } from "../../../utils/constant";
+import { dateValue, experienceLevelData } from "../../../utils/constant";
 import { percentageValue } from "../../../utils/constant";
 import { resultStore } from "../../../app/resultStore";
 import { positionStore } from "../../../app/positionStore";
@@ -18,7 +18,9 @@ function ResultFilter() {
     setPage: setPositionPage,
     reset: positionReset,
   } = positionStore();
-  const { positionId, subjectId } = resultStore();
+
+  const { positionId, subjectId, experienceLevel, setExperienceLevel } =
+    resultStore();
   const {
     data: subjectData,
     fetchData: fetchTestData,
@@ -69,6 +71,10 @@ function ResultFilter() {
   function changeSubject(value: string | null) {
     setSubject(value!);
   }
+  function changeExperience(value: string | null) {
+    setExperienceLevel(value!);
+  }
+
   function filterApplied() {
     setStartDate(startDates);
     setEndDate(endDates);
@@ -137,6 +143,16 @@ function ResultFilter() {
             label: item?.subject,
           }))}
           onChange={changeSubject}
+        />
+        <Select
+          label="ExperienceLevel"
+          value={experienceLevel.toString()}
+          placeholder="select Experience"
+          data={experienceLevelData?.map((item) => ({
+            value: String(item.value),
+            label: item.label,
+          }))}
+          onChange={changeExperience}
         />
         <Select
           label="Date Filter"

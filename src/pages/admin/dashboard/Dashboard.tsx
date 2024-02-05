@@ -9,7 +9,7 @@ import { dashboardStore } from "../../../app/dashboardStore";
 
 const Dashboard = () => {
   const { fetchData, data } = dashboardStore();
-
+  // localStorage.removeItem("token");
   useEffect(() => {
     fetchData();
   }, []);

@@ -25,7 +25,7 @@ function Users() {
     fetchData,
   } = userStore();
   const searchRef = useRef<HTMLInputElement>(null);
-
+  const roleId = localStorage.getItem("roleId");
   const handleSearch = () => {
     setSearch(searchRef.current!.value);
     setPage(1);
@@ -103,7 +103,7 @@ function Users() {
                     <Table.Td>
                       {value?.userInfo[0]?.isFresher
                         ? "NA"
-                        : value?.userInfo[0]?.experience}
+                        : value?.userInfo[0]?.yearsOfExperience}
                     </Table.Td>
                     <Table.Td>
                       {value.userTestDetails[0]?.test.subject ?? "NA"}
@@ -124,7 +124,7 @@ function Users() {
                 <Table.Td className="min-w-max ">
                   {moment(value.createdAt).format("MMMM Do YYYY, h:mm a")}
                 </Table.Td>
-                {value.role.id == 3 ? (
+                {roleId == "1" ? (
                   <Table.Td>
                     {<UpdateUser item={value} />} {<ManageTest item={value} />}
                   </Table.Td>

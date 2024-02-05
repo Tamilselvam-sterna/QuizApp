@@ -51,7 +51,7 @@ function DashboardFilter() {
       <Modal
         opened={opened}
         onClose={close}
-        title="Dashboard Filter"
+        title={<div className="text-lg font-bold">Dashboard Filter</div>}
         radius={"lg"}
         overlayProps={{
           backgroundOpacity: 0.55,

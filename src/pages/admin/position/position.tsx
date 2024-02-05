@@ -6,10 +6,19 @@ import AnimatedComponent from "../../../components/AnimatedComponent";
 import { positionStore } from "../../../app/positionStore";
 import moment from "moment";
 import CreatePosition from "./CreatePosition";
+import UpdatePosition from "./UpdatePosition";
 
 function position() {
-  const { data, page, search, isLoading, fetchData, setPage, setSearch } =
-    positionStore();
+  const {
+    data,
+    page,
+    search,
+    isLoading,
+    fetchData,
+    setPage,
+    setSearch,
+    reset,
+  } = positionStore();
   const searchRef = useRef<HTMLInputElement>(null);
 
   const handleSearch = () => {
@@ -19,6 +28,10 @@ function position() {
   useEffect(() => {
     fetchData();
   }, [page, fetchData, search]);
+
+  useEffect(() => {
+    reset();
+  }, []);
   return (
     <AnimatedComponent>
       <div className="mb-2 ml-2 mt-5">
@@ -47,6 +60,7 @@ function position() {
               <Table.Td>
                 {moment(value.createdAt).format("MMMM Do YYYY, h:mm a")}
               </Table.Td>
+              <Table.Td>{<UpdatePosition value={value} />}</Table.Td>
             </Table.Tr>
           ))}
         </TableComponent>

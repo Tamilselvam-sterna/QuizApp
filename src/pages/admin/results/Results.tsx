@@ -10,8 +10,16 @@ import ResultFilter from "./ResultFilter";
 
 const HeaderComponents = [<ReportData />, <ResultFilter />];
 function Results() {
-  const { data, page, search, fetchData, setPage, setSearch, isLoading } =
-    resultStore();
+  const {
+    data,
+    page,
+    search,
+    fetchData,
+    setPage,
+    setSearch,
+    isLoading,
+    reset,
+  } = resultStore();
 
   const searchRef = useRef<HTMLInputElement>(null);
   const handleSearch = () => {
@@ -22,6 +30,10 @@ function Results() {
   useEffect(() => {
     fetchData();
   }, [page, fetchData, search]);
+
+  useEffect(() => {
+    reset();
+  }, []);
   return (
     <AnimatedComponent>
       <div className="mb-2 ml-2 mt-5 ">
