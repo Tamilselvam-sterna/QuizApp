@@ -72,10 +72,8 @@ function UpdateUser({ item }: { item: UserResponse }) {
           userId: item.id,
           firstName: values.firstName,
           lastName: values.lastName,
-          firstName: values.firstName,
-          lastName: values.lastName,
+
           email: values.email,
-          mobile: values.mobileNumber,
           mobile: values.mobileNumber,
           roleId: item?.role?.id,
         };
