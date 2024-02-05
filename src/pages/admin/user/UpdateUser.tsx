@@ -1,6 +1,6 @@
 import { useDisclosure } from "@mantine/hooks";
 import { Drawer, Select, Tooltip } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { useForm, zodResolver } from "@mantine/form";
 import { TextInput, Button } from "@mantine/core";
 import { useEffect } from "react";
 import { DateInput } from "@mantine/dates";
@@ -10,10 +10,11 @@ import { IconUserEdit } from "@tabler/icons-react";
 import { userStore } from "../../../app/userStore";
 import { positionStore } from "../../../app/positionStore";
 
-function UpdateUser({ item }) {
+function UpdateUser({ item }: any) {
   const [opened, { open, close }] = useDisclosure(false);
   const { data, fetchData: fetchPositionData } = positionStore();
   const { fetchData: fetchUserData } = userStore();
+  const roleId = localStorage.getItem("roleId");
 
   const form = useForm<any>({
     initialValues: {
@@ -50,18 +51,18 @@ function UpdateUser({ item }) {
           degree: values.degree,
           specialization: values.specialization,
           positionId: +values.position,
-          isFresher: values.isexperience == "1" ? true : false,
-          isExperience: values.isexperience == "2" ? true : false,
+          isFresher: values.isExperience == "1" ? true : false,
+          isExperience: values.isExperience == "2" ? true : false,
           experience:
-            values.isexperience == "1" ? undefined : values.experience,
+            values.isExperience == "1" ? undefined : values.experience,
         };
       } else {
         data = {
           userId: item.id,
-          firstName: values.firstname,
-          lastName: values.lastname,
+          firstName: values.firstName,
+          lastName: values.lastName,
           email: values.email,
-          mobile: values.mobilenumber,
+          mobile: values.mobileNumber,
           roleId: item?.role?.id,
         };
       }
@@ -79,15 +80,15 @@ function UpdateUser({ item }) {
   function editUserData() {
     console.log(item);
     form.setFieldValue("role", item.role.role);
-    form.setFieldValue("firstname", item.firstName);
-    form.setFieldValue("lastname", item.lastName);
-    form.setFieldValue("mobilenumber", item.mobile);
+    form.setFieldValue("firstName", item.firstName);
+    form.setFieldValue("lastName", item.lastName);
+    form.setFieldValue("mobileNumber", item.mobile);
     form.setFieldValue("email", item.email);
     form.setFieldValue("college", item.userInfo[0]?.college);
     form.setFieldValue("degree", item.userInfo[0]?.degree);
-    form.setFieldValue("specilization", item.userInfo[0]?.specialization);
+    form.setFieldValue("specialization", item.userInfo[0]?.specialization);
     form.setFieldValue(
-      "isexperience",
+      "isExperience",
       item?.userInfo[0]?.isFresher === true ? "1" : "2",
     );
     form.setFieldValue("dob", new Date(item.userInfo[0]?.dob));
@@ -181,9 +182,9 @@ function UpdateUser({ item }) {
                   { value: "1", label: "Fresher" },
                   { value: "2", label: "Experienced" },
                 ]}
-                {...form.getInputProps("isexperience")}
+                {...form.getInputProps("isExperience")}
               />
-              {form.values.isexperience === "2" ? (
+              {form.values.isExperience === "2" ? (
                 <TextInput
                   label="Years of Experience"
                   placeholder="Enter Your Years of experience"
@@ -209,9 +210,15 @@ function UpdateUser({ item }) {
         </form>
       </Drawer>
       <Tooltip label="EditUser">
-        <Button color="gray" onClick={open} variant="outline">
-          <IconUserEdit />
-        </Button>
+        {roleId == "1" || (roleId == "2" && item.role.id == "3") ? (
+          <Button color="gray" onClick={open} variant="outline">
+            <IconUserEdit />
+          </Button>
+        ) : (
+          <Button color="gray" disabled onClick={open} variant="outline">
+            <IconUserEdit />
+          </Button>
+        )}
       </Tooltip>
     </>
   );

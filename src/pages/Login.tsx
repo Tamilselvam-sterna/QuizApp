@@ -4,7 +4,7 @@ import { MdOutlineLockReset } from "react-icons/md";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { LoginInput, loginScema } from "../models/auth";
+import { LoginInput, loginSchema } from "../models/auth";
 import { apiProvider } from "../network/apiProvider";
 import { useForm } from "@mantine/form";
 import { zodResolver } from "mantine-form-zod-resolver";
@@ -35,7 +35,7 @@ function Login() {
       email: "",
       password: "",
     },
-    validate: zodResolver(loginScema),
+    validate: zodResolver(loginSchema),
     validateInputOnChange: true,
   });
 

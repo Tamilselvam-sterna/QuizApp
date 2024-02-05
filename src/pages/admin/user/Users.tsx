@@ -119,7 +119,6 @@ function Users() {
                     <Table.Td>{"NA"}</Table.Td>
                     <Table.Td>{"NA"}</Table.Td>
                     <Table.Td>{"NA"}</Table.Td>
-                    <Table.Td>{"NA"}</Table.Td>
                   </>
                 )}
                 <Table.Td className="min-w-max ">
@@ -130,7 +129,9 @@ function Users() {
                     {<UpdateUser item={value} />} {<ManageTest item={value} />}
                   </Table.Td>
                 ) : (
-                  <Table.Td>{"NA"}</Table.Td>
+                  <Table.Td>
+                    {<UpdateUser item={value} />} {<ManageTest item={value} />}
+                  </Table.Td>
                 )}
               </Table.Tr>
             </>
