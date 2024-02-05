@@ -129,7 +129,9 @@ function Users() {
                     {<UpdateUser item={value} />} {<ManageTest item={value} />}
                   </Table.Td>
                 ) : (
-                  <Table.Td>{<UpdateUser item={value} />}</Table.Td>
+                  <Table.Td>
+                    {<UpdateUser item={value} />} {<ManageTest item={value} />}
+                  </Table.Td>
                 )}
               </Table.Tr>
             </>

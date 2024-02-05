@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { apiProvider } from "../../../network/apiProvider";
 import { userStore } from "../../../app/userStore";
 
-function ManageTest({ item }) {
+function ManageTest({ item }: any) {
   const [opened, { open, close }] = useDisclosure(false);
   const { data, fetchData: fetchPositionData, setPage, reset } = testStore();
   const roleId = localStorage.getItem("roleId");
@@ -61,11 +61,11 @@ function ManageTest({ item }) {
               label="Select Course"
               variant="filled"
               placeholder="Select Any One Course"
-              data={data.data.map((item) => ({
-                value: item.id.toString(),
-                label: item.subject,
+              data={data.data.map((item: any) => ({
+                value: item?.id.toString(),
+                label: item?.subject,
               }))}
-              onChange={(value) => setAssignCourse(value)}
+              onChange={(value: any) => setAssignCourse(value)}
             />
           </div>
           <div className="mt-5">
@@ -75,7 +75,7 @@ function ManageTest({ item }) {
           </div>
         </>
       </Modal>
-      {roleId == "1" ? (
+      {!item.userTestDetails[0]?.test.subject && item.role.id == "3" ? (
         <Tooltip label="Manage Test">
           <Button type="submit" onClick={open} variant="outline" color="teal">
             <IconClipboardText />

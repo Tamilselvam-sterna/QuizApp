@@ -26,6 +26,7 @@ function UpdateUser({ item }: { item: UserResponse }) {
 
   const { data, fetchData: fetchPositionData } = positionStore();
   const { fetchData: fetchUserData } = userStore();
+  const roleId = localStorage.getItem("roleId");
 
   const form = useForm<any>({
     initialValues: {
@@ -71,7 +72,10 @@ function UpdateUser({ item }: { item: UserResponse }) {
           userId: item.id,
           firstName: values.firstName,
           lastName: values.lastName,
+          firstName: values.firstName,
+          lastName: values.lastName,
           email: values.email,
+          mobile: values.mobileNumber,
           mobile: values.mobileNumber,
           roleId: item?.role?.id,
         };
@@ -226,9 +230,15 @@ function UpdateUser({ item }: { item: UserResponse }) {
         </form>
       </Drawer>
       <Tooltip label="EditUser">
-        <Button color="gray" onClick={open} variant="outline">
-          <IconUserEdit />
-        </Button>
+        {roleId == "1" || (roleId == "2" && item.role.id == "3") ? (
+          <Button color="gray" onClick={open} variant="outline">
+            <IconUserEdit />
+          </Button>
+        ) : (
+          <Button color="gray" disabled onClick={open} variant="outline">
+            <IconUserEdit />
+          </Button>
+        )}
       </Tooltip>
     </>
   );
