@@ -1,8 +1,9 @@
 import { create } from "zustand";
 import { apiProvider } from "../network/apiProvider";
 import { BaseStoreState } from "../models/common-models";
+import { CourseResponse } from "../models/course";
 
-export interface TestStoreState extends BaseStoreState<[]> {
+export interface TestStoreState extends BaseStoreState<CourseResponse> {
   reset: () => void;
 }
 export const testStore = create<TestStoreState>((set) => ({

@@ -8,10 +8,12 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import { roleStore } from "../../../app/roleStore";
 import { dateValue, experienceLevelData } from "../../../utils/constant";
+import { testStore } from "../../../app/courseStore";
 
 function UserFilter() {
   const [opened, { open, close }] = useDisclosure(false);
   const { data, fetchData: fetchPositions } = positionStore();
+  const { data: subjectData, fetchData: fetchSubject } = testStore();
   const { fetchData: fetchRoles, data: roleData } = roleStore();
   const [value, setValue] = useState<[Date | null, Date | null]>([null, null]);
   const startDates =
@@ -28,8 +30,6 @@ function UserFilter() {
     experienceLevel,
     subjectId,
     setSubjectId,
-    roleId,
-    setRoleId,
     setPage,
     fetchData: fetchUsers,
     isFilterApplied,
@@ -37,6 +37,8 @@ function UserFilter() {
     setIsFilterApplied,
     setStartDate,
     setEndDate,
+    roleId,
+    setRoleId,
   } = userStore();
 
   const newData = {
@@ -46,12 +48,17 @@ function UserFilter() {
 
   const Alldata = [newData, ...data.data];
 
-  const roleNewData = {
+  const subjectNewData = {
+    id: 0,
+    subject: "All",
+  };
+
+  const AllSubjectData = [subjectNewData, ...subjectData.data];
+  const RoleNewData = {
     id: 0,
     role: "All",
   };
-
-  const AllRoleData = [roleNewData, ...roleData.data];
+  const AllRoleData = [RoleNewData, ...roleData.data];
 
   function changeDay(value: string | null) {
     setDateFilter(value ?? "All");
@@ -60,15 +67,14 @@ function UserFilter() {
   function changePosition(value: string | null) {
     setPosition(value!);
   }
-  function changeSubject(value: string | null) {
-    setPosition(value!);
-  }
-  function changeExperience(value: string | null) {
-    setPosition(value!);
-  }
-
   function changeRole(value: string | null) {
     setRoleId(value!);
+  }
+  function changeSubject(value: string | null) {
+    setSubjectId(value!);
+  }
+  function changeExperience(value: string | null) {
+    setExperienceLevel(value!);
   }
 
   function filterApplied() {
@@ -90,6 +96,7 @@ function UserFilter() {
   useEffect(() => {
     if (opened) {
       fetchPositions();
+      fetchSubject();
       fetchRoles();
     }
   }, [opened]);
@@ -99,7 +106,7 @@ function UserFilter() {
       <Modal
         opened={opened}
         onClose={close}
-        title="UserFilter"
+        title={<div className="text-lg font-bold">User Filter</div>}
         radius={"lg"}
         overlayProps={{
           backgroundOpacity: 0.55,
@@ -107,25 +114,16 @@ function UserFilter() {
         }}
       >
         <Select
-          label="Position"
-          value={positionId.toString()}
-          placeholder="select position"
-          data={Alldata.map((item) => ({
+          label="Role"
+          value={roleId.toString()}
+          placeholder="select role"
+          data={AllRoleData.map((item) => ({
             value: String(item.id),
-            label: item.position,
+            label: item.role,
           }))}
-          onChange={changePosition}
+          onChange={changeRole}
         />
-        <Select
-          label="Subject"
-          value={subjectId.toString()}
-          placeholder="select Subject"
-          data={Alldata.map((item) => ({
-            value: String(item.id),
-            label: item.position,
-          }))}
-          onChange={changeSubject}
-        />
+
         <Select
           label="ExperienceLevel"
           value={experienceLevel.toString()}
@@ -137,15 +135,27 @@ function UserFilter() {
           onChange={changeExperience}
         />
         <Select
-          label="Role"
-          value={roleId.toString()}
-          placeholder="select Role"
-          data={AllRoleData.map((item) => ({
+          label="Position"
+          value={positionId.toString()}
+          placeholder="select position"
+          data={Alldata.map((item) => ({
             value: String(item.id),
-            label: item?.role,
+            label: item.position,
           }))}
-          onChange={changeRole}
+          onChange={changePosition}
         />
+
+        <Select
+          label="Subject"
+          value={subjectId.toString()}
+          placeholder="select Subject"
+          data={AllSubjectData?.map((item) => ({
+            value: item.id.toString(),
+            label: item?.subject,
+          }))}
+          onChange={changeSubject}
+        />
+
         <Select
           label="DateFilter"
           value={dateFilter}

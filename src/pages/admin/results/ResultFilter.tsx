@@ -4,11 +4,11 @@ import { IconFilterStar } from "@tabler/icons-react";
 import { DatePickerInput } from "@mantine/dates";
 import { useEffect, useState } from "react";
 import moment from "moment";
-import { dateValue } from "../../../utils/constant";
+import { dateValue, experienceLevelData } from "../../../utils/constant";
 import { percentageValue } from "../../../utils/constant";
 import { resultStore } from "../../../app/resultStore";
 import { positionStore } from "../../../app/positionStore";
-import { testStore } from "../../../app/TestStore";
+import { testStore } from "../../../app/courseStore";
 
 function ResultFilter() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -18,11 +18,12 @@ function ResultFilter() {
     setPage: setPositionPage,
     reset: positionReset,
   } = positionStore();
-  const { positionId, subjectId } = resultStore();
+
+  const { positionId, subjectId, experienceLevel, setExperienceLevel } =
+    resultStore();
   const {
     data: subjectData,
     fetchData: fetchTestData,
-    page: subjectPage,
     setPage: setSubjectPage,
     reset: subjectReset,
   } = testStore();
@@ -70,6 +71,10 @@ function ResultFilter() {
   function changeSubject(value: string | null) {
     setSubject(value!);
   }
+  function changeExperience(value: string | null) {
+    setExperienceLevel(value!);
+  }
+
   function filterApplied() {
     setStartDate(startDates);
     setEndDate(endDates);
@@ -140,6 +145,16 @@ function ResultFilter() {
           onChange={changeSubject}
         />
         <Select
+          label="ExperienceLevel"
+          value={experienceLevel.toString()}
+          placeholder="select Experience"
+          data={experienceLevelData?.map((item) => ({
+            value: String(item.value),
+            label: item.label,
+          }))}
+          onChange={changeExperience}
+        />
+        <Select
           label="Date Filter"
           value={dateFilter}
           data={dateValue.map((day) => ({
@@ -160,7 +175,7 @@ function ResultFilter() {
           <></>
         )}
 
-        <div className="flex flex-col items-center justify-center w-full gap-4 py-3 mt-2">
+        <div className="mt-2 flex w-full flex-col items-center justify-center gap-4 py-3">
           <div className="flex gap-10">
             <Button
               onClick={clearFilter}

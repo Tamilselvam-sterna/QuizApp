@@ -1,14 +1,9 @@
 import { create } from "zustand";
 import { apiProvider } from "../network/apiProvider";
 import { BaseStoreState } from "../models/common-models";
+import { UserResponse } from "../models/user";
 
-export interface UserType {
-  id: number;
-  firstName: string;
-  lastName: string;
-}
-
-export interface userStoreType extends BaseStoreState<UserType> {
+export interface userStoreType extends BaseStoreState<UserResponse> {
   positionId: string | number;
   subjectId: string | number;
   experienceLevel: string | number;
@@ -17,8 +12,9 @@ export interface userStoreType extends BaseStoreState<UserType> {
   isFilterApplied: boolean;
   setPosition: (position: string) => void;
   setSubjectId: (subject: string) => void;
+  setRoleId: (subject: string) => void;
+
   setExperienceLevel: (experience: string) => void;
-  setRoleId: (roleId: string) => void;
   setDateFilter: (search: string) => void;
   setIsFilterApplied: (isApplied: boolean) => void;
   setStartDate: (startDate: string | undefined) => void;
@@ -33,13 +29,12 @@ export const userStore = create<userStoreType>((set) => ({
   search: "",
   dateFilter: "All",
   positionId: 0,
+  roleId: 0,
   experienceLevel: 0,
   subjectId: 0,
   isFilterApplied: false,
   startDate: undefined,
   endDate: undefined,
-  roleId: 0,
-
   data: {
     from: 0,
     to: 0,
@@ -55,9 +50,8 @@ export const userStore = create<userStoreType>((set) => ({
   setDateRange: (startDate: string, endDate: string) =>
     set({ startDate, endDate }),
   setPosition: (position: string) => set({ positionId: position }),
-  setExperienceLevel: (experienceLevel: string) =>
-    set({ experienceLevel: experience }),
-  setSubjectId: (subjectId: string) => set({ subjectId: subject }),
+  setExperienceLevel: (experienceLevel: string) => set({ experienceLevel }),
+  setSubjectId: (subjectId: string) => set({ subjectId }),
   setRoleId: (roleId: string) => set({ roleId }),
   setStartDate: (startDate: string | undefined) => set({ startDate }),
   setEndDate: (endDate: string | undefined) => set({ endDate }),
@@ -69,7 +63,9 @@ export const userStore = create<userStoreType>((set) => ({
       search: "",
       dateFilter: "All",
       positionId: 0,
+      subjectId: 0,
       roleId: 0,
+      experienceLevel: 0,
       isFilterApplied: false,
       startDate: undefined,
       endDate: undefined,
@@ -78,9 +74,7 @@ export const userStore = create<userStoreType>((set) => ({
 
   async fetchData() {
     set({ isLoading: true });
-    const { page, search, positionId, dateFilter, startDate, endDate, roleId } =
-      userStore.getState();
-    const result = await apiProvider.fetchAllUser({
+    const {
       page,
       search,
       positionId,
@@ -88,6 +82,19 @@ export const userStore = create<userStoreType>((set) => ({
       startDate,
       endDate,
       roleId,
+      subjectId,
+      experienceLevel,
+    } = userStore.getState();
+    const result = await apiProvider.fetchAllUser({
+      page,
+      search,
+      roleId,
+      subjectId,
+      experienceLevel,
+      positionId,
+      dateFilter,
+      startDate,
+      endDate,
     });
     if (result != null) {
       set({ data: result.data ?? [] });

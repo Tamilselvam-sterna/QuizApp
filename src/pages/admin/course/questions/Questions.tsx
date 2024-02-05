@@ -9,11 +9,18 @@ import { IconArrowLeft } from "@tabler/icons-react";
 import AnimatedComponent from "../../../../components/AnimatedComponent";
 
 function Questions() {
-  const { fetchData, data, isLoading, page, setPage, search, setSearch } =
-    viewQuestionsStore();
+  const {
+    fetchData,
+    data,
+    isLoading,
+    page,
+    setPage,
+    search,
+    setSearch,
+    reset,
+  } = viewQuestionsStore();
   const searchRef = useRef<HTMLInputElement>(null);
   const handleSearch = () => {
-    console.log("search" ?? "empty");
     setSearch(searchRef.current!.value);
   };
   const { id } = useParams();
@@ -34,6 +41,10 @@ function Questions() {
   useEffect(() => {
     fetchData(id);
   }, [page, fetchData, search]);
+
+  useEffect(() => {
+    reset();
+  }, []);
 
   return (
     <AnimatedComponent>
@@ -58,7 +69,7 @@ function Questions() {
         >
           {data?.data?.map((value: any, index: any) => (
             <Table.Tr key={index}>
-              <Table.Td>{index + 1}</Table.Td>
+              <Table.Td>{data.from + index}</Table.Td>
               <Table.Td>{value.question}</Table.Td>
               {value.options
                 .filter((item: any) => item.isCorrect == true)

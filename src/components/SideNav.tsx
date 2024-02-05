@@ -61,7 +61,7 @@ export default function SideNav() {
           }}
         >
           <div className="flex w-full flex-col items-center justify-center gap-4 py-2">
-            <div>Are you sure you wanna sign-out!</div>
+            <div>Are you sure you want to sign-out?</div>
             <div className="flex gap-4">
               <Button
                 onClick={close}

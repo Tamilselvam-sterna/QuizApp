@@ -1,13 +1,19 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useDisclosure } from "@mantine/hooks";
-import { Button, TextInput, Select, Drawer, Tooltip } from "@mantine/core";
+import {
+  Button,
+  TextInput,
+  Select,
+  Drawer,
+  Tooltip,
+  NumberInput,
+  LoadingOverlay,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import "@mantine/dates/styles.css";
 import { DateInput } from "@mantine/dates";
 import "@mantine/core/styles/UnstyledButton.css";
 import "@mantine/core/styles/Button.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { apiProvider } from "../../../network/apiProvider";
 import { Role } from "../../../utils/enum";
 import { userStore } from "../../../app/userStore";
@@ -27,6 +33,8 @@ function CreateUser() {
   } = positionStore();
   const { data: datas, fetchData: fetchRoleData } = roleStore();
   const { fetchData: fetchUserData } = userStore();
+  const [isLoading, setIsLoading] = useState(false);
+
   const [opened, { open, close }] = useDisclosure(false);
   const userid = localStorage.getItem("roleId");
   const form = useForm<CreateUserInput>({
@@ -41,8 +49,8 @@ function CreateUser() {
       specialization: "",
       roleId: Role.User || Role.Admin,
       positionId: "",
-      experience: undefined,
-      isExperience: "",
+      yearsOfExperience: 1,
+      isFresher: "",
     },
     validate: zodResolver(createUserSchema),
     validateInputOnChange: true,
@@ -51,16 +59,13 @@ function CreateUser() {
   const handleSubmit = async (values: typeof form.values) => {
     let userData;
     try {
-      if (
-        values.roleId === String(Role.SuperAdmin) ||
-        values.roleId === String(Role.Admin)
-      ) {
+      if (values.roleId === Role.SuperAdmin || values.roleId === Role.Admin) {
         userData = {
           firstName: values.firstName,
           lastName: values.lastName,
           email: values.email,
           mobile: values.mobile,
-          roleId: +values.roleId,
+          roleId: Number(values.roleId),
         };
       } else {
         userData = {
@@ -74,14 +79,14 @@ function CreateUser() {
           roleId: Number(values.roleId),
           dob: moment(values.dob).format("YYYY-MM-DD"),
           positionId: Number(values.positionId),
-          isFresher: values.isExperience != "2",
-          isExperience: values.isExperience == "2",
-          experience:
-            values.isExperience == "2" ? values.experience : undefined,
+          isFresher: values.isFresher == "1" ? true : false,
+          yearsOfExperience:
+            values.isFresher == "2" ? values.yearsOfExperience : undefined,
         };
       }
 
       const response = await apiProvider.addUserData(userData);
+      setIsLoading(true);
       if (response != null) {
         form.reset();
         close();
@@ -91,6 +96,7 @@ function CreateUser() {
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -106,12 +112,14 @@ function CreateUser() {
       <Drawer
         opened={opened}
         onClose={close}
-        title="Add User"
+        title={<h2 className="text-lg font-bold">Add User</h2>}
         position="right"
         size={"md"}
         offset={16}
         radius="md"
       >
+        <LoadingOverlay visible={false} />
+
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <>
             <Select
@@ -125,20 +133,23 @@ function CreateUser() {
                       label: item.role,
                     }))
               }
-              className="w-full mb-1"
+              className="mb-1 w-full"
+              withAsterisk
               {...form.getInputProps("roleId")}
             />
-            <div className="flex flex-row justify-between w-full">
+            <div className="flex w-full flex-row justify-between">
               <TextInput
                 label="First Name"
                 placeholder="Enter First Name"
-                className="w-full mb-1 mr-2"
+                className="mb-1 mr-2 w-full"
+                withAsterisk
                 {...form.getInputProps("firstName")}
               />
               <TextInput
                 label="Last Name"
                 placeholder="Enter Last Name"
-                className="w-full mb-1"
+                className="mb-1 w-full"
+                withAsterisk
                 {...form.getInputProps("lastName")}
               />
             </div>
@@ -146,13 +157,15 @@ function CreateUser() {
               mt="sm"
               label="Email"
               placeholder="Enter Email"
-              className="w-full mb-1"
+              className="mb-1 w-full"
+              withAsterisk
               {...form.getInputProps("email")}
             />
             <TextInput
               label="Mobile Number"
               placeholder="Enter Mobile Number"
-              className="w-full mb-1"
+              className="mb-1 w-full"
+              withAsterisk
               {...form.getInputProps("mobile")}
             />
 
@@ -162,21 +175,25 @@ function CreateUser() {
                   valueFormat="YYYY MMM DD"
                   label="Date of Birth"
                   placeholder="Select Date of Birth"
+                  withAsterisk
                   {...form.getInputProps("dob")}
                 />
                 <TextInput
                   label="College"
                   placeholder="Enter College Name"
+                  withAsterisk
                   {...form.getInputProps("college")}
                 />
                 <TextInput
                   label="Degree"
                   placeholder="Enter Degree"
+                  withAsterisk
                   {...form.getInputProps("degree")}
                 />
                 <TextInput
                   label="Specialization"
                   placeholder="Enter Specialization"
+                  withAsterisk
                   {...form.getInputProps("specialization")}
                 />
                 <Select
@@ -186,6 +203,7 @@ function CreateUser() {
                     value: String(item.id),
                     label: item.position,
                   }))}
+                  withAsterisk
                   {...form.getInputProps("positionId")}
                 />
                 <Select
@@ -195,17 +213,20 @@ function CreateUser() {
                     { value: "1", label: "Fresher" },
                     { value: "2", label: "Experienced" },
                   ]}
-                  className="w-full mb-1"
-                  {...form.getInputProps("isExperience")}
+                  className="mb-1 w-full"
+                  withAsterisk
+                  {...form.getInputProps("isFresher")}
                 />
-                {form.values.isExperience == "2" ? (
+                {form.values.isFresher == "2" ? (
                   <>
-                    <TextInput
-                      value={"1"}
+                    <NumberInput
+                      min={1}
+                      max={99}
                       label="Years Of Experience"
                       placeholder="Enter Years of Experience"
-                      className="w-full mr-4"
-                      {...form.getInputProps("experience")}
+                      className="mr-4 w-full"
+                      withAsterisk
+                      {...form.getInputProps("yearsOfExperience")}
                     />
                   </>
                 ) : (

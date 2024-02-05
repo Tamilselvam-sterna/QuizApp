@@ -2,11 +2,12 @@ import { create } from "zustand";
 import { BaseStoreState } from "../models/common-models";
 import { apiProvider } from "../network/apiProvider";
 
-export interface viewQuestionStore extends BaseStoreState<[]> {}
+export interface viewQuestionStore extends BaseStoreState<[]> {
+  reset: () => void;
+}
 export const viewQuestionsStore = create<viewQuestionStore>((set) => ({
   page: 1,
   search: "",
-
   data: {
     from: 0,
     to: 0,
@@ -17,6 +18,12 @@ export const viewQuestionsStore = create<viewQuestionStore>((set) => ({
   isLoading: false,
   setPage: (page) => set({ page }),
   setSearch: (search) => set({ search }),
+  reset: () => {
+    set({
+      page: 1,
+      search: "",
+    });
+  },
   async fetchData(id: number) {
     set({ isLoading: true });
     const { page, search } = viewQuestionsStore.getState();

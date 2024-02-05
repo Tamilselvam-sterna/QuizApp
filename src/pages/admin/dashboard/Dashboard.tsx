@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import LatestResults from "./LatestResults";
 import BarChart from "./BarChart";
 import CardWrapper from "../../../components/Card";
@@ -9,7 +9,7 @@ import { dashboardStore } from "../../../app/dashboardStore";
 
 const Dashboard = () => {
   const { fetchData, data } = dashboardStore();
-
+  // localStorage.removeItem("token");
   useEffect(() => {
     fetchData();
   }, []);

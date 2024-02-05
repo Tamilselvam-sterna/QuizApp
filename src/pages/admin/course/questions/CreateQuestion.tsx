@@ -118,7 +118,7 @@ function CreateQuestion({ value }) {
       <Drawer
         opened={opened}
         onClose={close}
-        title="Add Questions"
+        title={<div className="text-lg font-bold">Add Question</div>}
         position="right"
         size={"md"}
         offset={16}

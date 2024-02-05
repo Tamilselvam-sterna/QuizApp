@@ -2,10 +2,12 @@ import { create } from "zustand";
 import { apiProvider } from "../network/apiProvider";
 import { BaseStoreState } from "../models/common-models";
 
-export interface resultStoreState extends BaseStoreState<[]> {
+export interface resultStoreState extends BaseStoreState<[ResultResponse]> {
   percentage: string;
   positionId: number;
   subjectId: number;
+  experienceLevel: string | number;
+  setExperienceLevel: (experienceLvel: string) => void;
   setDateFilter: (dateFilter: string) => void;
   setPercentage: (percentage: string) => void;
   setIsFilterApplied: (isApplied: boolean) => void;
@@ -28,6 +30,7 @@ export const resultStore = create<resultStoreState>((set) => ({
   endDate: undefined,
   positionId: 0,
   subjectId: 0,
+  experienceLevel: 0,
   dateFilter: "All",
   isFilterApplied: false,
   percentage: "All",
@@ -46,6 +49,7 @@ export const resultStore = create<resultStoreState>((set) => ({
   setPosition: (position: string) => set({ positionId: Number(position) }),
   setSubject: (subjectId: string) => set({ subjectId: Number(subjectId) }),
   setEndDate: (endDate: string | undefined) => set({ endDate }),
+  setExperienceLevel: (experienceLevel: string) => set({ experienceLevel }),
   setIsFilterApplied: (isFilterApplied: boolean) => set({ isFilterApplied }),
   reset: () => {
     set({
@@ -55,7 +59,6 @@ export const resultStore = create<resultStoreState>((set) => ({
       percentage: "All",
       positionId: 0,
       subjectId: 0,
-
       isFilterApplied: false,
       startDate: undefined,
       endDate: undefined,
@@ -73,6 +76,7 @@ export const resultStore = create<resultStoreState>((set) => ({
       endDate,
       positionId,
       subjectId,
+      experienceLevel,
     } = resultStore.getState();
     const result = await apiProvider.fetchAllResult({
       page,
@@ -83,6 +87,7 @@ export const resultStore = create<resultStoreState>((set) => ({
       endDate,
       positionId,
       subjectId,
+      experienceLevel,
     });
     if (result != null) {
       set({ data: result.data });
